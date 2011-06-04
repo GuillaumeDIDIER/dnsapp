@@ -8,6 +8,16 @@ class CreateDnsModels < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    #initialise avec les valeurs de la table pas bien
+    Dns.all.each do |dns|
+      dnsm = DnsModel.new
+      dnsm.name = dns.name
+      dnsm.ttl = dns.ttl
+      dnsm.rdtype = dns.rdtype
+      dnsm.rdata = rdatat
+      dnsm.save
+    end
   end
 
   def self.down
