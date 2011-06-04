@@ -1,8 +1,16 @@
 <header>
   <strong>Note: Working on a copy of actual dns base</strong>
   <nav>
-    <li>
-      You are <%= request.remote_ip %>
-    </li>
+    <li>Ton ip : <%= current_ip %></li>
+    <% if signed_in? %>
+    <li>(correcte)</li>
+    <%   dns = current_dns %>
+    <%   if !dns.nil? %>
+    <li>Ton nom : <%= link_to dns.name, dns %></li>
+    <%   end %>
+    <!-- <li><%= link_to "Se déconnecter", signout_path, :method => :delete %></li> -->
+    <% else %>
+    <li><%= link_to signin_path %></li>
+    <% end %>
   </nav>
 </header>

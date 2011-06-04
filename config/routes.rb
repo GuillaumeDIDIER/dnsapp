@@ -1,5 +1,9 @@
 DnsApp::Application.routes.draw do
-  resources :dns, :only => [:index]
+  resources :dns, :only => [:index, :show]
+  resources :sessions, :only => [:new, :create, :destroy]
+
+  match '/signin',  :to => 'sessions#new'
+  match '/signout', :to => 'sessions#destroy'
 
   match '/list', :to => 'dns#index'
 
