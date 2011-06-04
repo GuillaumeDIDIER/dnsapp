@@ -1,0 +1,5 @@
+<dns_list>
+  <% @dns.each do |idns| %>
+    <dns name="<%= idns.name %>" ttl="<%= idns.ttl %>" rdtype="<%= idns.rdtype %>" rdata="<%= idns.rdata %>" />
+  <% end %>
+</dns_list>

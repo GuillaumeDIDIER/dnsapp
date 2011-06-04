@@ -1,0 +1,3 @@
+class ReverseDnsController < ApplicationController
+
+end

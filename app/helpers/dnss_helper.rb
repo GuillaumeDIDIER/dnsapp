@@ -1,0 +1,2 @@
+module DnssHelper
+end
