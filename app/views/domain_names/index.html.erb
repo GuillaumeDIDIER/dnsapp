@@ -1,0 +1,14 @@
+<h1><%= @title %></h1>
+
+<%= will_paginate %>
+
+<ul class="dnss">
+  <% @domain_names.each do |idns| %>
+    <li>
+      Name: <%= idns.name %> ttl: <%= idns.ttl %>
+      rdtype: <%= idns.rdtype %> rdata: <%= idns.rdata %>
+    </li>
+  <% end %>
+</ul>
+
+<%= will_paginate %>

@@ -15,7 +15,7 @@ class CreateDnsModels < ActiveRecord::Migration
       dnsm.name = dns.name
       dnsm.ttl = dns.ttl
       dnsm.rdtype = dns.rdtype
-      dnsm.rdata = rdatat
+      dnsm.rdata = dns.rdata
       dnsm.save
     end
   end

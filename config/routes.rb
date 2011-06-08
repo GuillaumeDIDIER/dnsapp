@@ -1,13 +1,16 @@
 DnsApp::Application.routes.draw do
-  resources :dns, :only => [:index, :show]
+  resources :domain_names, :path => 'dns'
+  resources :reverse_domain_names, :path => 'reversedns',
+                                   :only => [:index, :show]
   resources :sessions, :only => [:new, :create, :destroy]
 
-  match '/signin',  :to => 'sessions#new'
-  match '/signout', :to => 'sessions#destroy'
+  #match '/signin',  :to => 'sessions#new'
+  #match '/signout', :to => 'sessions#destroy'
 
-  match '/list', :to => 'dns#index'
+  #match '/list',  :to => 'domain_names#index'
+  match '/newdns', :to => 'domain_names#new'
 
-  root :to => 'dns#index'
+  root :to => 'domain_names#index'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

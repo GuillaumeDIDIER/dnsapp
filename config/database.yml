@@ -4,6 +4,7 @@ development:
   adapter: mysql2
   #For testing
   database: dsn_app_test
+  #database: xnet
   username: xnet
   password: 'Bo<uLet'
   host: localhost

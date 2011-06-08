@@ -1,0 +1,16 @@
+<h1><%= @title %></h1>
+
+<% @reverse_domain_names = @reverse_domain_names.paginate(:page => params[:page]) %>
+
+<%= will_paginate %>
+
+<ul class="dnss">
+  <% @reverse_domain_names.each do |idns| %>
+    <li>
+      Name: <%= idns.name %> ttl: <%= idns.ttl %>
+      rdtype: <%= idns.rdtype %> rdata: <%= idns.rdata %>
+    </li>
+  <% end %>
+</ul>
+
+<%= will_paginate %>

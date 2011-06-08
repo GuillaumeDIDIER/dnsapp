@@ -12,16 +12,7 @@
 
 ActiveRecord::Schema.define(:version => 20110604205734) do
 
-  create_table "DNS", :force => true do |t|
-    t.string   "name",                     :default => "", :null => false
-    t.integer  "ttl"
-    t.string   "rdtype",     :limit => 10, :default => "", :null => false
-    t.string   "rdata",                    :default => "", :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "DNS_backup", :id => false, :force => true do |t|
+  create_table "DNS", :id => false, :force => true do |t|
     t.string  "name",   :limit => 100, :default => "", :null => false
     t.integer "ttl"
     t.string  "rdtype", :limit => 10,  :default => "", :null => false
@@ -43,6 +34,15 @@ ActiveRecord::Schema.define(:version => 20110604205734) do
   add_index "clients", ["id"], :name => "id", :unique => true
   add_index "clients", ["lastip"], :name => "lastip"
   add_index "clients", ["username"], :name => "username"
+
+  create_table "dns_models", :force => true do |t|
+    t.string   "name"
+    t.integer  "ttl"
+    t.string   "rdtype"
+    t.string   "rdata"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "dns_records", :id => false, :force => true do |t|
     t.text    "zone",                     :null => false
@@ -71,39 +71,23 @@ ActiveRecord::Schema.define(:version => 20110604205734) do
     t.string  "rdata",                 :default => "", :null => false
   end
 
-  create_table "reverse_DNS_backup", :id => false, :force => true do |t|
-    t.string  "name",   :limit => 100, :default => "", :null => false
-    t.integer "ttl"
-    t.string  "rdtype", :limit => 10,  :default => "", :null => false
-    t.string  "rdata",                 :default => "", :null => false
-  end
-
-  create_table "reverse_dns", :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "reverse_dns_models", :force => true do |t|
-    t.string   "name",       :limit => 100, :default => "", :null => false
+    t.string   "name"
     t.integer  "ttl"
-    t.string   "rdtype",     :limit => 10,  :default => "", :null => false
-    t.string   "rdata",                     :default => "", :null => false
+    t.string   "rdtype"
+    t.string   "rdata"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "serial_models", :force => true do |t|
-    t.string   "nom",        :limit => 64, :default => "", :null => false
-    t.integer  "valeur",                   :default => 0,  :null => false
+    t.string   "nom"
+    t.integer  "valeur"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "serials", :primary_key => "nom", :force => true do |t|
-    t.integer "valeur", :default => 0, :null => false
-  end
-
-  create_table "serials_backup", :primary_key => "nom", :force => true do |t|
     t.integer "valeur", :default => 0, :null => false
   end
 

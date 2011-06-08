@@ -71,7 +71,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  annotate-models
+  annotate-models (= 1.0.4)
   mysql2 (< 0.3)
   rails (= 3.0.7)
   rake (~> 0.8.7)
