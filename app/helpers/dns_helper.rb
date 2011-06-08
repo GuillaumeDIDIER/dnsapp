@@ -1,3 +1,4 @@
+# encoding: utf-8
 module DnsHelper
 
   def get_dns_from_ip(ip) 

@@ -10,14 +10,14 @@ class CreateDnsModels < ActiveRecord::Migration
     end
 
     #initialise avec les valeurs de la table pas bien
-    Dns.all.each do |dns|
-      dnsm = DnsModel.new
-      dnsm.name = dns.name
-      dnsm.ttl = dns.ttl
-      dnsm.rdtype = dns.rdtype
-      dnsm.rdata = dns.rdata
-      dnsm.save
-    end
+    # Dns.all.each do |dns|
+      # dnsm = DnsModel.new
+      # dnsm.name = dns.name
+      # dnsm.ttl = dns.ttl
+      # dnsm.rdtype = dns.rdtype
+      # dnsm.rdata = dns.rdata
+      # dnsm.save
+    # end
   end
 
   def self.down

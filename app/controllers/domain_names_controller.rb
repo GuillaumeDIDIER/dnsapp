@@ -1,3 +1,4 @@
+# encoding: utf-8
 class DomainNamesController < ApplicationController
   before_filter :correct_user, :only => [:edit, :update]
 
@@ -15,7 +16,7 @@ class DomainNamesController < ApplicationController
 
   def show
     @domain_name = DomainName.find(params[:id])
-    @title = @domain_name.name
+    @title = "Profil : #{@domain_name.name.match(short_name_from_name_regex)}"
   end
 
   def new

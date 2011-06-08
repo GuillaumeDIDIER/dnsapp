@@ -1,18 +1,28 @@
 <header>
   <strong>Note: Working on a copy of actual dns base</strong>
+  <section id="Logo" class="round">
+	<%= link_to "Dns App", root_path %>
+  </section>
+  <section id="Profile" class="round">
+	<ul>
+		<li>Ton ip : <%= current_ip %><!--/<%= verify_ip current_ip %>-->
+		<% if signed_in? %>
+		(correcte)</li>
+		<%   dns = current_dns %>
+		<%   if !dns.nil? %>
+		<li>Ton nom : <%= link_to dns.name, dns %></li>
+		<%   else %>
+		<li><%= link_to "Donne un nom à ton ordinateur", newdns_path %></li>
+		<%   end %>
+		<% else %>
+		<li>(incorrecte)</li>
+		<li><%= link_to "Se connecter", signin_path %></li>
+		<% end %>
+	</ul>
+  </section>
   <nav>
-    <li>Ton ip : <%= current_ip %><!--/<%= verify_ip current_ip %>--></li>
-    <% if signed_in? %>
-    <li>(correcte)</li>
-    <%   dns = current_dns %>
-    <%   if !dns.nil? %>
-    <li>Ton nom : <%= link_to dns.name, dns %></li>
-    <%   else %>
-    <li><%= link_to "Donne un nom à ton ordinateur", newdns_path %></li>
-    <%   end %>
-    <% else %>
-    <li>(incorrecte)</li>
-    <li><%= link_to "Se connecter", signin_path %></li>
-    <% end %>
+	<ul>
+		<li><%= link_to "Accueil", root_path %></li>
+	</ul>
   </nav>
 </header>

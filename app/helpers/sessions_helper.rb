@@ -1,3 +1,4 @@
+# encoding: utf-8
 module SessionsHelper
 
   #!! admin_user not yet implemented
@@ -47,7 +48,7 @@ module SessionsHelper
     #Règles de vérification d'adresse ip
     #Retourne nil si l'ip est mauvaise
     ip_tab = []
-    ip.each('.') { |sub| ip_tab.insert(-1, sub.to_i) }
+    ip.each_line('.') { |sub| ip_tab.insert(-1, sub.to_i) }
     valid = true
     valid = false unless ip_tab.count == 4
     valid = false unless ip_tab[0] == 129

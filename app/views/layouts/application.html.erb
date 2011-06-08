@@ -5,17 +5,18 @@
   <%= stylesheet_link_tag :all %>
   <%= javascript_include_tag :defaults %>
   <%= csrf_meta_tag %>
+  <%= stylesheet_link_tag 'custom', :media => 'screen' %>
 </head>
 <body>
-  <div class="container">
     <%= render 'layouts/header' %>
-    <section class="round">
-      <% flash.each do |key, value| %>
-        <%= content_tag(:div, value, :class => "flash #{key}") %>
-      <% end %>
-      <%= yield %>
-    </section>
+		<div class="gray">
+		<section id="Content">
+		  <% flash.each do |key, value| %>
+			<%= content_tag(:div, value, :class => "flash #{key}") %>
+		  <% end %>
+		  <%= yield %>
+		</section>
+	</div>
     <%= render 'layouts/footer' %>
-  </div>
 </body>
 </html>

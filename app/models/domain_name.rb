@@ -1,14 +1,14 @@
+# encoding: utf-8
 class DnsValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     double = DomainName.where :name => value
-    regex = /\A[a-z](?:-?[a-z0-9])+/i
-    record.errors[:short_name] << " : #{value.match(regex)} existe déjà (associé à #{double.first.rdata})" if double.any?
+    record.errors[:short_name] << "#{value.match(short_name_from_name_regex)} existe déjà (associé à #{double.first.rdata})" if double.any?
   end
 end
 
 
 class DomainName < ActiveRecord::Base
-  set_table_name "DNS"
+  set_table_name "dns_models"
 
   # Format de nom : commence par un lettre,
   # caractères alphanumériques et tiret.
