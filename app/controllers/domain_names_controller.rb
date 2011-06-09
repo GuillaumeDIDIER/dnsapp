@@ -1,7 +1,7 @@
 # encoding: utf-8
 include RegexHelper
 class DomainNamesController < ApplicationController
-  before_filter :correct_user, :only => [:edit, :update]
+  before_filter :correct_user, :only => [:edit, :update, :destroy]
 
   def index
     #On obtient le format de la requête
@@ -36,6 +36,8 @@ class DomainNamesController < ApplicationController
     end
     if @domain_name.valid?
       save_dns_and_rdns @domain_name
+      increment_serial
+      add_xnet_client @domain_name.short_name, current_ip
       flash[:success] = "Nom enregistré"
       redirect_to @domain_name
     else
@@ -52,8 +54,7 @@ class DomainNamesController < ApplicationController
   def update
     @domain_name = DomainName.find(params[:id])
     last_name = @domain_name.name
-    name_regex = /\A[a-z](?:-?[a-z0-9])+/i
-    last_short_name = last_name.match(name_regex)[0]
+    last_short_name = last_name.match(short_name_from_name_regex)[0]
     @domain_name.short_name = params[:domain_name][:short_name]
     update_attr @domain_name
     if last_short_name == @domain_name.short_name
@@ -63,12 +64,25 @@ class DomainNamesController < ApplicationController
     end
     if @domain_name.valid?
       update_dns_and_rdns @domain_name, last_name
+      increment_serial
+      add_xnet_client @domain_name.short_name, current_ip
+      delete_xnet_client last_short_name
       flash[:success] = "Nom mis à jour"
       redirect_to @domain_name
     else
       @title = "Modifier le nom"
       render 'edit'
     end
+  end
+
+  def destroy
+    @domain_name = DomainName.find(params[:id])
+    short_name = @domain_name.get_short_name.to_s
+    delete_dns_and_rdns @domain_name
+    increment_serial
+    delete_xnet_client short_name
+    flash[:success] = "Nom supprimé"
+    redirect_to root_path
   end
 
   private
@@ -93,6 +107,46 @@ class DomainNamesController < ApplicationController
       reverse_domain_name.rdata = same_reverse_domain_name.rdata
       domain_name.save
       reverse_domain_name.save
+    end
+
+    def delete_dns_and_rdns(domain_name)
+      name = "#{domain_name.name}."
+      reverse_domain_name = (ReverseDomainName.where :rdata => name).first
+      domain_name.destroy
+      reverse_domain_name.destroy
+    end
+
+    def increment_serial
+      dns = DomainName.where :rdtype => "SOA"
+      soa_regex = /\A(.*) (\d+) (\d+) (\d+) (\d+) (\d+)\z/
+      soa = dns.first.rdata.match(soa_regex)
+      serial = soa[2].to_i + 1
+      soa = "#{soa[1]} #{serial} #{soa[3]} #{soa[4]} #{soa[5]} #{soa[6]}"
+      dns.each do |entry|
+        entry.rdata = soa
+	entry.save!
+      end
+      rdns = ReverseDns.where :rdtype => "SOA"
+      rdns.each do |entry|
+        entry.rdata = soa
+        entry.save!
+      end
+    end
+
+    def add_xnet_client(short_name, ip)
+      client = Clients.new
+      client.username = short_name
+      client.lastip = ip
+      client.status = 1
+      client.save!
+    end
+
+    def delete_xnet_client(short_name)
+      clients = Clients.where :username => short_name
+      if clients.any?
+        client = clients.first
+        client.destroy
+      end
     end
 
     def correct_user

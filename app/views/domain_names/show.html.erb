@@ -1,5 +1,14 @@
 <h1><%= @title %></h1>
 
-<strong>Nom</strong> <%= @domain_name.name %><br />
-<strong>Type</strong> <%= @domain_name.rdtype %><br />
-<strong>Redirige vers</strong> <%= @domain_name.rdata %>
+<p>
+  <strong>Nom</strong> <%= @domain_name.name %><br />
+  <strong>Type</strong> <%= @domain_name.rdtype %><br />
+  <strong>Redirige vers</strong> <%= @domain_name.rdata %>
+</p>
+
+<% if signed_in? and @domain_name == current_dns %>
+<%= link_to "Modifier", edit_domain_name_path(@domain_name) %> | 
+<%= link_to "Supprimer", @domain_name, :method => :delete,
+                                       :confirm => "Supprimer #{@domain_name.get_short_name} ?",
+                                       :title => "Supprimer #{@domain_name.get_short_name}" %>
+<% end %>
