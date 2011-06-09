@@ -1,0 +1,180 @@
+body {
+	font-family: Arial, sans-serif;
+	margin: 0px;
+	background: #404b53;
+	min-width: 750px;
+}
+
+a {
+	color: #13456e;
+	text-decoration: underline;
+}
+
+a:hover {
+	color: #d97412;
+	text-decoration: none;
+}
+
+li {
+	list-style-type: square;
+}
+
+.round{
+	-moz-border-radius:    10px;
+	-webkit-border-radius: 10px;
+	border-radius:         10px;
+}
+
+header {
+	text-align: center;
+	color : #ffffff;
+	background: #13456e;
+	#height: 100px;
+	min-width: 600px;
+	margin: 0px;
+}
+
+header a, footer a {
+	color : #ffffff;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+header a:hover, footer a:hover {
+	color: #f8c135;
+	text-decoration: underline;
+}
+
+#Logo {
+	float: left;
+	font-size: xx-large;
+	background: #1f384d;
+	margin-top: 20px;
+	margin-left: 20px;
+	padding: 10px;
+}
+
+#Logo a:hover {
+	color: #f8c135;
+	text-decoration: none;
+}
+
+#Profile {
+	float: right;
+	background: #1f384d;
+	margin-top: 20px;
+	margin-right: 20px;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 5px;
+	padding-bottom: 10px;
+}
+
+#Profile ul {
+	margin: 0px;
+	padding: 0px;
+}
+
+#Profile ul li {
+	list-style-type: none;
+	padding: 0px;
+}
+
+nav {
+	background: #293137;
+	margin: 0px;
+	padding-top: 2px;
+}
+
+nav ul {
+	margin: 0px;
+	padding: 0px;
+}
+
+nav ul li {
+	list-style-type: none;
+	padding: 0px;
+	display: inline;
+}
+
+nav a:hover {
+	color: #f8c135
+}
+
+header nav {
+	clear: both;
+	position: relative;
+	top: 20px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.gray {
+	background: #cccccc;
+}
+
+#Content {
+	width: 640px;
+	min-height: 450px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: white;
+	padding: 20px;
+	padding-left: 25px;
+	padding-right: 25px;
+}
+
+footer {
+	color: #ffffff;
+	background: #293137;
+	margin: 0px;
+	padding-top: 2px;
+	padding-bottom: 5px;
+	text-align: center
+}
+
+.flash {
+	border-width: 2px;
+	border-style: solid;
+	margin: 20px;
+	padding: 15px;
+	font-weight: bold;
+}
+
+.flash.error {
+	color: #a70a0a;
+	border-color: #ff0000;
+	background: #de7777;
+}
+
+.flash.warning {
+	color: #d53500;
+	border-color: #f36f00;
+	background: #f09b53;
+}
+
+.flash.success {
+	color: #034903;
+	border-color: #006300;
+	background: #3ce43c;
+}
+
+form input {
+	margin-top: 10px;
+}
+
+#error_explanation {
+	color: #000000;
+	background: #c80006;
+	padding: 15px;
+	margin-bottom: 20px;
+}
+
+#error_explanation h2 {
+	margin: 0px;
+	margin-bottom: 5px;
+}
+
+#error_explanation p {
+	margin: 0px;
+}

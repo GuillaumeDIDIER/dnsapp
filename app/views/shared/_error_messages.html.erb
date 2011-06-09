@@ -1,13 +1,19 @@
 <% if object.errors.any? %>
   <div id="error_explanation">
     <h2><%= pluralize(object.errors.count, "erreur") %> :</h2>
-    <p>Les champs suivants ont un problème :</p>
-    <ul>
-    <% object.errors.each do |f| %>
-    <% object.errors[f].each do |msg| %>
-		<li><%= msg %></li>
-	<% end %>
-    <% end %>
-    </ul>
+    <p>
+		<% object.errors[:short_name].each do |msg| %>
+		<% if msg == "is invalid" %>
+		Le nom est incorrect
+		<% else %>
+			<% if msg == "can't be blank" %>
+		Le nom ne doit pas être vide
+			<% else %>
+		<%= msg %>
+			<% end %>
+		<% end %>
+		<br />
+		<% end %>
+	</p>
   </div>
 <% end %>

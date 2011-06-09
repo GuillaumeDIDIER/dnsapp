@@ -1,4 +1,5 @@
 # encoding: utf-8
+include RegexHelper
 class DomainNamesController < ApplicationController
   before_filter :correct_user, :only => [:edit, :update]
 
@@ -27,6 +28,7 @@ class DomainNamesController < ApplicationController
   def create
     @domain_name = DomainName.new_dns params[:domain_name][:short_name], verify_ip(current_ip)
     double = DomainName.where :rdata => @domain_name.rdata
+	double = []
     if double.count > 0
       flash[:error] = "Ton ip est déjà associée à un nom"
       @domain_name = double.first

@@ -10,7 +10,7 @@
 		(correcte)</li>
 		<%   dns = current_dns %>
 		<%   if !dns.nil? %>
-		<li>Ton nom : <%= link_to dns.name, dns %></li>
+		<li>Ton nom : <%= link_to dns.name.match(short_name_from_name_regex), dns %></li>
 		<%   else %>
 		<li><%= link_to "Donne un nom à ton ordinateur", newdns_path %></li>
 		<%   end %>
