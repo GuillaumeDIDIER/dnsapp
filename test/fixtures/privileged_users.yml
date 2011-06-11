@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  encrypted_password: MyString
+  salt: MyString
+  admin: false
+  dns: 
+  alias: 
+  users: 
+
+two:
+  name: MyString
+  encrypted_password: MyString
+  salt: MyString
+  admin: false
+  dns: 
+  alias: 
+  users: 

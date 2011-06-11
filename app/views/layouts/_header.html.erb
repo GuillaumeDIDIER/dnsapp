@@ -16,13 +16,13 @@
 		<%   end %>
 		<% else %>
 		<li>(incorrecte)</li>
-		<li><%= link_to "Se connecter", signin_path %></li>
 		<% end %>
 	</ul>
   </section>
   <nav>
 	<ul>
-		<li><%= link_to "Accueil", root_path %></li>
+		<li><%= link_to "Accueil", root_path %></li> | 
+		 <li><%= link_to "Administration", signin_path %></li>
 	</ul>
   </nav>
 </header>

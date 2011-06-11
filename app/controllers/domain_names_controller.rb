@@ -28,7 +28,6 @@ class DomainNamesController < ApplicationController
   def create
     @domain_name = DomainName.new_dns params[:domain_name][:short_name], verify_ip(current_ip)
     double = DomainName.where :rdata => @domain_name.rdata
-	double = []
     if double.count > 0
       flash[:error] = "Ton ip est déjà associée à un nom"
       @domain_name = double.first
@@ -126,7 +125,7 @@ class DomainNamesController < ApplicationController
         entry.rdata = soa
 	entry.save!
       end
-      rdns = ReverseDns.where :rdtype => "SOA"
+      rdns = ReverseDomainName.where :rdtype => "SOA"
       rdns.each do |entry|
         entry.rdata = soa
         entry.save!

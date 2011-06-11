@@ -7,9 +7,18 @@ class SessionsController < ApplicationController
 
   def create
     #A changer : un utilisateur pourra se logger en admin
-    user = nil
-    sign_in user
-    redirect_to root_path
+    #user = nil
+    #sign_in user
+    privileged_user = PrivilegedUser.authenticate(params[:session][:name],
+                                                  params[:session][:password])
+    if privileged_user.nil?
+      flash.now[:error] = "Echec de l'authentification"
+      @title = "Se connecter"
+      render 'new'
+    else
+      sign_in privileged_user
+      redirect_back_or privileged_user
+    end
   end
 
   def destroy

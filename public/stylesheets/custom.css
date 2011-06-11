@@ -67,7 +67,7 @@ header a:hover, footer a:hover {
 	padding-left: 15px;
 	padding-right: 15px;
 	padding-top: 5px;
-	padding-bottom: 10px;
+	padding-bottom: 5px;
 }
 
 #Profile ul {
@@ -133,7 +133,7 @@ footer {
 	text-align: center
 }
 
-.flash {
+.flash, #error_explanation {
 	border-width: 2px;
 	border-style: solid;
 	margin: 20px;
@@ -141,7 +141,7 @@ footer {
 	font-weight: bold;
 }
 
-.flash.error {
+.flash.error, #error_explanation {
 	color: #a70a0a;
 	border-color: #ff0000;
 	background: #de7777;
@@ -161,13 +161,6 @@ footer {
 
 form input {
 	margin-top: 10px;
-}
-
-#error_explanation {
-	color: #000000;
-	background: #c80006;
-	padding: 15px;
-	margin-bottom: 20px;
 }
 
 #error_explanation h2 {

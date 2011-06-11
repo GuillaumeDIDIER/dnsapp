@@ -11,6 +11,10 @@ module SessionsHelper
         #session[:remember_token] = { :ip => user_ip }
         self.current_user = { :ip => user_ip }
       end
+    else
+      session[:remember_token] = [admin_user.id, admin_user.salt]
+      self.current_user = { :ip => user_ip,
+                            :privileged_user => admin_user }
     end
   end
 
@@ -60,6 +64,11 @@ module SessionsHelper
     #ip == "129.104.218.43" ? ip : nil
   end
 
+  def redirect_back_or(default)
+    redirect_to(session[:return_to] || default)
+    clear_return_to
+  end
+
   private
 
     def user_from_remember_token
@@ -70,6 +79,7 @@ module SessionsHelper
 	#self.current_user
       else
         #{ :ip => remember_token[:ip] }
+	PrivilegedUser.authenticate_with_salt(*remember_token)
       end
     end
 
