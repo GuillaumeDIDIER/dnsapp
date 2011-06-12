@@ -27,6 +27,18 @@ class PrivilegedUser < ActiveRecord::Base
     (privileged_user && privileged_user.salt == submitted_salt) ? privileged_user : nil
   end
 
+  def self.privileges_list
+    [:admin, :dns, :alias]
+  end
+
+  def privileges
+    privileges = {}
+    PrivilegedUser.privileges_list.each do |p|
+      privileges[p] = self[p]
+    end
+    privileges
+  end
+
   private
 
     def encrypt_password

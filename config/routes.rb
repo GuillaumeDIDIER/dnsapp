@@ -2,7 +2,14 @@ DnsApp::Application.routes.draw do
   resources :domain_names, :path => 'dns'
   resources :reverse_domain_names, :path => 'reversedns',
                                    :only => [:index, :show]
-  resources :privileged_users, :path => 'users'
+  
+  resources :privileged_users, :path => 'users' do
+    member do
+      get 'edit_privileges'
+      put 'update_privileges'
+    end
+  end
+
   resources :sessions, :only => [:new, :create, :destroy]
 
   match '/signin',  :to => 'sessions#new'

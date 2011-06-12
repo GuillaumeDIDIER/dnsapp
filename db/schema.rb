@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110611080215) do
+ActiveRecord::Schema.define(:version => 20110612091232) do
 
   create_table "DNS", :force => true do |t|
     t.string   "name",                     :default => "", :null => false
@@ -68,10 +68,9 @@ ActiveRecord::Schema.define(:version => 20110611080215) do
     t.string   "name"
     t.string   "encrypted_password"
     t.string   "salt"
-    t.boolean  "admin"
-    t.integer  "dns"
-    t.integer  "alias"
-    t.integer  "users"
+    t.boolean  "admin",              :default => false
+    t.integer  "dns",                :default => 0
+    t.integer  "alias",              :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end

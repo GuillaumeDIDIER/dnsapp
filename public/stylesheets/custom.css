@@ -29,7 +29,6 @@ header {
 	text-align: center;
 	color : #ffffff;
 	background: #13456e;
-	#height: 100px;
 	min-width: 600px;
 	margin: 0px;
 }
@@ -107,6 +106,7 @@ header nav {
 	top: 20px;
 	padding-top: 5px;
 	padding-bottom: 5px;
+	border-top: solid 3px #afe800;
 }
 
 .gray {
@@ -152,6 +152,13 @@ footer {
 	border-color: #f36f00;
 	background: #f09b53;
 }
+
+.flash.notice {
+        color: #000000;
+	border-color: #f36f00;
+	background: #f09b53;
+}
+
 
 .flash.success {
 	color: #034903;

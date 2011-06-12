@@ -15,14 +15,23 @@
 		<li><%= link_to "Donne un nom à ton ordinateur", newdns_path %></li>
 		<%   end %>
 		<% else %>
-		<li>(incorrecte)</li>
+		(incorrecte)</li>
+		<% end %>
+		<% if has_privileges? %>
+		<li>Tu es connecté en tant que : 
+		  <%= link_to current_privileged_user.name, current_privileged_user %></li>
 		<% end %>
 	</ul>
   </section>
   <nav>
 	<ul>
 		<li><%= link_to "Accueil", root_path %></li> | 
-		 <li><%= link_to "Administration", signin_path %></li>
+		<% if current_privileged_user.nil? %>
+		<li><%= link_to "Se connecter en tant qu'administrateur", signin_path %></li>
+		<% else %>
+		<li><%= link_to "Administration", current_privileged_user %></li> | 
+		<li><%= link_to "Se déconnecter", signout_path, :method => :delete %></li>
+		<% end %>
 	</ul>
   </nav>
 </header>

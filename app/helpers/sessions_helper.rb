@@ -31,17 +31,33 @@ module SessionsHelper
     @current_user ||= user_from_remember_token
   end
 
+  def current_privileged_user
+    current_user[:privileged_user]
+  end
+
   def signed_in?
     !current_user.nil?
   end
 
+  def has_privileges?
+    !current_privileged_user.nil?
+  end
+
+  def privileges
+    current_privileged_user.privileges if has_privileges?
+  end
+
   def deny_access
     store_location
-    redirect_to dns_path, :notice => "Il faut être connecté pour accéder à cette page"
+    redirect_to signin_path, :notice => "Il faut être connecté pour accéder à cette page"
   end
 
   def current_user?(user)
     user[:ip] == current_user[:ip]
+  end
+
+  def current_privileged_user?(privileged_user)
+    current_user[:privileged_user] == privileged_user
   end
 
   def current_ip
@@ -79,7 +95,8 @@ module SessionsHelper
 	#self.current_user
       else
         #{ :ip => remember_token[:ip] }
-	PrivilegedUser.authenticate_with_salt(*remember_token)
+	privileged_user = PrivilegedUser.authenticate_with_salt(*remember_token)
+        { :ip => current_ip, :privileged_user => privileged_user }
       end
     end
 
