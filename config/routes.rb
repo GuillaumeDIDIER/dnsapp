@@ -3,10 +3,12 @@ DnsApp::Application.routes.draw do
   resources :reverse_domain_names, :path => 'reversedns',
                                    :only => [:index, :show]
   
-  resources :privileged_users, :path => 'users' do
-    member do
-      get 'edit_privileges'
-      put 'update_privileges'
+  namespace "admin" do
+    resources :privileged_users, :path => 'users' do
+      member do
+        get 'edit_privileges'
+        put 'update_privileges'
+      end
     end
   end
 

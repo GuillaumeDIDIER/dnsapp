@@ -14,7 +14,7 @@ module SessionsHelper
     else
       session[:remember_token] = [admin_user.id, admin_user.salt]
       self.current_user = { :ip => user_ip,
-                            :privileged_user => admin_user }
+                            :admin_privileged_user => admin_user }
     end
   end
 
@@ -32,7 +32,7 @@ module SessionsHelper
   end
 
   def current_privileged_user
-    current_user[:privileged_user]
+    current_user[:admin_privileged_user]
   end
 
   def signed_in?
@@ -57,7 +57,7 @@ module SessionsHelper
   end
 
   def current_privileged_user?(privileged_user)
-    current_user[:privileged_user] == privileged_user
+    current_user[:admin_privileged_user] == privileged_user
   end
 
   def current_ip
@@ -95,8 +95,8 @@ module SessionsHelper
 	#self.current_user
       else
         #{ :ip => remember_token[:ip] }
-	privileged_user = PrivilegedUser.authenticate_with_salt(*remember_token)
-        { :ip => current_ip, :privileged_user => privileged_user }
+	privileged_user = Admin::PrivilegedUser.authenticate_with_salt(*remember_token)
+        { :ip => current_ip, :admin_privileged_user => privileged_user }
       end
     end
 

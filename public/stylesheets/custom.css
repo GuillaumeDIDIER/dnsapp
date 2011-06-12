@@ -1,7 +1,7 @@
 body {
 	font-family: Arial, sans-serif;
 	margin: 0px;
-	background: #404b53;
+	background: #515b62;
 	min-width: 750px;
 }
 
@@ -130,7 +130,7 @@ footer {
 	margin: 0px;
 	padding-top: 2px;
 	padding-bottom: 5px;
-	text-align: center
+	text-align: center;
 }
 
 .flash, #error_explanation {
