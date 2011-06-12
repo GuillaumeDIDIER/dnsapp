@@ -1,6 +1,6 @@
 class Admin::PrivilegedUser < ActiveRecord::Base
 
-  attr_accessor :password
+  attr_accessor :password, :save_password
   attr_accessible :name, :password, :password_confirmation
 
   validates :name, :presence => true,
@@ -39,11 +39,19 @@ class Admin::PrivilegedUser < ActiveRecord::Base
     privileges
   end
 
+  def dont_save_password
+    self.save_password = false
+  end
+
+  def do_save_password
+    self.save_password = nil
+  end
+
   private
 
     def encrypt_password
       self.salt = make_salt if new_record?
-      self.encrypted_password = encrypt(password)
+      self.encrypted_password = encrypt(password) unless save_password == false
     end
 
     def encrypt(string)

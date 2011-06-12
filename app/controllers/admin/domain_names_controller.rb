@@ -2,6 +2,8 @@
 include RegexHelper
 class Admin::DomainNamesController < ApplicationController
 
+  before_filter :has_dns_privileges
+
   def index
     @title = "Toutes les DNS"
     @domain_names = DomainName.paginate :page => params[:page]
@@ -69,6 +71,10 @@ class Admin::DomainNamesController < ApplicationController
         client = clients.first
         client.destroy
       end
+    end
+
+    def has_dns_privileges
+      deny_access unless has_privileges? && privileges[:dns] && privileges[:dns] != 0
     end
 
 end

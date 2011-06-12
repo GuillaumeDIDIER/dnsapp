@@ -18,7 +18,7 @@
   </thead>
 
   <tbody>
-    <% @admin_privileged_users.each do |user| %>
+    <% @privileged_users.each do |user| %>
     <tr>
       <td><%= link_to user.name, user %> |
         <%= link_to "Modifier les privilèges", edit_privileges_admin_privileged_user_path(user) %>
