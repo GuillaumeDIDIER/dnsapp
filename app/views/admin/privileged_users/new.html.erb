@@ -2,8 +2,11 @@
 
 <%= form_for(@admin_privileged_user) do |f| %>
   <%= render 'fields', :f => f %>
-  <%= render 'privileges_fields', :f => f %>
+  <fieldset>
+    <legend>Privilèges</legend>
+    <%= render 'privileges_fields', :f => f %>
+  </fieldset>
   <div class="actions">
-    <%= f.submit "Modifier" %>
+    <%= f.submit "Soumettre" %>
   </div>
 <% end %>

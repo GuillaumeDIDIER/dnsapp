@@ -1,19 +1,38 @@
 <% if object.errors.any? %>
   <div id="error_explanation">
-    <h2><%= pluralize(object.errors.count, "erreur") %> :</h2>
+    <h2><%= pluralize(object.errors.count, "erreur") %></h2>
+    <!-- <p><%= object.errors.inspect %></p> -->
     <p>
-		<% object.errors[:short_name].each do |msg| %>
-		<% if msg == "is invalid" %>
-		Le nom est incorrect
-		<% else %>
-			<% if msg == "can't be blank" %>
-		Le nom ne doit pas être vide
-			<% else %>
-		<%= msg %>
-			<% end %>
-		<% end %>
-		<br />
-		<% end %>
-	</p>
+      <% object.errors[:password].each do |msg| %>
+      <% if msg == "doesn't match confirmation" %>
+      Le mot de passe et sa confirmation sont différents
+      <% end %>
+      <% if msg == "can't be blank" %>
+      Le mot de passe est vide
+      <% end %>
+      <% if msg == "is too short (minimum is 6 characters)" %>
+      Le mot de passe est trop court (minimum 6 caractères)
+      <% end %>
+      <br />
+      <% end %>
+    </p>
+    <p>
+      <% object.errors[:name].each do |msg| %>
+      <% if msg == "can't be blank" %>
+      Le nom ne doit pas être vide
+      <% end %>
+      <% end %>
+    </p>
+    <p>
+      <% object.errors[:short_name].each do |msg| %>
+      <% if msg == "is invalid" %>
+      Le nom est incorrect
+      <% end %>
+      <% if msg == "can't be blank" %>
+      Le nom ne doit pas être vide
+      <% end %>
+      <br />
+      <% end %>
+    </p>
   </div>
 <% end %>

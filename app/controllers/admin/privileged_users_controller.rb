@@ -22,10 +22,10 @@ class Admin::PrivilegedUsersController < ApplicationController
   end
 
   def create
-    @admin_privileged_user = Admin::PrivilegedUser.new(params[:privileged_user])
+    @admin_privileged_user = Admin::PrivilegedUser.new(params[:admin_privileged_user])
 
     Admin::PrivilegedUser.privileges_list.each do |p|
-      @admin_privileged_user[p] = params[:privileged_user][p]
+      @admin_privileged_user[p] = params[:admin_privileged_user][p]
     end
 
     if @admin_privileged_user.save
@@ -47,11 +47,13 @@ class Admin::PrivilegedUsersController < ApplicationController
 
   def update
     @admin_privileged_user = Admin::PrivilegedUser.find(params[:id])
-    if @admin_privileged_user.update_attributes(params[:privileged_user])
+    if @admin_privileged_user.update_attributes(params[:admin_privileged_user])
       flash[:success] = "Profil mis à jour."
       redirect_to @admin_privileged_user
     else
       @title = "Modifier son profil"
+      @admin_privileged_user.password = ""
+      @admin_privileged_user.password_confirmation = ""
       render 'edit'
     end
   end
@@ -79,7 +81,9 @@ class Admin::PrivilegedUsersController < ApplicationController
   end
 
   def destroy
-    Admin::PrivilegedUser.find(params[:id]).destroy
+    @admin_privileged_user = Admin::PrivilegedUser.find(params[:id])
+    keep_admin = true if current_privileged_user?(@admin_privileged_user) && @admin_privileged_user.admin == true
+    @admin_privileged_user.destroy unless keep_admin
     flash[:success] = "Utilisateur détruit"
     redirect_to admin_privileged_users_path
   end

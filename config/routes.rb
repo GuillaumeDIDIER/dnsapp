@@ -10,6 +10,7 @@ DnsApp::Application.routes.draw do
         put 'update_privileges'
       end
     end
+    resources :domain_names, :path => 'dns'
   end
 
   resources :sessions, :only => [:new, :create, :destroy]

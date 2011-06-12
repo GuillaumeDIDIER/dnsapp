@@ -1,3 +1,42 @@
 <h1><%= @title %></h1>
 
-Template to modify
+<table class="privileged_users" summary="List of privileged users">
+  <caption>Liste des utilisateurs privilégiés</caption>
+
+  <% list = Admin::PrivilegedUser.privileges_list %>
+
+  <thead>
+    <tr>
+      <th rowspan="2">Nom</th>
+      <th colspan="<%= list.count %>">Privilèges</th>
+    </tr>
+    <tr>
+      <% list.each do |p| %>
+      <th><%= p.to_s %></th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @admin_privileged_users.each do |user| %>
+    <tr>
+      <td><%= link_to user.name, user %> |
+        <%= link_to "Modifier les privilèges", edit_privileges_admin_privileged_user_path(user) %>
+	<% if !current_privileged_user?(user) %>
+	 | 
+	<%= link_to "Supprimer", user, :method => :delete,
+	                               :confirm => "Supprimer #{user.name} ?",
+				       :title => "Confirmation" %></td>
+	<% end %>
+      <% list.each do |p| %>
+      <td><%= user[p] %> </td>
+      <% end %>
+    </tr>
+    <% end %>
+  </tbody>
+
+</table>
+
+<p>
+  <%= link_to "Nouvel utilisateur", new_admin_privileged_user_path %>
+</p>
