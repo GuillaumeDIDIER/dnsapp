@@ -1,12 +1,6 @@
 <h1><%= @title %></h1>
 
-<%= form_tag(domain_names_path, :method => "get", :class => "search round") do %>
-  <%= label_tag(:ip, "ip : ") %>
-  <%= text_field_tag(:ip) %>
-  <%= label_tag(:name, "nom : ") %>
-  <%= text_field_tag(:name) %>
-  <%= submit_tag "Chercher" %>
-<% end %>
+<%= render 'shared/dns_search_form', :object => { :search_path => domain_names_path } %>
 
 <%= will_paginate %>
 
