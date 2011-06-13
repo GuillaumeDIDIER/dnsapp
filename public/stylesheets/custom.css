@@ -31,6 +31,13 @@ header {
 	background: #13456e;
 	min-width: 600px;
 	margin: 0px;
+	background-image: url("../images/dnsapp.png");
+	background-repeat: repeat;
+	background-position: bottom left;
+}
+
+header .round {
+	opacity: 0.8;
 }
 
 header a, footer a {

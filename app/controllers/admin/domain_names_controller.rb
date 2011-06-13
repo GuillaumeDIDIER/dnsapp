@@ -5,8 +5,9 @@ class Admin::DomainNamesController < ApplicationController
   before_filter :has_dns_privileges
 
   def index
-    @title = "Toutes les DNS"
-    @domain_names = DomainName.paginate :page => params[:page]
+    @title = "Toutes les DNS de type A"
+    @domain_names = DomainName.where :rdtype => "A"
+    @domain_names = @domain_names.paginate :page => params[:page]
   end
 
   private
@@ -74,7 +75,11 @@ class Admin::DomainNamesController < ApplicationController
     end
 
     def has_dns_privileges
-      deny_access unless has_privileges? && privileges[:dns] && privileges[:dns] != 0
+      deny_access unless has_privileges? 
+      if privileges[:dns].nil? || privileges[:dns] == 0
+        flash[:error] = "Tu n'as pas les droits sur cette ressource"
+        redirect_to root_path
+      end
     end
 
 end

@@ -26,7 +26,7 @@
 	 | 
 	<%= link_to "Supprimer", user, :method => :delete,
 	                               :confirm => "Supprimer #{user.name} ?",
-				       :title => "Confirmation" %></td>
+				       :title => "Supprimer #{user.name}" %></td>
 	<% end %>
       <% list.each do |p| %>
       <td><%= user[p] %> </td>

@@ -71,9 +71,10 @@ class Admin::PrivilegedUsersController < ApplicationController
     keep_admin = true if current_privileged_user?(@privileged_user) && @privileged_user.admin == true
 
     Admin::PrivilegedUser.privileges_list.each do |p|
-      @privileged_user[p] =  params[:admin_privileged_user][p]
+      @privileged_user[p] = params[:admin_privileged_user][p]
     end
 
+    flash[:warning] = "Tu ne peux pas te retirer le droit d'administrateur total" if keep_admin && @privileged_user[:admin] == false
     @privileged_user[:admin] = true if keep_admin
     #Admin::PrivilegedUser.skip_callback(:save, :before, :encrypt_password)
     @privileged_user.dont_save_password
@@ -110,7 +111,10 @@ class Admin::PrivilegedUsersController < ApplicationController
     end
 
     def admin_user
-      redirect_to(root_path) unless privileges[:admin] == true
+      if  privileges[:admin] != true
+        flash[:error] = "Il faut être administrateur total pour accéder à cette ressource"
+        redirect_to(root_path)
+      end
     end
 
 end

@@ -18,9 +18,6 @@ DnsApp::Application.routes.draw do
   match '/signin',  :to => 'sessions#new'
   match '/signout', :to => 'sessions#destroy'
 
-  #match '/list',  :to => 'domain_names#index'
-  match '/newdns', :to => 'domain_names#new'
-
   root :to => 'domain_names#index'
   # The priority is based upon order of creation:
   # first created -> highest priority.

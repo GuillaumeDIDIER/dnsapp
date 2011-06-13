@@ -3,4 +3,20 @@
 <p>
   <strong>Nom</strong> <%= @privileged_user.name %><br />
   <strong>Privilèges</strong> <%= @privileged_user.privileges.inspect %>
+  <% if current_privileged_user?(@privileged_user) %>
+  <ul>
+    <% if privileges[:admin] == true %>
+    <li>
+      <%= link_to "Utilisateurs", admin_privileged_users_path %> | 
+      <%= link_to "Nouvel utilisateur", new_admin_privileged_user_path %>
+    </li>
+    <% end %>
+    <% if privileges[:dns] != 0 %>
+      <li>
+        <%= link_to "DNS", admin_domain_names_path %> |
+        <%= link_to "Nouvelle entrée DNS", new_admin_domain_name_path %>
+      </li>
+    <% end %>
+  </ul>
+  <% end %>
 </p>

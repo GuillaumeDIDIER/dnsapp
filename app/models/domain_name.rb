@@ -37,7 +37,7 @@ class DomainName < ActiveRecord::Base
     dns.short_name = short_name
     dns.rdtype = "A"
     dns.rdata = ip
-    dns
+    return dns
   end
 
   def suffix
