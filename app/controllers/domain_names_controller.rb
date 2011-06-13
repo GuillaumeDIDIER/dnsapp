@@ -6,13 +6,31 @@ class DomainNamesController < ApplicationController
   def index
     #On obtient le format de la requête
     format = request.format.symbol
-    #system "perl reload_named.pl"
-    #system "perl reload_named.pl"
     @title = "Toutes les DNS"
-    @domain_names = DomainName.all
+    #@domain_names = DomainName.all
+    ip_like = "%"
+    name_like = "%"
+    if !params[:ip].nil? && params[:ip] != ""
+      @title = "Résultats pour ip~#{params[:ip]}"
+      ip_like = "%#{params[:ip]}%"
+      #@domain_names = DomainName.find(:all, :conditions => ["rdata like ?", like])
+    end
+    if !params[:name].nil? && params[:name] != ""
+      @title += " et nom~#{params[:name]}"
+      @title = "Résultats pour nom~#{params[:name]}" if params[:ip].nil? || params[:ip] == ""
+      name_like = "%#{params[:name]}%"
+    end
+    if !params[:ip].nil? && !params[:name].nil?
+      @domain_names = DomainName.find(:all, :conditions => ["name like ? and rdata like ?", name_like, ip_like])
+    elsif !params[:ip].nil?
+      @domain_names = DomainName.find(:all, :conditions => ["rdata like ?", ip_like])
+    else
+      @domain_names = DomainName.find(:all, :conditions => ["name like ? or rdata like ?", name_like, name_like])
+    end
+
     #On ne renvoie que le début si la
     #vue est en html
-    @domain_names = DomainName.paginate :page => params[:page] if format == :html
+    @domain_names = @domain_names.paginate :page => params[:page] if format == :html
   end
 
   def show

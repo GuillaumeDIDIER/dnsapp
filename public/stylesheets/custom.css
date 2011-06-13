@@ -235,3 +235,11 @@ fieldset {
 	text-align: left;
 	padding-left: 20px;
 }
+
+.search {
+	margin-bottom: 20px;
+	padding-bottom: 10px;
+	padding-right: 10px;
+	background: #8ab0d0;
+	text-align: right;
+}
