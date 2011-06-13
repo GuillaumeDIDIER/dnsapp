@@ -2,20 +2,30 @@
   <div id="error_explanation">
     <h2><%= pluralize(object.errors.count, "erreur") %></h2>
     <!-- <p><%= object.errors.inspect %></p> -->
+    <% if object.errors[:rdata].any? %>
+    <p>
+      <% object.errors[:rdata].each do |msg| %>
+      <% if msg == "can't be blank" %>
+      L'adresse ip est invalide
+      <% end %>
+      <% end %>
+    </p>
+    <% end %>
+    <% if object.errors[:password].any? %>
     <p>
       <% object.errors[:password].each do |msg| %>
       <% if msg == "doesn't match confirmation" %>
       Le mot de passe et sa confirmation sont différents
-      <% end %>
-      <% if msg == "can't be blank" %>
+      <% elsif msg == "can't be blank" %>
       Le mot de passe est vide
-      <% end %>
-      <% if msg == "is too short (minimum is 6 characters)" %>
+      <% elsif msg == "is too short (minimum is 6 characters)" %>
       Le mot de passe est trop court (minimum 6 caractères)
       <% end %>
       <br />
       <% end %>
     </p>
+    <% end %>
+    <% if object.errors[:name].any? %>
     <p>
       <% object.errors[:name].each do |msg| %>
       <% if msg == "can't be blank" %>
@@ -23,16 +33,20 @@
       <% end %>
       <% end %>
     </p>
+    <% end %>
+    <% if object.errors[:short_name].any? %>
     <p>
       <% object.errors[:short_name].each do |msg| %>
       <% if msg == "is invalid" %>
       Le nom est incorrect
-      <% end %>
-      <% if msg == "can't be blank" %>
+      <% elsif msg == "can't be blank" %>
       Le nom ne doit pas être vide
+      <% else %>
+      Le nom <%= msg %>
       <% end %>
       <br />
       <% end %>
     </p>
+    <% end %>
   </div>
 <% end %>

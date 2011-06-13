@@ -4,13 +4,34 @@
 
 <%= will_paginate %>
 
-<ul class="dnss">
-  <% @reverse_domain_names.each do |idns| %>
-    <li>
-      Name: <%= idns.name %> ttl: <%= idns.ttl %>
-      rdtype: <%= idns.rdtype %> rdata: <%= idns.rdata %>
-    </li>
-  <% end %>
-</ul>
+<table class="dns" summary="<%= @title %>">
+  <caption><%= @title %></caption>
+
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Type</th>
+      <th>Redirige vers</th>
+    </tr>
+  </thead>
+
+  <tfoot>
+    <tr>
+      <th>Nom</th>
+      <th>Type</th>
+      <th>Redirige vers</th>
+    </tr>
+  </tfoot>
+
+  <tbody>
+    <% @reverse_domain_names.each do |idns| %>
+    <tr>
+      <td><%= link_to trunc(idns.name, 40), idns, :title => idns.name %></td>
+      <td><%= idns.rdtype %></td>
+      <td><%= trunc(idns.rdata, 22) %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <%= will_paginate %>

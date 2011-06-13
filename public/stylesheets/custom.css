@@ -19,10 +19,10 @@ li {
 	list-style-type: square;
 }
 
-.round{
-	-moz-border-radius:    10px;
+.round {
+	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
-	border-radius:         10px;
+	border-radius: 10px;
 }
 
 header {
@@ -197,43 +197,71 @@ fieldset {
 	padding: 2px;
 }
 
-.privileged_users {
+table {
 	border-collapse: collapse;
 	border: 2px solid black;
 	padding: 5px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
-.privileged_users caption {
+table a {
+	color: #0e172a;
+}
+
+table caption {
 	display: none;
 }
 
-.privileged_users th {
+table th {
 	padding-left: 20px;
 	padding-right: 20px;
-	background: #2b5374;
+	background: #6caee5;
 }
 
-.privileged_users thead {
+table thead {
 	border-bottom: solid 2px black;
 }
 
-.privileged_users tr:nth-child(odd) {
-	background: #8ab0d0;
+table tfoot {
+	border-top: solid 2px black;
 }
 
-.privileged_users tr:nth-child(even) {
-        background: #637c90;
+table tr:nth-child(odd) {
+	background: #a0c6e5;
 }
 
-.privileged_users td {
+table tr:nth-child(even) {
+        background: #89a9c4;
+}
+
+table td {
 	padding: 5px;
 	text-align: center;
 }
 
-.privileged_users td:first-child {
+table td:first-child {
 	width: 100%;
 	text-align: left;
 	padding-left: 20px;
+}
+
+table.dns th, table.dns td {
+	border: 1px solid #404040;
+	overflow: hidden;
+}
+
+table.dns td:first-child {
+        width: 380px;
+}
+
+
+table.dns td:nth-child(2) {
+        width: 60px;
+}
+
+table.dns td:last-child {
+        width: 240px;
 }
 
 .search {
@@ -242,4 +270,15 @@ fieldset {
 	padding-right: 10px;
 	background: #8ab0d0;
 	text-align: right;
+}
+
+.pagination {
+	text-align: center;
+	background: #c0c0c0;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+
 }

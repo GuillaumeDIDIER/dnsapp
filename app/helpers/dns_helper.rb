@@ -10,6 +10,14 @@ module DnsHelper
     get_dns_from_ip current_ip
   end
 
+  def trunc(string, num)
+    if string.length > num
+      string[0..(num-4)] + "..."
+    else
+      string
+    end
+  end
+
   def searching_for(params, initial_condition = "")
     ip_like = params[:ip] if params[:ip] != ""
     name_like = params[:name] if params[:name] != ""

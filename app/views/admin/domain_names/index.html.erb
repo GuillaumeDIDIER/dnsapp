@@ -4,13 +4,45 @@
 
 <%= will_paginate %>
 
-<ul class="dns">
-  <% @domain_names.each do |idns| %>
-    <li>
-      Name: <%= idns.name %> ttl: <%= idns.ttl %>
-      rdtype: <%= idns.rdtype %> rdata: <%= idns.rdata %>
-    </li>
-  <% end %>
-</ul>
+<table class="dns" summary="<%= @title %>">
+  <caption><%= @title %></caption>
+
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Type</th>
+      <th>Redirige vers</th>
+    </tr>
+  </thead>
+
+  <tfoot>
+    <tr>
+      <th>Nom</th>
+      <th>Type</th>
+      <th>Redirige vers</th>
+    </tr>
+  </tfoot>
+
+  <tbody>
+    <% @domain_names.each do |idns| %>
+    <tr>
+      <td>
+        <%= link_to trunc(idns.name, 40), admin_domain_name_path(idns), :title => idns.name %><br /> 
+        <%= link_to "Modifier", edit_admin_domain_name_path(idns) %> |
+	<%= link_to "Supprimer", admin_domain_name_path(idns),
+	                         :method => :delete,
+	                         :confirm => "Supprimer #{idns.name} ?",
+	                         :title => "Supprimer #{idns.name}" %>
+      </td>
+      <td><%= idns.rdtype %></td>
+      <td><%= trunc(idns.rdata, 22) %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <%= will_paginate %>
+
+<p>
+  <%= link_to "Nouvelle entrée DNS", new_admin_domain_name_path %>
+</p>

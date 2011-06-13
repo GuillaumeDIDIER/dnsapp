@@ -1,3 +1,11 @@
-<strong>Nom</strong> <%= @reverse_domain_name.name %><br />
-<strong>Type</strong> <%= @reverse_domain_name.rdtype %><br />
-<strong>Redirige vers</strong> <%= @reverse_domain_name.rdata %>
+<h1><%= @title %></h1>
+
+<p>
+  <strong>Nom</strong> <%= @reverse_domain_name.name %><br />
+  <strong>Type</strong> <%= @reverse_domain_name.rdtype %><br />
+  <strong>Redirige vers</strong> <%= @reverse_domain_name.rdata %>
+</p>
+
+<p>
+  <%= link_to "Revenir à la liste des Reverse DNS", reverse_domain_names_path %>
+</p>

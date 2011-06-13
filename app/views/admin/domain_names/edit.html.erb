@@ -1,0 +1,8 @@
+<h1><%= @title %></h1>
+
+<%= form_for(@domain_name, :url => admin_domain_name_path(@domain_name)) do |f| %>
+  <%= render 'fields', :f => f %>
+  <div class="actions">
+    <%= f.submit "Modifier" %>
+  </div>
+<% end %>

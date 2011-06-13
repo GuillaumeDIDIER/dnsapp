@@ -1,7 +1,7 @@
 <h1><%= @title %></h1>
 
-<table class="privileged_users" summary="List of privileged users">
-  <caption>Liste des utilisateurs privilégiés</caption>
+<table class="privileged_users" summary="<%= @title %>">
+  <caption><%= @title %></caption>
 
   <% list = Admin::PrivilegedUser.privileges_list %>
 

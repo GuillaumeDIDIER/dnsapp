@@ -85,7 +85,7 @@ class DomainNamesController < ApplicationController
     increment_serial
     delete_xnet_client short_name
     flash[:success] = "Nom supprimé"
-    redirect_to root_path
+    redirect_to domain_name_path
   end
 
   private
