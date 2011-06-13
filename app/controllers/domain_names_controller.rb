@@ -59,7 +59,7 @@ class DomainNamesController < ApplicationController
     last_name = @domain_name.name
     last_short_name = last_name.match(short_name_from_name_regex)[0]
     @domain_name.short_name = params[:domain_name][:short_name]
-    update_attr @domain_name
+    @domain_name.get_name_from_short_name
     if last_short_name == @domain_name.short_name
       flash.now[:error] = "Tu as rentré le même nom"
       @title = "Modifier le nom"
@@ -96,18 +96,10 @@ class DomainNamesController < ApplicationController
       reverse_domain_name.save
     end
 
-    def update_attr(domain_name)
-      same_domain_name = DomainName.new_dns domain_name.short_name, verify_ip(domain_name.rdata)
-      domain_name.name = same_domain_name.name
-      domain_name.rdata = same_domain_name.rdata
-    end
-
     def update_dns_and_rdns(domain_name, last_name)
       name = "#{last_name}."
-      reverse_domain_name = (ReverseDomainName.where :rdata => name).first
-      same_reverse_domain_name = ReverseDomainName.new_rdns domain_name.name, domain_name.rdata
-      reverse_domain_name.name = same_reverse_domain_name.name
-      reverse_domain_name.rdata = same_reverse_domain_name.rdata
+      reverse_domain_name = ReverseDomainName.find_by_rdata(name)
+      reverse_domain_name.rdata = "#{domain_name.name}."
       domain_name.save
       reverse_domain_name.save
     end
@@ -132,7 +124,7 @@ class DomainNamesController < ApplicationController
       rdns = ReverseDomainName.where :rdtype => "SOA"
       rdns.each do |entry|
         entry.rdata = soa
-        entry.save!
+        entry.save
       end
     end
 
@@ -141,7 +133,7 @@ class DomainNamesController < ApplicationController
       client.username = short_name
       client.lastip = ip
       client.status = 1
-      client.save!
+      client.save
     end
 
     def delete_xnet_client(short_name)

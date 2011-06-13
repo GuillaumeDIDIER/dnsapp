@@ -48,11 +48,15 @@ class DomainName < ActiveRecord::Base
     self.short_name ||= self.name.match(short_name_from_name_regex)
   end
 
+  def get_name_from_short_name
+    self.name = "#{self.short_name}.#{suffix}"
+  end
+
   private
 
     def create_dns
       self.get_short_name
-      self.name = "#{self.short_name}.#{suffix}"
+      self.get_name_from_short_name
       self.ttl = 3200
     end
 
