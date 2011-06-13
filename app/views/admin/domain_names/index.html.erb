@@ -1,5 +1,7 @@
 <h1><%= @title %></h1>
 
+<%= render 'shared/dns_search_form', :object => { :search_path => admin_domain_names_path } %>
+
 <%= will_paginate %>
 
 <ul class="dns">

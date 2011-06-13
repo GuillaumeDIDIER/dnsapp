@@ -1,6 +1,6 @@
 <h1><%= @title %></h1>
 
-<% @reverse_domain_names = @reverse_domain_names.paginate(:page => params[:page]) %>
+<%= render 'shared/dns_search_form', :object => { :search_path => reverse_domain_names_path, :reverse => true } %>
 
 <%= will_paginate %>
 

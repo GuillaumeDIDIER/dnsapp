@@ -15,6 +15,7 @@ module DnsHelper
     name_like = params[:name] if params[:name] != ""
     title = ""
     condition = [initial_condition]
+    condition = ["#{initial_condition} and "] unless initial_condition == ""
 
     if !ip_like.nil?
       title = "Résultats pour ip ~ #{params[:ip]}"
@@ -27,11 +28,13 @@ module DnsHelper
     end
 
     if !ip_like.nil? && !name_like.nil?
-      condition = [ "#{initial_condition} name like ? and rdata like ?", name_like, ip_like ]
+      condition = [ "#{condition[0]}name like ? and rdata like ?", name_like, ip_like ]
     elsif !ip_like.nil?
-      condition = [ "#{initial_condition} rdata like ?", ip_like ]
+      condition = [ "#{condition[0]}rdata like ?", ip_like ]
     elsif !name_like.nil?
-      condition = [ "#{initial_condition} name like ? or rdata like ?", name_like, name_like ]
+      condition = [ "#{condition[0]}(name like ? or rdata like ?)", name_like, name_like ]
+    else
+      condition = [initial_condition]
     end
 
     title = nil if title == ""

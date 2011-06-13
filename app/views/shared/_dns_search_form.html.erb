@@ -1,9 +1,16 @@
 <%= form_tag(object[:search_path], :method => "get", :class => "search round") do %>
-  <% if object[:search_ip].nil? || object[:search_ip] == true %>
-  <%= label_tag(:ip, "ip : ") %>
-  <%= text_field_tag(:ip, params[:ip]) %>
+  <% if object[:reverse].nil? || object[:reverse] == false %>
+    <% if object[:search_ip].nil? || object[:search_ip] == true %>
+    <%= label_tag(:ip, "ip : ") %>
+    <%= text_field_tag(:ip, params[:ip]) %>
+    <% end %>
+    <%= label_tag(:name, "nom : ") %>
+    <%= text_field_tag(:name, params[:name]) %>
+  <% else %>
+    <%= label_tag(:name, "reverse ip : ") %>
+    <%= text_field_tag(:name, params[:name]) %>
+    <%= label_tag(:ip, "nom : ") %>
+    <%= text_field_tag(:ip, params[:ip]) %>
   <% end %>
-  <%= label_tag(:name, "nom : ") %>
-  <%= text_field_tag(:name, params[:name]) %>
   <%= submit_tag "Chercher" %>
 <% end %>
