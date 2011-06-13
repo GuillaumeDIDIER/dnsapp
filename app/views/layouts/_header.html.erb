@@ -1,8 +1,6 @@
 <header>
   <strong>Note: Working on a copy of actual dns base</strong>
-  <section id="Logo" class="round">
-	<%= link_to "Dns App", root_path %>
-  </section>
+  <%= link_to "Dns App", root_path, :class => "round", :id => "Logo" %>
   <section id="Profile" class="round">
 	<ul>
 		<li>Ton ip : <%= current_ip %><!--/<%= verify_ip current_ip %>-->
@@ -24,14 +22,12 @@
 	</ul>
   </section>
   <nav>
-	<ul>
-		<li><%= link_to "Accueil", root_path %></li> | 
+		<%= link_to "Accueil", root_path %> | 
 		<% if current_privileged_user.nil? %>
-		<li><%= link_to "Se connecter en tant qu'administrateur", signin_path %></li>
+		<%= link_to "Se connecter en tant qu'administrateur", signin_path %>
 		<% else %>
-		<li><%= link_to "Administration", admin_privileged_user_path(current_privileged_user) %></li> | 
-		<li><%= link_to "Se déconnecter", signout_path, :method => :delete %></li>
+		<%= link_to "Administration", admin_privileged_user_path(current_privileged_user) %> | 
+		<%= link_to "Se déconnecter", signout_path, :method => :delete %>
 		<% end %>
-	</ul>
   </nav>
 </header>

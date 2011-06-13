@@ -28,17 +28,15 @@ li {
 	border-radius: 10px;
 }
 
-header .round {
-	-moz-box-shadow: 4px 4px 7px #000000;
-	-webkit-box-shadow: 4px 4px 7px #000000;
-}
-
-header {
+header, footer {
 	text-align: center;
 	color : #ffffff;
 	background: #13456e;
 	min-width: 600px;
 	margin: 0px;
+}
+
+header {
 	background-image: url("../images/dnsapp.png");
 	background-repeat: repeat;
 	background-position: bottom left;
@@ -47,10 +45,12 @@ header {
 header .round {
 	opacity: 0.8;
 	background: #1f384d;
-	transition: background .4s ease-in, box-shadow .5s ease-in;
-        -moz-transition: background .4s ease-in, box-shadow .5s ease-in;
-	-o-transition: background .4s ease-in, box-shadow .5s ease-in;
-	-webkit-transition: background .4s ease-in, box-shadow .5s ease-in;
+	-moz-box-shadow: 4px 4px 7px #000000;
+	-webkit-box-shadow: 4px 4px 7px #000000;
+	transition: background .3s ease-in, box-shadow .55s ease-in;
+        -moz-transition: background .3s ease-in, box-shadow .55s ease-in;
+	-o-transition: background .3s ease-in, box-shadow .55s ease-in;
+	-webkit-transition: background .3s ease-in, box-shadow .55s ease-in;
 }
 
 header .round:hover {
@@ -73,20 +73,18 @@ header a:hover, footer a:hover {
 #Logo {
 	float: left;
 	font-size: xx-large;
-	#background: #1f384d;
 	margin-top: 20px;
 	margin-left: 20px;
 	padding: 10px;
 }
 
-#Logo a:hover {
+#Logo:hover {
 	color: #f8c135;
 	text-decoration: none;
 }
 
 #Profile {
 	float: right;
-	#background: #1f384d;
 	margin-top: 20px;
 	margin-right: 20px;
 	padding-left: 15px;
@@ -111,41 +109,28 @@ nav {
 	padding-top: 2px;
 }
 
-nav ul {
-	margin: 0px;
-	padding: 0px;
-}
-
-nav ul li {
-	list-style-type: none;
-	padding: 0px;
-	display: inline;
-}
-
 nav a:hover {
 	color: #f8c135
+}
+
+header nav, footer nav {
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
 header nav {
 	clear: both;
 	position: relative;
 	top: 20px;
-	padding-top: 5px;
-	padding-bottom: 5px;
 	border-top: solid 3px #afe800;
 }
 
-footer {
+footer nav {
 	border-bottom: solid 3px #afe800;
 }
 
 .gray {
 	background: #cccccc;
-}
-
-.right_gradient {
-	background: blue;
-	float: right;
 }
 
 #Content {
@@ -159,15 +144,6 @@ footer {
 	padding-right: 25px;
 	-moz-box-shadow: 0px 0px 20px #000000;
 	-webkit-box-shadow: 0px 0px 20px #000000;
-}
-
-footer {
-	color: #ffffff;
-	background: #293137;
-	margin: 0px;
-	padding-top: 2px;
-	padding-bottom: 5px;
-	text-align: center;
 }
 
 .flash, #error_explanation {
