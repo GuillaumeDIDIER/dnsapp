@@ -3,6 +3,9 @@ body {
 	margin: 0px;
 	background: #515b62;
 	min-width: 750px;
+	background-image: url("../images/dnsapp2.png");
+	background-repeat: repeat;
+	background-position: top left;
 }
 
 a {
@@ -25,6 +28,11 @@ li {
 	border-radius: 10px;
 }
 
+header .round {
+	-moz-box-shadow: 4px 4px 7px #000000;
+	-webkit-box-shadow: 4px 4px 7px #000000;
+}
+
 header {
 	text-align: center;
 	color : #ffffff;
@@ -38,6 +46,17 @@ header {
 
 header .round {
 	opacity: 0.8;
+	background: #1f384d;
+	transition: background .4s ease-in, box-shadow .5s ease-in;
+        -moz-transition: background .4s ease-in, box-shadow .5s ease-in;
+	-o-transition: background .4s ease-in, box-shadow .5s ease-in;
+	-webkit-transition: background .4s ease-in, box-shadow .5s ease-in;
+}
+
+header .round:hover {
+	background: #3f586d;
+        -moz-box-shadow: 0px 0px 30px #abd9ff;
+        -webkit-box-shadow: 0px 0px 30px #abd9ff;
 }
 
 header a, footer a {
@@ -54,7 +73,7 @@ header a:hover, footer a:hover {
 #Logo {
 	float: left;
 	font-size: xx-large;
-	background: #1f384d;
+	#background: #1f384d;
 	margin-top: 20px;
 	margin-left: 20px;
 	padding: 10px;
@@ -67,7 +86,7 @@ header a:hover, footer a:hover {
 
 #Profile {
 	float: right;
-	background: #1f384d;
+	#background: #1f384d;
 	margin-top: 20px;
 	margin-right: 20px;
 	padding-left: 15px;
@@ -116,19 +135,30 @@ header nav {
 	border-top: solid 3px #afe800;
 }
 
+footer {
+	border-bottom: solid 3px #afe800;
+}
+
 .gray {
 	background: #cccccc;
 }
 
+.right_gradient {
+	background: blue;
+	float: right;
+}
+
 #Content {
 	width: 640px;
-	min-height: 450px;
+        min-height: 450px;
 	margin-left: auto;
 	margin-right: auto;
 	background-color: white;
 	padding: 20px;
 	padding-left: 25px;
 	padding-right: 25px;
+	-moz-box-shadow: 0px 0px 20px #000000;
+	-webkit-box-shadow: 0px 0px 20px #000000;
 }
 
 footer {
@@ -272,6 +302,10 @@ table.dns td:last-child {
 	text-align: right;
 }
 
+.search label {
+	margin-left: 10px;
+}
+
 .pagination {
 	text-align: center;
 	background: #c0c0c0;
@@ -280,5 +314,8 @@ table.dns td:last-child {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
+}
 
+.end {
+	height: 50px;
 }

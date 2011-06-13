@@ -9,7 +9,7 @@
 </head>
 <body>
     <%= render 'layouts/header' %>
-		<div class="gray">
+	<div class="gray">
 		<section id="Content">
 		  <% flash.each do |key, value| %>
 			<%= content_tag(:div, value, :class => "flash #{key}") %>
@@ -18,5 +18,6 @@
 		</section>
 	</div>
     <%= render 'layouts/footer' %>
+    <div class="end"></div>
 </body>
 </html>
