@@ -2,7 +2,7 @@
 
 <p>
   <strong>Nom</strong> <%= @privileged_user.name %><br />
-  <strong>Privilèges</strong> <%= @privileged_user.privileges.inspect %>
+  <strong>Privilèges</strong> <%= render 'privileges' %>
   <% if current_privileged_user?(@privileged_user) %>
   <ul>
     <% if !privileges[:admin].nil? && privileges[:admin] == true %>

@@ -1,0 +1,18 @@
+<% Admin::PrivilegedUser.privileges_list.each do |p| %>
+  <span class="privileges">
+    <%= p.to_s %> : 
+    <% if p == :admin %>
+      <% if @privileged_user[p] == true %>
+        <span class="ok">✔</span>
+      <% else %>
+        <span class="wrong">✘</span>
+      <% end %>
+    <% else %>
+      <% if !@privileged_user[p].nil? && @privileged_user[p] != 0  %>
+        <span class="ok">✔</span>
+      <% else %>
+        <span class="wrong">✘</span>
+      <% end %>
+    <% end %>
+  </span>
+<% end %>
