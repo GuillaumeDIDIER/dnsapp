@@ -68,8 +68,8 @@ class DomainNamesController < ApplicationController
     if @domain_name.valid?
       update_dns_and_rdns @domain_name, last_name
       increment_serial
-      add_xnet_client @domain_name.short_name, current_ip
       delete_xnet_client last_short_name
+      add_xnet_client @domain_name.short_name, current_ip
       flash[:success] = "Nom mis à jour"
       redirect_to @domain_name
     else
@@ -136,12 +136,25 @@ class DomainNamesController < ApplicationController
       client.save
     end
 
-    def delete_xnet_client(short_name)
-      clients = Clients.where :username => short_name
-      if clients.any?
-        client = clients.first
-        client.destroy
+    def update_ip_xnet_client(short_name, ip)
+      client = Clients.find_by_username short_name
+      if !client.nil?
+        client.lastip = ip
+        client.save
       end
+    end
+
+    def update_username_xnet_client(last_short_name, short_name)
+      client = Clients.find_by_username last_short_name
+      if !client.nil?
+        client.username = short_name
+        client.save
+      end
+    end
+
+    def delete_xnet_client(short_name)
+      client = Clients.find_by_username short_name
+      client.destroy unless client.nil?
     end
 
     def correct_user

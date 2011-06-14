@@ -5,24 +5,39 @@
   <strong>Privilèges</strong> <%= @privileged_user.privileges.inspect %>
   <% if current_privileged_user?(@privileged_user) %>
   <ul>
-    <% if privileges[:admin] == true %>
+    <% if !privileges[:admin].nil? && privileges[:admin] == true %>
     <li>
       <%= link_to "Utilisateurs", admin_privileged_users_path %> | 
       <%= link_to "Nouvel utilisateur", new_admin_privileged_user_path %>
     </li>
     <% end %>
-    <% if privileges[:dns] != 0 %>
+    <% if !privileges[:dns].nil? && privileges[:dns] != 0 %>
       <li>
         <%= link_to "DNS", admin_domain_names_path %> |
         <%= link_to "Nouvelle entrée DNS", new_admin_domain_name_path %>
+      </li>
+    <% end %>
+    <% if !privileges[:alias].nil? && privileges[:alias] != 0 %>
+      <li>
+        <%= link_to "Alias", admin_cnames_path %> |
+        <%= link_to "Nouvel alias", new_admin_cname_path %>
       </li>
     <% end %>
   </ul>
   <% end %>
 </p>
 
-<% if current_privileged_user?(@privileged_user) %>
 <p>
+  <% if privileges[:admin] == true %>
+  <%= link_to "Retour à la liste des utilisateurs privilégiés", admin_privileged_users_path %> | 
+  <%= link_to "Modifier les privilèges", edit_privileges_admin_privileged_user_path(@privileged_user) %> |
+    <% if !current_privileged_user?(@privileged_user) %>
+    <%= link_to "Supprimer", @privileged_user, :method => :delete,
+                                             :confirm => "Supprimer #{@privileged_user.name} ?",
+		                             :title => "Supprimer #{@privileged_user.name}" %>
+    <% end %>
+  <% end %>
+  <% if current_privileged_user?(@privileged_user) %>
   <%= link_to "Modifier mon profil", edit_admin_privileged_user_path(@privileged_user) %>
+  <% end %>
 </p>
-<% end %>

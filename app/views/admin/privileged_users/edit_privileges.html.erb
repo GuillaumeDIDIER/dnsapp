@@ -7,3 +7,8 @@
     <%= f.submit "Modifier" %>
   </div>
 <% end %>
+
+<p>
+  <%= link_to "Retour à la liste des utilisateurs privilégiés", admin_privileged_users_path %> | 
+  <%= link_to "Retour au profil de #{@privileged_user.name}", @privileged_user %>
+</p>

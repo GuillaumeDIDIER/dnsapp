@@ -20,7 +20,7 @@ class DomainName < ActiveRecord::Base
   # On interdit '--' (deux tirets à la suite).
   name_regex = /\A[a-z](?:-?[a-z0-9])+\z/i
 
-  attr_accessor :short_name
+  attr_accessor :short_name, :short_dest
   attr_accessible :name, :ttl, :rdtype, :rdata, :short_name
 
   validates :short_name, :presence => true,
@@ -50,12 +50,11 @@ class DomainName < ActiveRecord::Base
     return dns
   end
 
-  def update_dest(short_dest)
-    dest = DomainName.find_by_name "#{short_dest}.#{DomainName.suffix}"
-    self.rdata = "#{short_dest}.#{DomainName.suffix}."
+  def update_dest
+    dest = DomainName.find_by_name "#{self.short_dest}.#{DomainName.suffix}"
+    self.rdata = "#{self.short_dest}.#{DomainName.suffix}."
     self.rdata = nil if dest.nil?
   end
-
 
   def self.suffix
     "eleves.polytechnique.fr"
@@ -67,6 +66,10 @@ class DomainName < ActiveRecord::Base
 
   def get_name_from_short_name
     self.name = "#{self.short_name}.#{DomainName.suffix}"
+  end
+
+  def get_short_dest
+    self.short_dest ||= self.rdata.match(short_name_from_name_regex)
   end
 
   private

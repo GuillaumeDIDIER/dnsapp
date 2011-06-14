@@ -1,0 +1,13 @@
+<h1><%= @title %></h1>
+
+<%= form_for(@cname, :url => admin_cname_path(@cname)) do |f| %>
+  <%= render 'fields', :f => f %>
+  <div class="actions">
+    <%= f.submit "Modifier" %>
+  </div>
+<% end %>
+
+<p>
+  <%= link_to "Retour au profil de #{@cname.get_short_name}", admin_cname_path(@cname) %> |
+  <%= link_to "Retour à la liste des alias", admin_cnames_path %>
+</p>

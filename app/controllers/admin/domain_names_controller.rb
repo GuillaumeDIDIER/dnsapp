@@ -7,6 +7,7 @@ class Admin::DomainNamesController < DomainNamesController
 
   skip_before_filter :correct_user
   before_filter :has_dns_privileges
+  before_filter :is_dns, :only => [:show, :edit, :update, :destroy]
 
   def index
     @title = "Toutes les DNS de type A"
@@ -37,7 +38,7 @@ class Admin::DomainNamesController < DomainNamesController
     if @domain_name.valid?
       save_dns_and_rdns @domain_name
       increment_serial
-      add_xnet_client @domain_name.short_name, current_ip
+      add_xnet_client @domain_name.short_name, @domain_name.rdata
       flash[:success] = "Nom enregistré"
       redirect_to admin_domain_name_path(@domain_name)
     else
@@ -58,16 +59,15 @@ class Admin::DomainNamesController < DomainNamesController
     @domain_name.short_name = params[:domain_name][:short_name]
     @domain_name.get_name_from_short_name
     @domain_name.rdata = verify_ip params[:domain_name][:rdata]
-    #if last_short_name == @domain_name.short_name
-    #  flash.now[:error] = "Tu as rentré le même nom"
-    #  @title = "Modifier le nom"
-    #  render 'edit' and return
-    #end
     if @domain_name.valid?
       update_dns_and_rdns @domain_name, last_name
       increment_serial
-      add_xnet_client @domain_name.short_name, current_ip
-      delete_xnet_client last_short_name
+      if last_short_name == @domain_name.short_name
+        update_ip_xnet_client(@domain_name.short_name, @domain_name.rdata)
+      else
+        delete_xnet_client last_short_name
+        add_xnet_client @domain_name.short_name, @domain_name.rdata
+      end
       flash[:success] = "Nom mis à jour"
       redirect_to admin_domain_name_path(@domain_name)
     else
@@ -94,6 +94,10 @@ class Admin::DomainNamesController < DomainNamesController
         flash[:error] = "Tu n'as pas les droits sur cette ressource"
         redirect_to root_path
       end
+    end
+
+    def is_dns
+      redirect_to admin_domain_names_path unless DomainName.find(params[:id]).rdtype == "A"
     end
 
 end

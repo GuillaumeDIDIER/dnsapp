@@ -1,10 +1,10 @@
 <h1><%= @title %></h1>
 
-<%= render 'shared/dns_search_form', :object => { :search_path => admin_domain_names_path } %>
+<%= render 'shared/dns_search_form', :object => { :search_path => admin_cnames_path, :search_ip => false } %>
 
 <%= will_paginate %>
 
-<% if @domain_names.any? %>
+<% if @cnames.any? %>
 <table class="dns">
   <caption><%= @title %></caption>
 
@@ -16,7 +16,7 @@
     </tr>
   </thead>
 
-  <% if @domain_names.count > 15 %>
+  <% if @cnames.count > 15 %>
   <tfoot>
     <tr>
       <th>Nom</th>
@@ -27,13 +27,13 @@
   <% end %>
 
   <tbody>
-    <% @domain_names.each do |idns| %>
+    <% @cnames.each do |idns| %>
     <tr>
       <td>
-        <%= link_to trunc(idns.name, 40), admin_domain_name_path(idns), :title => idns.name %><br /> 
-        <%= link_to "Modifier", edit_admin_domain_name_path(idns) %> |
-	<%= link_to "Supprimer", admin_domain_name_path(idns),
-	                         :method => :delete,
+        <%= link_to trunc(idns.name, 40), admin_cname_path(idns), :title => idns.name %><br />
+        <%= link_to "Modifier", edit_admin_cname_path(idns) %> |
+        <%= link_to "Supprimer", admin_cname_path(idns),
+                                 :method => :delete,
 	                         :confirm => "Supprimer #{idns.name} ?",
 	                         :title => "Supprimer #{idns.name}" %>
       </td>
@@ -48,5 +48,5 @@
 <%= will_paginate %>
 
 <p>
-  <%= link_to "Nouvelle entrée DNS", new_admin_domain_name_path %>
+  <%= link_to "Nouvel alias", new_admin_cname_path %>
 </p>

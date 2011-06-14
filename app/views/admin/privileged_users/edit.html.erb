@@ -6,3 +6,7 @@
     <%= f.submit "Modifier" %>
   </div>
 <% end %>
+
+<p>
+  <%= link_to "Retour au profil de #{@privileged_user.name}", @privileged_user %>
+</p>
