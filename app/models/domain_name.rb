@@ -40,7 +40,24 @@ class DomainName < ActiveRecord::Base
     return dns
   end
 
-  def suffix
+  def self.new_alias(short_name, short_dest)
+    dns = DomainName.new
+    dns.short_name = short_name
+    dns.rdtype = "Cname"
+    dns.rdata = "#{short_dest}.#{suffix}."
+    dest = DomainName.find_by_name "#{short_dest}.#{suffix}"
+    dns = nil if dest.nil?
+    return dns
+  end
+
+  def update_dest(short_dest)
+    dest = DomainName.find_by_name "#{short_dest}.#{DomainName.suffix}"
+    self.rdata = "#{short_dest}.#{DomainName.suffix}."
+    self.rdata = nil if dest.nil?
+  end
+
+
+  def self.suffix
     "eleves.polytechnique.fr"
   end
 
@@ -49,7 +66,7 @@ class DomainName < ActiveRecord::Base
   end
 
   def get_name_from_short_name
-    self.name = "#{self.short_name}.#{suffix}"
+    self.name = "#{self.short_name}.#{DomainName.suffix}"
   end
 
   private

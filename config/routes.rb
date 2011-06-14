@@ -11,6 +11,7 @@ DnsApp::Application.routes.draw do
       end
     end
     resources :domain_names, :path => 'dns'
+    resources :cnames, :path => 'alias'
   end
 
   resources :sessions, :only => [:new, :create, :destroy]

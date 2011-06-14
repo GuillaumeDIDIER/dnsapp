@@ -134,7 +134,7 @@ footer nav {
 }
 
 #Content {
-	width: 640px;
+	width: 690px;
         min-height: 450px;
 	margin-left: auto;
 	margin-right: auto;
@@ -222,7 +222,7 @@ table caption {
 table th {
 	padding-left: 20px;
 	padding-right: 20px;
-	background: #6caee5;
+	background: #4881af;
 }
 
 table thead {
@@ -234,11 +234,11 @@ table tfoot {
 }
 
 table tr:nth-child(odd) {
-	background: #a0c6e5;
+	background: #c1d5e5;
 }
 
 table tr:nth-child(even) {
-        background: #89a9c4;
+        background: #a8b7c4;
 }
 
 table td {

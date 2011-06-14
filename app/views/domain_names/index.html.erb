@@ -4,6 +4,7 @@
 
 <%= will_paginate %>
 
+<% if @domain_names.any? %>
 <table class="dns">
   <caption><%= @title %></caption>
 
@@ -15,6 +16,7 @@
     </tr>
   </thead>
 
+  <% if @domain_names.count > 15 %>
   <tfoot>
     <tr>
       <th>Nom</th>
@@ -22,6 +24,7 @@
       <th>Redirige vers</th>
     </tr>
   </tfoot>
+  <% end %>
   
   <tbody>
     <% @domain_names.each do |idns| %>
@@ -33,5 +36,6 @@
     <% end %>
   </tbody>
 </table>
+<% end %>
 
 <%= will_paginate %>

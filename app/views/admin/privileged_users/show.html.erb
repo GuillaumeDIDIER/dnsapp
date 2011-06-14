@@ -20,3 +20,9 @@
   </ul>
   <% end %>
 </p>
+
+<% if current_privileged_user?(@privileged_user) %>
+<p>
+  <%= link_to "Modifier mon profil", edit_admin_privileged_user_path(@privileged_user) %>
+</p>
+<% end %>
