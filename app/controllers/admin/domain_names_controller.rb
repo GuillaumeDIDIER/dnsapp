@@ -1,5 +1,4 @@
 # encoding: utf-8
-include RegexHelper
 # On hérite pour avoir les même méthodes privées
 # Il doit aussi il y avoir un moyen de rendre ça
 # plus DRY (don't repeat yourself)
@@ -55,7 +54,7 @@ class Admin::DomainNamesController < DomainNamesController
   def update
     @domain_name = DomainName.find(params[:id])
     last_name = @domain_name.name
-    last_short_name = last_name.match(short_name_from_name_regex)[0]
+    last_short_name = last_name.match(DomainName.short_name_from_name_regex)[0]
     @domain_name.short_name = params[:domain_name][:short_name]
     @domain_name.get_name_from_short_name
     @domain_name.rdata = verify_ip params[:domain_name][:rdata]

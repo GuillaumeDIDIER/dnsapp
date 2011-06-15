@@ -1,5 +1,4 @@
 # encoding: utf-8
-include RegexHelper
 # On hérite pour avoir les même méthodes privées
 # Il doit aussi il y avoir un moyen de rendre ça
 # plus DRY (don't repeat yourself)
@@ -24,7 +23,7 @@ class Admin::CnamesController < DomainNamesController
 
   def show
     @cname = DomainName.find(params[:id])
-    @title = "Profil : #{@cname.name.match(short_name_from_name_regex)}"
+    @title = "Profil : #{@cname.get_short_name}"
   end
 
   def new
@@ -63,7 +62,7 @@ class Admin::CnamesController < DomainNamesController
   def update
     @cname = DomainName.find(params[:id])
     last_name = @cname.name
-    last_short_name = last_name.match(short_name_from_name_regex)[0]
+    last_short_name = last_name.match(DomainName.short_name_from_name_regex)[0]
     @cname.short_name = params[:domain_name][:short_name]
     @cname.get_name_from_short_name
     @cname.short_dest = params[:domain_name][:short_dest]

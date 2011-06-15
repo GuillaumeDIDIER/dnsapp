@@ -1,6 +1,4 @@
 # encoding: utf-8
-include RegexHelper
-include DnsHelper
 class DomainNamesController < ApplicationController
   before_filter :correct_user, :only => [:edit, :update, :destroy]
 
@@ -21,7 +19,7 @@ class DomainNamesController < ApplicationController
 
   def show
     @domain_name = DomainName.find(params[:id])
-    @title = "Profil : #{@domain_name.name.match(short_name_from_name_regex)}"
+    @title = "Profil : #{@domain_name.get_short_name}"
   end
 
   def new
@@ -57,7 +55,7 @@ class DomainNamesController < ApplicationController
   def update
     @domain_name = DomainName.find(params[:id])
     last_name = @domain_name.name
-    last_short_name = last_name.match(short_name_from_name_regex)[0]
+    last_short_name = last_name.match(DomainName.short_name_from_name_regex)[0]
     @domain_name.short_name = params[:domain_name][:short_name]
     @domain_name.get_name_from_short_name
     if last_short_name == @domain_name.short_name

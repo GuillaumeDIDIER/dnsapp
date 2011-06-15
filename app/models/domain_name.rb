@@ -7,7 +7,11 @@ class DnsValidator < ActiveModel::EachValidator
     doubles.each do |dns|
       same = true if dns.id == record.id
     end
-    record.errors[:short_name] << "#{value.match(short_name_from_name_regex)} existe déjà (associé à #{doubles.first.rdata})" unless same
+    short_name = value.match(DomainName.short_name_from_name_regex).to_s
+    record.errors[:short_name] << "#{short_name} existe déjà (associé à #{doubles.first.rdata})" unless same
+
+    #Noms non authorisés
+    record.errors[:short_name] << "#{short_name} est interdit" unless UnauthorizedName.find_by_name(short_name).nil?
   end
 end
 
@@ -61,7 +65,7 @@ class DomainName < ActiveRecord::Base
   end
 
   def get_short_name
-    self.short_name ||= self.name.match(short_name_from_name_regex)
+    self.short_name ||= self.name.match(DomainName.short_name_from_name_regex)
   end
 
   def get_name_from_short_name
@@ -69,7 +73,11 @@ class DomainName < ActiveRecord::Base
   end
 
   def get_short_dest
-    self.short_dest ||= self.rdata.match(short_name_from_name_regex)
+    self.short_dest ||= self.rdata.match(DomainName.short_name_from_name_regex)
+  end
+
+  def self.short_name_from_name_regex
+    /\A[a-z](?:-?[a-z0-9])+/i
   end
 
   private

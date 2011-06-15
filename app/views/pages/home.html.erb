@@ -1,0 +1,16 @@
+<h1 class="homepage">Dns App</h1>
+
+<p>
+  blah...
+</p>
+
+<p>
+  <% if signed_in? %>
+    <% dns = current_dns %>
+    <% if dns.nil? %>
+      <%= link_to "Donne un nom à ton ordinateur", new_domain_name_path %>
+    <% else %>
+      Ton nom : <%= link_to dns.get_short_name, dns %>
+    <% end %>
+  <% end %>
+</p>

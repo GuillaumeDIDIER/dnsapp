@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110612091232) do
+ActiveRecord::Schema.define(:version => 20110615204930) do
 
   create_table "DNS", :force => true do |t|
     t.string   "name",                     :default => "", :null => false
@@ -124,6 +124,15 @@ ActiveRecord::Schema.define(:version => 20110612091232) do
     t.integer "capabilities",               :default => 0,  :null => false
     t.string  "name",         :limit => 64, :default => "", :null => false
   end
+
+  create_table "unauthorized_names", :force => true do |t|
+    t.string   "name"
+    t.string   "comment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "unauthorized_names", ["name"], :name => "index_unauthorized_names_on_name", :unique => true
 
   create_table "versions", :primary_key => "Client", :force => true do |t|
     t.text    "ClientName"

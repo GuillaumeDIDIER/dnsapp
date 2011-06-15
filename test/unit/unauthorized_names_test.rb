@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PagesControllerTest < ActionController::TestCase
+class UnauthorizedNamesTest < ActiveSupport::TestCase
   # Replace this with your real tests.
   test "the truth" do
     assert true

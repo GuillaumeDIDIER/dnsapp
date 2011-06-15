@@ -1,5 +1,5 @@
 # encoding: utf-8
-module DnsHelper
+module DomainNamesHelper
 
   def get_dns_from_ip(ip) 
     dns = DomainName.where :rdata => ip, :rdtype => "A"

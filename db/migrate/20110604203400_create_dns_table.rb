@@ -1,6 +1,6 @@
-class CreateDnsModels < ActiveRecord::Migration
+class CreateDnsTable < ActiveRecord::Migration
   def self.up
-    create_table :dns_models do |t|
+    create_table :dns_ror do |t|
       t.string :name
       t.integer :ttl
       t.string :rdtype
@@ -11,7 +11,7 @@ class CreateDnsModels < ActiveRecord::Migration
 
     #initialise avec les valeurs de la table pas bien
     # Dns.all.each do |dns|
-      # dnsm = DnsModel.new
+      # dnsm = DomainName.new
       # dnsm.name = dns.name
       # dnsm.ttl = dns.ttl
       # dnsm.rdtype = dns.rdtype
@@ -21,6 +21,6 @@ class CreateDnsModels < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :dns_models
+    drop_table :dns_ror
   end
 end

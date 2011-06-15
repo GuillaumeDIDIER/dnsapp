@@ -327,3 +327,11 @@ table.dns td:last-child {
 .wrong {
 	color: red;
 }
+
+h1.homepage {
+	text-align: center;
+	font-size: xx-large;
+	color: #2e75bd;
+	text-shadow: 1px 1px 1px #333333;
+
+}

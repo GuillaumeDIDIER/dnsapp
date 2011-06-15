@@ -7,7 +7,6 @@ class CreatePrivilegedUsers < ActiveRecord::Migration
       t.boolean :admin
       t.integer :dns
       t.integer :alias
-      t.integer :users
 
       t.timestamps
     end
