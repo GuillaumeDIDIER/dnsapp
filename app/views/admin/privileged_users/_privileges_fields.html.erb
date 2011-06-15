@@ -7,6 +7,10 @@
   <%= f.label :alias, "Alias" %>
 </div>
 <div class="field">
+  <%= f.check_box :unauthorized_names %>
+  <%= f.label :unauthorized_names, "Noms interdits" %>
+</div>
+<div class="field">
   <%= f.check_box :admin %>
   <%= f.label :admin, "Administrateur total" %>
 </div>

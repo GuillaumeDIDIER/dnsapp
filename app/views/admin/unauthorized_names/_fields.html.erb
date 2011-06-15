@@ -1,0 +1,9 @@
+<%= render 'shared/error_messages', :object => f.object %>
+<div class="field">
+  <%= f.label :name, "Nom" %>
+  <%= f.text_field :name, :value => @unauthorized_name.name %>
+</div>
+<div class="field">
+  <%= f.label :comment, "Commentaire" %>
+  <%= f.text_field :comment, :value => @unauthorized_name.comment %>
+</div>

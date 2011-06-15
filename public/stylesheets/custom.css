@@ -270,6 +270,16 @@ table.dns td:last-child {
         width: 240px;
 }
 
+table.unames th, table.unames td {
+	border: 1px solid #404040;
+}
+
+table.unames td:last-child {
+        min-width: 260px;
+	text-align: left;
+	padding-left: 20px;
+}
+
 .search {
 	margin-bottom: 20px;
 	padding-bottom: 10px;

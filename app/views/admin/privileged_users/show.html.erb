@@ -23,6 +23,12 @@
         <%= link_to "Nouvel alias", new_admin_cname_path %>
       </li>
     <% end %>
+    <% if !privileges[:unauthorized_names].nil? && privileges[:unauthorized_names] != 0 %>
+      <li>
+        <%= link_to "Noms interdits", admin_unauthorized_names_path %> |
+        <%= link_to "Nouveau nom interdit", new_admin_unauthorized_name_path %>
+      </li>
+    <% end %>
   </ul>
   <% end %>
 </p>

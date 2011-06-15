@@ -1,0 +1,13 @@
+<h1><%= @title %></h1>
+
+<%= form_for(@unauthorized_name) do |f| %>
+  <%= render 'fields', :f => f %>
+  <div class="actions">
+    <%= f.submit "Modifier" %>
+  </div>
+<% end %>
+	  
+<p>
+  <%= link_to "Retour au profil de #{@unauthorized_name.name}", @unauthorized_name %> |
+  <%= link_to "Retour à la liste des noms interdits", admin_unauthorized_names_path %>
+</p>

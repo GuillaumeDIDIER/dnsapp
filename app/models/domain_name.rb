@@ -11,7 +11,7 @@ class DnsValidator < ActiveModel::EachValidator
     record.errors[:short_name] << "#{short_name} existe déjà (associé à #{doubles.first.rdata})" unless same
 
     #Noms non authorisés
-    record.errors[:short_name] << "#{short_name} est interdit" unless UnauthorizedName.find_by_name(short_name).nil?
+    record.errors[:short_name] << "#{short_name} est interdit" unless Admin::UnauthorizedName.find_by_name(short_name).nil?
   end
 end
 

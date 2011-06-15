@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110615204930) do
+ActiveRecord::Schema.define(:version => 20110615211255) do
 
   create_table "DNS", :force => true do |t|
     t.string   "name",                     :default => "", :null => false
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(:version => 20110615204930) do
     t.integer  "alias",              :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "unauthorized_names"
   end
 
   add_index "privileged_users", ["name"], :name => "index_privileged_users_on_name", :unique => true

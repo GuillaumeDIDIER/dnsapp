@@ -28,7 +28,7 @@ class Admin::PrivilegedUser < ActiveRecord::Base
   end
 
   def self.privileges_list
-    [:admin, :dns, :alias]
+    [:admin, :dns, :alias, :unauthorized_names]
   end
 
   def privileges

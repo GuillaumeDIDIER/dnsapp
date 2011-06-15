@@ -1,0 +1,15 @@
+<h1><%= @title %></h1>
+
+<p>
+  <strong>Nom</strong> <%= @unauthorized_name.name %><br />
+  <strong>Commentaire</strong> <%= @unauthorized_name.comment %>
+</p>
+
+<p>
+  <%= link_to "Retour à la liste des noms interdits", admin_unauthorized_names_path %> |
+  <%= link_to "Modifier", edit_admin_unauthorized_name_path(@unauthorized_name) %> |
+  <%= link_to "Supprimer", @unauthorized_name,
+                           :method => :delete,
+                           :confirm => "Supprimer #{@unauthorized_name.name} ?",
+                           :title => "Supprimer #{@unauthorized_name.name}" %>
+</p>
