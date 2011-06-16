@@ -1,7 +1,8 @@
 # encoding: utf-8
 class ReverseDomainName < ActiveRecord::Base
-  set_table_name "reverse_dns_models"
-  #set_table_name "reverse_DNS"
+  set_table_name "reverse_DNS"
+  #set_table_name "reverse_dns_ror"
+  set_primary_key "rid"
   
   attr_accessible :name, :ttl, :rdtype, :rdata
 

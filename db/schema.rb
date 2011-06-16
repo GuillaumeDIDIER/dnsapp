@@ -10,13 +10,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110615211255) do
+ActiveRecord::Schema.define(:version => 20110615225300) do
 
   create_table "DNS", :force => true do |t|
-    t.string   "name",                     :default => "", :null => false
+    t.string   "name",       :limit => 100, :default => "", :null => false
     t.integer  "ttl"
-    t.string   "rdtype",     :limit => 10, :default => "", :null => false
-    t.string   "rdata",                    :default => "", :null => false
+    t.string   "rdtype",     :limit => 10,  :default => "", :null => false
+    t.string   "rdata",      :limit => 100, :default => "", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -68,9 +68,9 @@ ActiveRecord::Schema.define(:version => 20110615211255) do
     t.string   "name"
     t.string   "encrypted_password"
     t.string   "salt"
-    t.boolean  "admin",              :default => false
-    t.integer  "dns",                :default => 0
-    t.integer  "alias",              :default => 0
+    t.boolean  "admin"
+    t.integer  "dns"
+    t.integer  "alias"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "unauthorized_names"
@@ -85,39 +85,16 @@ ActiveRecord::Schema.define(:version => 20110615211255) do
     t.string  "rdata",                 :default => "", :null => false
   end
 
-  create_table "reverse_DNS_backup", :id => false, :force => true do |t|
-    t.string  "name",   :limit => 100, :default => "", :null => false
-    t.integer "ttl"
-    t.string  "rdtype", :limit => 10,  :default => "", :null => false
-    t.string  "rdata",                 :default => "", :null => false
-  end
-
-  create_table "reverse_dns", :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "reverse_dns_models", :force => true do |t|
-    t.string   "name",       :limit => 100, :default => "", :null => false
+  create_table "reverse_dns_ror", :force => true do |t|
+    t.string   "name"
     t.integer  "ttl"
-    t.string   "rdtype",     :limit => 10,  :default => "", :null => false
-    t.string   "rdata",                     :default => "", :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "serial_models", :force => true do |t|
-    t.string   "nom",        :limit => 64, :default => "", :null => false
-    t.integer  "valeur",                   :default => 0,  :null => false
+    t.string   "rdtype"
+    t.string   "rdata"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "serials", :primary_key => "nom", :force => true do |t|
-    t.integer "valeur", :default => 0, :null => false
-  end
-
-  create_table "serials_backup", :primary_key => "nom", :force => true do |t|
     t.integer "valeur", :default => 0, :null => false
   end
 

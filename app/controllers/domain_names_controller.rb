@@ -83,7 +83,7 @@ class DomainNamesController < ApplicationController
     increment_serial
     delete_xnet_client short_name
     flash[:success] = "Nom supprimé"
-    redirect_to domain_name_path
+    redirect_to domain_names_path
   end
 
   private
@@ -116,13 +116,11 @@ class DomainNamesController < ApplicationController
       serial = soa[2].to_i + 1
       soa = "#{soa[1]} #{serial} #{soa[3]} #{soa[4]} #{soa[5]} #{soa[6]}"
       dns.each do |entry|
-        entry.rdata = soa
-	entry.save!
+        entry.update_attribute(:rdata, soa)
       end
       rdns = ReverseDomainName.where :rdtype => "SOA"
       rdns.each do |entry|
-        entry.rdata = soa
-        entry.save
+        entry.update_attribute(:rdata, soa)
       end
     end
 

@@ -4,8 +4,8 @@ development:
   adapter: mysql2
   #For testing
   #yeah, name is wrong :)
-  database: dsn_app_test
-  #database: xnet
+  #database: dsn_app_test
+  database: xnet
   username: xnet
   password: 'Bo<uLet'
   host: localhost
@@ -21,7 +21,8 @@ test:
 production:
   adapter: mysql2
   #For testing
-  database: dsn_app_test
+  #database: dsn_app_test
+  database: xnet
   username: xnet
   password: 'Bo<uLet'
   host: localhost

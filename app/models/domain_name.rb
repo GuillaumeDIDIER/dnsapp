@@ -18,6 +18,7 @@ end
 
 class DomainName < ActiveRecord::Base
   set_table_name "DNS"
+  set_primary_key "rid"
 
   # Format de nom : commence par un lettre,
   # caractères alphanumériques et tiret.
