@@ -104,7 +104,7 @@ class DomainNamesController < ApplicationController
 
     def delete_dns_and_rdns(domain_name)
       name = "#{domain_name.name}."
-      reverse_domain_name = (ReverseDomainName.where :rdata => name).first
+      reverse_domain_name = ReverseDomainName.find_by_rdata(name)
       domain_name.destroy
       reverse_domain_name.destroy
     end
