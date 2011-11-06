@@ -88,10 +88,13 @@ class Admin::DomainNamesController < DomainNamesController
   private
 
     def has_dns_privileges
-      deny_access unless has_privileges? 
-      if privileges[:dns].nil? || privileges[:dns] == 0
-        flash[:error] = "Tu n'as pas les droits sur cette ressource"
-        redirect_to root_path
+      if has_privileges? 
+        if privileges[:dns].nil? || privileges[:dns] == 0
+          flash[:error] = "Tu n'as pas les droits sur cette ressource"
+          redirect_to root_path
+        end
+      else
+        deny_access
       end
     end
 
