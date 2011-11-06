@@ -12,6 +12,10 @@ class DnsValidator < ActiveModel::EachValidator
 
     #Noms non authorisés
     record.errors[:short_name] << "#{short_name} est interdit" unless Admin::UnauthorizedName.find_by_name(short_name).nil?
+  
+    #Noms du réseau école
+    unauthorized = system( "host '#{short_name}'" )
+    record.errors[:short_name] << "#{short_name} existe déjà sur le réseau de l'école" if unauthorized
   end
 end
 
