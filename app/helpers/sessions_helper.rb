@@ -32,6 +32,7 @@ module SessionsHelper
   end
 
   def current_privileged_user
+    return nil if current_user.nil?
     current_user[:admin_privileged_user]
   end
 
@@ -73,11 +74,10 @@ module SessionsHelper
     valid = false unless ip_tab.count == 4
     valid = false unless ip_tab[0] == 129
     valid = false unless ip_tab[1] == 104
-    valid = false unless (0..255).member? ip_tab[2]
+    valid = false unless (201..255).member? ip_tab[2]
     valid = false unless (0..255).member? ip_tab[3]
     ip if valid
     #nil
-    #ip == "129.104.218.43" ? ip : nil
   end
 
   def redirect_back_or(default)
