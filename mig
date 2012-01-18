@@ -1,9 +1,0 @@
-class AddDnsIndex < ActiveRecord::Migration
-  def self.up
-    add_column :DNS, :id, :integer, :unique => true
-  end
-
-  def self.down
-    remove_column :DNS, :id
-  end
-end
