@@ -126,9 +126,10 @@ end
 class DnsValidator < ActiveModel::Validator
   def validate(record)
      host_regex = /\A(?:[a-z](?:-?[a-z0-9])+|@)\z/i
-     host_regex_strict = /\A[a-z](?:-?[a-z0-9])+\z/i #For host names excluding '@'
      zone_regex = /\A[a-z](?:\.?[a-z0-9])+\.[a-z]{2,3}\z/i
 
+     #Bad coding practice: I put validation here so that error messages are localized.
+     #I didn't want to use localization modules though.
      record.errors[:ttl]   << "ne doit pas être vide" if record.ttl.blank?
      record.errors[:host]  << "n'est pas valide"  unless record.host.match host_regex
      record.errors[:zone]  << "n'est pas valide"  unless record.zone.match zone_regex
@@ -149,9 +150,10 @@ class DnsValidator < ActiveModel::Validator
       record.errors[:data] << "doit contenir la MX priority" if record.r_mx_priority.blank?
       record.errors[:data] << "doit contenir la cible"       if record.r_data.blank?
     elsif record.rtype == "A"
-      record.errors[:host]  << "n'est pas valide" unless record.host.match host_regex_strict
+      record.errors[:host] << "'@' est interdit"                if record.host == "@"
+      record.errors[:data] << "n'est pas une adresse ip valide" unless ip_addr? record.data
     elsif record.rtype == "CNAME"
-      record.errors[:host]  << "n'est pas valide" unless record.host.match host_regex_strict
+      record.errors[:host] << "'@' est interdit"                if record.host == "@"
     else
       record.errors[:rtype] << "non valide"
     end
@@ -159,8 +161,15 @@ class DnsValidator < ActiveModel::Validator
 
   #Returns true if it is an ipv4 adress.
   #Only verify format, not value
-  def ip_addr(ip)
-    
+  def ip_addr?(ip)
+    ip_tab = []
+    ip.each('.') { |sub| ip_tab.insert(-1, sub.to_i) }
+    valid = true
+    valid = false unless ip_tab.count == 4
+    for i in 0..3
+      valid = false unless (0..255).member? ip_tab[i]
+    end
+    return valid
   end
 end
 
