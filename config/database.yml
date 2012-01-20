@@ -2,11 +2,10 @@
 #   gem install sqlite3
 development:
   adapter: mysql2
-  #For testing
-  #yeah, name is wrong :)
-  #database: dsn_app_test
-  database: xnet
-  username: xnet
+  #This means you actually modify the database in development
+  #environment
+  database: dns
+  username: dnsapp
   password: 'Bo<uLet'
   host: localhost
 # Warning: The database defined as "test" will be erased and
@@ -20,9 +19,7 @@ test:
 
 production:
   adapter: mysql2
-  #For testing
-  #database: dsn_app_test
-  database: xnet
-  username: xnet
+  database: dns
+  username: dnsapp
   password: 'Bo<uLet'
   host: localhost
