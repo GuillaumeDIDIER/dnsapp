@@ -1,5 +1,17 @@
 # encoding: utf-8
 
+#Author: Johann-Michael THIEBAUT <johann.thiebaut@gmail.com>
+#In this project, models do not enforce any policy regarding field values.
+#Validation only checks consistency of data to some extend to match DNS standards
+#and current named/bind configuration.
+#Thus anyone who runs the rails console is able to inject invalid values in
+#the database AT HIS OWN RISK. (Anyway this is still possible via mysql console)
+#This policy allows flexibility for future development of both the DNS architecture and
+#web application overlay (=this Ruby on Rails application).
+#Verification is delegated to controllers.
+#Typical scenario is creating multiple controllers should allow users to define their
+#domain name in specific zones, with ip validation.
+
 #Modules used to create DnsRecords mixins
 
 #Type SOA records should extend this
@@ -45,30 +57,110 @@ module DnsSoaRecord
     end
 end
 
+#Type NS records should extend this
+module DnsNsRecord
+  #Forbid further modification on this field
+  def rtype=(rtype)
+  end
+
+  private
+
+    def build_record
+      #Nothing much to do
+    end
+end
+
+#Type MX records should extend this
+module DnsMxRecord
+  attr_accessor :r_mx_priority, :r_data
+
+  #Forbid further modification on this field
+  def rtype=(rtype)
+  end
+
+  def retrieve_attributes
+    unless self.data.nil?
+      t = self.data.split(" ")
+
+      self.r_mx_priority = t[0]
+      self.r_data        = t[1]
+    end
+  end
+
+  private
+
+    def build_record
+      self.data = ""
+      self.data =        self.r_mx_priority unless self.r_mx_priority.nil?
+      self.data += " " + self.r_data        unless self.r_data.nil?
+    end 
+end
+
+#Type A records should extend this
+module DnsARecord
+  #Forbid further modification on this field
+  def rtype=(rtype)
+  end
+
+  private
+
+    def build_record
+      #Nothing much to do
+    end
+end
+
+#Type CNAME records should extend this
+module DnsCnameRecord
+  #Forbid further modification on this field
+  def rtype=(rtype)
+  end
+
+  private
+
+    def build_record
+      #Nothing much to do
+    end
+end
+
 #Validator
 class DnsValidator < ActiveModel::Validator
   def validate(record)
-    
      host_regex = /\A(?:[a-z](?:-?[a-z0-9])+|@)\z/i
+     host_regex_strict = /\A[a-z](?:-?[a-z0-9])+\z/i #For host names excluding '@'
      zone_regex = /\A[a-z](?:\.?[a-z0-9])+\.[a-z]{2,3}\z/i
 
-     record.errors[:ttl]   << "ne doit pas être vide" if record.ttl.nil?
+     record.errors[:ttl]   << "ne doit pas être vide" if record.ttl.blank?
      record.errors[:host]  << "n'est pas valide"  unless record.host.match host_regex
      record.errors[:zone]  << "n'est pas valide"  unless record.zone.match zone_regex
-     record.errors[:rtype] << "ne doit pas être vide" if record.rtype.nil?
-     record.errors[:data]  << "ne doit pas être vide" if record.data.nil?
+     record.errors[:rtype] << "ne doit pas être vide" if record.rtype.blank?
+     record.errors[:data]  << "ne doit pas être vide" if record.data.blank?
 
-    if record.rtype = "SOA"
-      record.errors[:data] << "doit contenir le NS principal" if record.r_primary_ns.nil?
-      record.errors[:data] << "doit contenir le responsable"  if record.r_resp_person.nil?
-      record.errors[:data] << "doit contenir le serial"       if record.r_serial.nil?
-      record.errors[:data] << "doit contenir le refresh"      if record.r_refresh.nil?
-      record.errors[:data] << "doit contenir le retry"        if record.r_retry.nil?
-      record.errors[:data] << "doit contenir le expire"       if record.r_expire.nil?
-      record.errors[:data] << "doit contenir le minimum"      if record.r_minimum.nil?
+    if record.rtype == "SOA"
+      record.errors[:data] << "doit contenir le NS principal" if record.r_primary_ns.blank?
+      record.errors[:data] << "doit contenir le responsable"  if record.r_resp_person.blank?
+      record.errors[:data] << "doit contenir le serial"       if record.r_serial.blank?
+      record.errors[:data] << "doit contenir le refresh"      if record.r_refresh.blank?
+      record.errors[:data] << "doit contenir le retry"        if record.r_retry.blank?
+      record.errors[:data] << "doit contenir le expire"       if record.r_expire.blank?
+      record.errors[:data] << "doit contenir le minimum"      if record.r_minimum.blank?
+    elsif record.rtype == "NS"
+      #Nothing more to check
+    elsif record.rtype == "MX"
+      record.errors[:data] << "doit contenir la MX priority" if record.r_mx_priority.blank?
+      record.errors[:data] << "doit contenir la cible"       if record.r_data.blank?
+    elsif record.rtype == "A"
+      record.errors[:host]  << "n'est pas valide" unless record.host.match host_regex_strict
+    elsif record.rtype == "CNAME"
+      record.errors[:host]  << "n'est pas valide" unless record.host.match host_regex_strict
     else
       record.errors[:rtype] << "non valide"
     end
+  end
+
+  #Returns true if it is an ipv4 adress.
+  #Only verify format, not value
+  def ip_addr(ip)
+    
   end
 end
 
@@ -80,13 +172,6 @@ class DnsRecord < ActiveRecord::Base
   host_regex = /\A(?:[a-z](?:-?[a-z0-9])+|@)\z/i
 
   attr_accessible :ttl, :rtype, :host, :zone, :data
-
-  #validates :ttl,   :presence => true
-  #validates :host,  :presence => true,
-  #                  :format   => { :with => host_regex }
-  #validates :zone,  :presence => true
-  #validates :rtype, :presence => true
-  #validates :data,  :presence => true
 
   validates_with DnsValidator
 
@@ -101,6 +186,38 @@ class DnsRecord < ActiveRecord::Base
     record.ttl = DnsRecord.default_ttl
     record.rtype = "SOA"
     record.extend DnsSoaRecord
+    return record
+  end
+
+  def self.new_ns
+    record = DnsRecord.new
+    record.ttl = DnsRecord.default_ttl
+    record.rtype = "NS"
+    record.extend DnsNsRecord
+    return record
+  end
+
+  def self.new_mx
+    record = DnsRecord.new
+    record.ttl = DnsRecord.default_ttl
+    record.rtype = "MX"
+    record.extend DnsMxRecord
+    return record
+  end
+
+  def self.new_a
+    record = DnsRecord.new
+    record.ttl = DnsRecord.default_ttl
+    record.rtype = "A"
+    record.extend DnsARecord
+    return record
+  end
+
+  def self.new_mx
+    record = DnsRecord.new
+    record.ttl = DnsRecord.default_ttl
+    record.rtype = "CNAME"
+    record.extend DnsCnameRecord
     return record
   end
 
