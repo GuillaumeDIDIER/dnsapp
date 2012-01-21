@@ -125,16 +125,22 @@ end
 #Validator
 class DnsValidator < ActiveModel::Validator
   def validate(record)
-     host_regex = /\A(?:[a-z](?:-?[a-z0-9])+|@)\z/i
-     zone_regex = /\A[a-z](?:\.?[a-z0-9])+\.[a-z]{2,3}\z/i
+    host_regex = /\A(?:[a-z](?:-?[a-z0-9])+|@)\z/i
+    zone_regex = /\A[a-z](?:\.?[a-z0-9])+\.[a-z]{2,3}\z/i
 
-     #Bad coding practice: I put validation here so that error messages are localized.
-     #I didn't want to use localization modules though.
-     record.errors[:ttl]   << "ne doit pas être vide" if record.ttl.blank?
-     record.errors[:host]  << "n'est pas valide"  unless record.host.match host_regex
-     record.errors[:zone]  << "n'est pas valide"  unless record.zone.match zone_regex
-     record.errors[:rtype] << "ne doit pas être vide" if record.rtype.blank?
-     record.errors[:data]  << "ne doit pas être vide" if record.data.blank?
+    #Bad coding practice: I put validation here so that error messages are localized.
+    #I didn't want to use localization modules though.
+    record.errors[:ttl]   << "ne doit pas être vide" if record.ttl.blank?
+    record.errors[:host]  << "n'est pas valide"  unless record.host.match host_regex
+    record.errors[:zone]  << "n'est pas valide"  unless record.zone.match zone_regex
+    record.errors[:rtype] << "ne doit pas être vide" if record.rtype.blank?
+    record.errors[:data]  << "ne doit pas être vide" if record.data.blank?
+
+    #Unicity check
+    twin = DnsRecord.where( :host => record.host, :zone => record.zone, :rtype => record.rtype, :data => record.data ).first
+    if !twin.nil?
+      record.errors[:data] << "la même entrée existe déjà" unless record.rid == twin.rid
+    end
 
     if record.rtype == "SOA"
       record.errors[:data] << "doit contenir le NS principal" if record.r_primary_ns.blank?
