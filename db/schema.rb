@@ -10,59 +10,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110615225300) do
+ActiveRecord::Schema.define(:version => 20120122001120) do
 
-  create_table "DNS", :force => true do |t|
-    t.string   "name",       :limit => 100, :default => "", :null => false
-    t.integer  "ttl"
-    t.string   "rdtype",     :limit => 10,  :default => "", :null => false
-    t.string   "rdata",      :limit => 100, :default => "", :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "DNS_backup", :id => false, :force => true do |t|
-    t.string  "name",   :limit => 100, :default => "", :null => false
+  create_table "DNS", :id => false, :force => true do |t|
+    t.integer "rid",                                  :null => false
     t.integer "ttl"
-    t.string  "rdtype", :limit => 10,  :default => "", :null => false
-    t.string  "rdata",                 :default => "", :null => false
+    t.string  "host",  :limit => 100, :default => "", :null => false
+    t.string  "zone",  :limit => 100, :default => "", :null => false
+    t.string  "rtype", :limit => 10,  :default => "", :null => false
+    t.string  "data",                 :default => "", :null => false
   end
 
-  create_table "clients", :force => true do |t|
-    t.string    "iconid",      :limit => 8
-    t.string    "username",    :limit => 64, :default => "", :null => false
-    t.string    "password",    :limit => 64, :default => "", :null => false
-    t.string    "lastip",      :limit => 16
-    t.timestamp "timestamp",                                 :null => false
-    t.integer   "status",      :limit => 2,  :default => 0,  :null => false
-    t.integer   "isconnected", :limit => 1,  :default => 0,  :null => false
-    t.integer   "options",                   :default => 0,  :null => false
-    t.integer   "version",                   :default => 0,  :null => false
-  end
-
-  add_index "clients", ["id"], :name => "id", :unique => true
-  add_index "clients", ["lastip"], :name => "lastip"
-  add_index "clients", ["username"], :name => "username"
-
-  create_table "dns_records", :id => false, :force => true do |t|
-    t.text    "zone",                     :null => false
-    t.text    "host"
-    t.text    "type"
-    t.text    "data",                     :null => false
-    t.integer "ttl"
-    t.text    "mx_priority"
-    t.integer "refresh"
-    t.integer "retry"
-    t.integer "expire"
-    t.integer "minimum"
-    t.integer "serial",      :limit => 8
-    t.text    "resp_person"
-    t.text    "primary_ns"
-  end
-
-  add_index "dns_records", ["host"], :name => "host_index", :length => {"host"=>20}
-  add_index "dns_records", ["type"], :name => "type_index", :length => {"type"=>8}
-  add_index "dns_records", ["zone"], :name => "zone_index", :length => {"zone"=>30}
+  add_index "DNS", ["rid"], :name => "rid", :unique => true
+  add_index "DNS", ["rtype"], :name => "rtype"
 
   create_table "privileged_users", :force => true do |t|
     t.string   "name"
@@ -71,37 +31,12 @@ ActiveRecord::Schema.define(:version => 20110615225300) do
     t.boolean  "admin"
     t.integer  "dns"
     t.integer  "alias"
+    t.integer  "unauthorized_names"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "unauthorized_names"
   end
 
   add_index "privileged_users", ["name"], :name => "index_privileged_users_on_name", :unique => true
-
-  create_table "reverse_DNS", :id => false, :force => true do |t|
-    t.string  "name",   :limit => 100, :default => "", :null => false
-    t.integer "ttl"
-    t.string  "rdtype", :limit => 10,  :default => "", :null => false
-    t.string  "rdata",                 :default => "", :null => false
-  end
-
-  create_table "reverse_dns_ror", :force => true do |t|
-    t.string   "name"
-    t.integer  "ttl"
-    t.string   "rdtype"
-    t.string   "rdata"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "serials", :primary_key => "nom", :force => true do |t|
-    t.integer "valeur", :default => 0, :null => false
-  end
-
-  create_table "software", :primary_key => "version", :force => true do |t|
-    t.integer "capabilities",               :default => 0,  :null => false
-    t.string  "name",         :limit => 64, :default => "", :null => false
-  end
 
   create_table "unauthorized_names", :force => true do |t|
     t.string   "name"
@@ -111,19 +46,5 @@ ActiveRecord::Schema.define(:version => 20110615225300) do
   end
 
   add_index "unauthorized_names", ["name"], :name => "index_unauthorized_names_on_name", :unique => true
-
-  create_table "versions", :primary_key => "Client", :force => true do |t|
-    t.text    "ClientName"
-    t.integer "MajorVersion", :default => 0, :null => false
-    t.integer "MinorVersion", :default => 0, :null => false
-    t.integer "FunnyVersion", :default => 0, :null => false
-  end
-
-  create_table "xfr_table", :id => false, :force => true do |t|
-    t.text "zone",   :null => false
-    t.text "client", :null => false
-  end
-
-  add_index "xfr_table", ["zone", "client"], :name => "zone_client_index", :length => {"zone"=>30, "client"=>20}
 
 end
