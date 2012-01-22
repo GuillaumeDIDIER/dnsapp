@@ -2,5 +2,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   include SessionsHelper
-  include DomainNamesHelper
+  include UsersHelper
+  include PrivilegedUsersHelper
+  include SearchHelper
 end

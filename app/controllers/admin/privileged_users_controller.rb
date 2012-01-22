@@ -95,7 +95,7 @@ class Admin::PrivilegedUsersController < ApplicationController
   private
 
     def authenticate
-      deny_access unless has_privileges? 
+      deny_access unless signed_in? 
     end
 
     def correct_user
