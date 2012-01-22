@@ -228,7 +228,7 @@ class DnsRecord < ActiveRecord::Base
     return record
   end
 
-  def self.new_mx
+  def self.new_cname
     record = DnsRecord.new
     record.ttl = DnsRecord.default_ttl
     record.rtype = "CNAME"
