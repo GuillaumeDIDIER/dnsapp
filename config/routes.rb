@@ -55,6 +55,7 @@ DnsApp::Application.routes.draw do
     #resources :domain_names, :path => 'dns'
     #resources :cnames, :path => 'alias'
     resources :unauthorized_names, :path => 'unames'
+    resources :zones, :path => 'unames'
   end
 
   #To log in and out

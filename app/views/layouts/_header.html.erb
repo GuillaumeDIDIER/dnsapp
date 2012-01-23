@@ -8,7 +8,7 @@
       <% if current_domain_name.nil? %>
         <li><%= link_to "Donne un nom à ton ordinateur", new_zone_dns_path_to(current_zone) %></li>
       <% else %>
-        <li>Ton nom : <%= link_to current_domain_name.host, zone_dns_path_to(current_domain_name) %></li>
+        <li>Ton nom : <%= link_to current_domain_name.host, dns_path_to(current_domain_name) %></li>
       <% end %>
       <% if signed_in? %>
         <li>Tu es connecté en tant que :

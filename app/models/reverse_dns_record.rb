@@ -111,33 +111,33 @@ class ReverseDnsValidator < ActiveModel::Validator
 
     #Bad coding practice: I put validation here so that error messages are localized.
     #I didn't want to use localization modules though.
-    record.errors[:ttl]   << "ne doit pas être vide" if record.ttl.blank?
-    record.errors[:host]  << "n'est pas valide"  unless record.host.match host_regex
-    record.errors[:zone]  << "n'est pas valide"  unless record.zone.match zone_regex
-    record.errors[:rtype] << "ne doit pas être vide" if record.rtype.blank?
-    record.errors[:data]  << "ne doit pas être vide" if record.data.blank?
+    record.errors[:ttl  ].insert( -1, "ne doit pas être vide" )     if record.ttl.blank?
+    record.errors[:host ].insert( -1, "n'est pas valide"      ) unless record.host.match host_regex
+    record.errors[:zone ].insert( -1, "n'est pas valide"      ) unless record.zone.match zone_regex
+    record.errors[:rtype].insert( -1, "ne doit pas être vide" )     if record.rtype.blank?
+    record.errors[:data ].insert( -1, "ne doit pas être vide" )     if record.data.blank?
 
     #Unicity check
     twin = ReverseDnsRecord.where( :host => record.host, :zone => record.zone, :rtype => record.rtype, :data => record.data ).first
     if !twin.nil?
-      record.errors[:data] << "la même entrée existe déjà" unless record.rid == twin.rid
+      record.errors[:data].insert( -1, "la même entrée existe déjà" ) unless record.rid == twin.rid
     end
 
     if record.rtype == "SOA"
-      record.errors[:data] << "doit contenir le NS principal" if record.r_primary_ns.blank?
-      record.errors[:data] << "doit contenir le responsable"  if record.r_resp_person.blank?
-      record.errors[:data] << "doit contenir le serial"       if record.r_serial.blank?
-      record.errors[:data] << "doit contenir le refresh"      if record.r_refresh.blank?
-      record.errors[:data] << "doit contenir le retry"        if record.r_retry.blank?
-      record.errors[:data] << "doit contenir le expire"       if record.r_expire.blank?
-      record.errors[:data] << "doit contenir le minimum"      if record.r_minimum.blank?
+      record.errors[:data].insert( -1, "doit contenir le NS principal" ) if record.r_primary_ns.blank?
+      record.errors[:data].insert( -1, "doit contenir le responsable"  ) if record.r_resp_person.blank?
+      record.errors[:data].insert( -1, "doit contenir le serial"       ) if record.r_serial.blank?
+      record.errors[:data].insert( -1, "doit contenir le refresh"      ) if record.r_refresh.blank?
+      record.errors[:data].insert( -1, "doit contenir le retry"        ) if record.r_retry.blank?
+      record.errors[:data].insert( -1, "doit contenir le expire"       ) if record.r_expire.blank?
+      record.errors[:data].insert( -1, "doit contenir le minimum"      ) if record.r_minimum.blank?
     elsif record.rtype == "NS"
       #Nothing more to check
     elsif record.rtype == "PTR"
-      record.errors[:host] << "'@' est interdit"             if record.host == "@"
-      record.errors[:data] << "n'est pas une adresse valide" unless record.data.match ptr_regex
+      record.errors[:host].insert( -1, "'@' est interdit"             )     if record.host == "@"
+      record.errors[:data].insert( -1, "n'est pas une adresse valide" ) unless record.data.match ptr_regex
     else
-      record.errors[:rtype] << "non valide"
+      record.errors[:rtype].insert( -1, "non valide" )
     end
   end
 end

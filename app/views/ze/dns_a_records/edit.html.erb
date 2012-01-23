@@ -9,7 +9,9 @@
   </div>
 <% end %>
 
+<%= render 'host_rules' %>
+
 <p>
-  <%= link_to "Retour au profil de #{@record.host}", zone_dns_path_to(@record) %> |
+  <%= link_to "Retour au profil", dns_path_to(@record) %> |
   <%= link_to "Liste des DNS", dns_records_path %>
 </p>

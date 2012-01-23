@@ -26,6 +26,17 @@ class Ze::DnsARecordsController < DnsARecordsController
       redirect_to root_path and return
     end
 
+    duplicates = DnsRecord.where :rtype => 'A', :data => @record.data
+    if duplicates.count > 0
+      flash[:error] = "Ton adresse ip est déjà associée à un nom"
+      @record = duplicates.first
+      redirect_to dns_a_record_path(@record) and return
+    end
+
+    unless @record.check_host
+      render 'new' and return
+    end
+
     if @record.valid?
       ptr_record = ReverseDnsRecord.new_ptr
       hash = reverse_host_and_zone_from_ip current_ip
@@ -34,11 +45,11 @@ class Ze::DnsARecordsController < DnsARecordsController
       ptr_record.data = "#{@record.host}.#{@record.zone}."
       ptr_record.save!
 
-      @record.save
+      @record.save!
 
       ZeHelper.increment_serial
       flash[:success] = "Nom enregistré"
-      redirect_to ze_dns_a_record_path(@record)
+      redirect_to dns_a_record_path(@record)
     else
       @title = "Donner un nom à #{current_ip}"
       render 'new'
@@ -54,8 +65,18 @@ class Ze::DnsARecordsController < DnsARecordsController
     @record = DnsRecord.find(params[:id])
     @record.auto_cast
     @record.extend ZeDnsRecord #Magic !
+    old_hostname = @record.host
     @record.host = params[:dns_record][:host]
     @record.data = current_ip
+
+    if old_hostname == @record.host
+      flash[:notice] = "Tu as rentré le même nom"
+      redirect_to dns_a_record_path(@record) and return
+    end
+
+    unless @record.check_host
+      render 'edit' and return
+    end
 
     if @record.valid?
       hash = reverse_host_and_zone_from_ip current_ip
@@ -64,11 +85,11 @@ class Ze::DnsARecordsController < DnsARecordsController
       ptr_record.data = "#{@record.host}.#{@record.zone}."
       ptr_record.save!
 
-      @record.save
+      @record.save!
 
       ZeHelper.increment_serial
       flash[:success] = "Nom mis à jour"
-      redirect_to ze_dns_a_record_path(@record)
+      redirect_to dns_a_record_path(@record)
     else
       @title = "Modifier le nom"
       render 'edit'
@@ -84,7 +105,7 @@ class Ze::DnsARecordsController < DnsARecordsController
     ptr_record.destroy
 
     ZeHelper.increment_serial
-    flash[:success] = "Nom mis à jour"
+    flash[:success] = "Nom supprimé"
     redirect_to dns_records_path
   end
 
