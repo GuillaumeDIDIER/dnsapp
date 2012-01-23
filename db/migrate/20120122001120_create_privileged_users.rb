@@ -5,9 +5,8 @@ class CreatePrivilegedUsers < ActiveRecord::Migration
       t.string  :encrypted_password
       t.string  :salt
       t.boolean :admin
-      t.integer :dns
-      t.integer :alias
-      t.integer :unauthorized_names
+      t.integer :dns_zone_id
+      t.boolean :unauthorized_names
 
       t.timestamps
     end
