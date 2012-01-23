@@ -1,0 +1,14 @@
+<%= render 'ze/shared/subtitle' %>
+
+<h1><%= @title %></h1>
+
+<%= form_for(@record, :url => ze_dns_a_records_path) do |f| %>
+  <%= render 'fields', :f => f %>
+  <div class="actions">
+    <%= f.submit "Nouveau nom" %>
+  </div>
+<% end %>
+
+<p>
+  <%= link_to "Liste des DNS", dns_records_path %>
+</p>

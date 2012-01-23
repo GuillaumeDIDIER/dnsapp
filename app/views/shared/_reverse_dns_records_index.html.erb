@@ -1,0 +1,45 @@
+<h1><%= @title %></h1>
+
+<%= render 'shared/search_form', :options => { :search_path => path,
+                                               :fields => @options } %>
+
+<%= will_paginate @records %>
+
+<% if @records.any? %>
+<table class="dns">
+  <caption><%= @title %></caption>
+
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Zone</th>
+      <th>Type</th>
+      <th>Données</th>
+    </tr>
+  </thead>
+
+  <% if @records.count > 15 %>
+  <tfoot>
+    <tr>
+      <th>Nom</th>
+      <th>Zone</th>
+      <th>Type</th>
+      <th>Données</th>
+    </tr>
+  </tfoot>
+  <% end %>
+
+  <tbody>
+    <% @records.each do |record| %>
+      <tr>
+        <td><%= link_to trunc(record.host, 15), reverse_dns_path_to(record), :title => record.host %></td>
+        <td><%= record.zone %></td>
+        <td><%= record.rtype %></td>
+        <td><%= record.data %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+
+<%= will_paginate @records %>

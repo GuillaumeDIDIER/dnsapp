@@ -1,0 +1,12 @@
+<%= form_tag(options[:search_path], :method => "get", :class => "search round") do %>
+  <% count = 0 %>
+  <% options[:fields].each do |field| %>
+    <%= label_tag(field[:field].to_sym, "#{field[:name]} : ") %> 
+    <%= text_field_tag(field[:field].to_sym, field[:value]) %>
+    <% count = count + 1 %>
+    <% if count % 3 == 0 %>
+      <br/>
+    <% end %>
+  <% end %>
+  <%= submit_tag "Chercher" %>
+<% end %>

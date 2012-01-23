@@ -1,33 +1,29 @@
 <header>
-  <!-- <strong style="color: red">Version 0.2.0</strong> -->
+  <strong style="color: red; font-size: 24px;">Version de développement</strong>
   <%= link_to "Dns App", root_path, :class => "round", :id => "Logo" %>
   <section id="Profile" class="round">
-	<ul>
-		<li>Ton ip : <%= current_ip %><!--/<%= verify_ip current_ip %>-->
-		<% if signed_in? %>
-		(correcte)</li>
-		<%   dns = current_dns %>
-		<%   if !dns.nil? %>
-		<li>Ton nom : <%= link_to dns.get_short_name, dns %></li>
-		<%   else %>
-		<li><%= link_to "Donne un nom à ton ordinateur", new_domain_name_path %></li>
-		<%   end %>
-		<% else %>
-		(incorrecte)</li>
-		<% end %>
-		<% if has_privileges? %>
-		<li>Tu es connecté en tant que : 
-		  <%= link_to current_privileged_user.name, admin_privileged_user_path(current_privileged_user) %></li>
-		<% end %>
-	</ul>
+    <ul>
+      <li>Ton ip : <%= current_ip %></li>
+      <li>Zone : <%= current_zone %></li>
+      <% if current_domain_name.nil? %>
+        <li><%= link_to "Donne un nom à ton ordinateur", new_zone_dns_path_to(current_zone) %></li>
+      <% else %>
+        <li>Ton nom : <%= link_to current_domain_name.host, zone_dns_path_to(current_domain_name) %></li>
+      <% end %>
+      <% if signed_in? %>
+        <li>Tu es connecté en tant que :
+          <%= link_to current_privileged_user.name, admin_privileged_user_path(current_privileged_user) %>
+        </li>
+      <% end %>
+    </ul>
   </section>
   <nav>
-		<%= link_to "Accueil", root_path %> | 
-		<% if current_privileged_user.nil? %>
-		<%= link_to "Se connecter en tant qu'administrateur", signin_path %>
-		<% else %>
-		<%= link_to "Administration", admin_privileged_user_path(current_privileged_user) %> | 
-		<%= link_to "Se déconnecter", signout_path, :method => :delete %>
-		<% end %>
+    <%= link_to "Accueil", root_path %> | 
+    <% if current_privileged_user.nil? %>
+      <%= link_to "Se connecter en tant qu'administrateur", signin_path %>
+    <% else %>
+      <%= link_to "Administration", admin_privileged_user_path(current_privileged_user) %> | 
+      <%= link_to "Se déconnecter", signout_path, :method => :delete %>
+    <% end %>
   </nav>
 </header>
