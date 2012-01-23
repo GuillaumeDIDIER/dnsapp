@@ -19,6 +19,9 @@ module SearchHelper
 
   #Builds a hash (:title, :conditions)
   #where :conditions is ready to pass to a find method
+  #WARNING: Pay attention when modifying this method.
+  #== It generates SQL statements.
+  #== Always check you properly sanitize SQL statements.
   def searching_for(options, initial_conditions=[""])
     first = true
     title = ""
@@ -38,11 +41,13 @@ module SearchHelper
         if options[i][:type] == "strict"
           if first
             title = "Résultats pour #{options[i][:name]} = #{options[i][:value]}"
-            conditions[0] += "#{options[i][:field]} = '#{options[i][:value]}'"
+            conditions[0] += "#{options[i][:field]} = ?"
+            conditions.insert( -1, "#{options[i][:value]}" )
             first = false
           else
             title += " et #{options[i][:name]} = #{options[i][:value]}"
-            conditions[0] += " and #{options[i][:field]} = '#{options[i][:value]}'"
+            conditions[0] += " and #{options[i][:field]} = ?"
+            conditions.insert( -1, like )
           end
         elsif options[i][:type] == "like"
           like = "%#{options[i][:value]}%"

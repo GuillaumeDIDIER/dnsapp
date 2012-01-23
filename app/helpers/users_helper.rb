@@ -21,6 +21,10 @@ module UsersHelper
     current_user[:ip]
   end
 
+  def current_zone
+    current_user[:zone]
+  end
+
   def current_domain_name
     get_domain_name_from_ip current_ip
   end
@@ -28,7 +32,10 @@ module UsersHelper
   private
 
     def define_user
-      { :ip => request.remote_ip }
+      ip = request.remote_ip
+      zone = find_zone ip
+
+      return { :ip => ip, :zone => zone }
     end
 
     def get_domain_name_from_ip(ip)
