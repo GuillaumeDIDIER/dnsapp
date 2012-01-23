@@ -5,4 +5,5 @@ class ApplicationController < ActionController::Base
   include UsersHelper
   include PrivilegedUsersHelper
   include SearchHelper
+  include ZonesHelper
 end
