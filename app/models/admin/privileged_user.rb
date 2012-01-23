@@ -3,9 +3,9 @@ class Admin::PrivilegedUser < ActiveRecord::Base
   attr_accessor :password, :save_password
   attr_accessible :name, :password, :password_confirmation
 
-  validates :name, :presence => true,
-                   :length => { :maximum => 50 },
-		   :uniqueness => true
+  validates :name,     :presence => true,
+                       :length => { :maximum => 50 },
+		       :uniqueness => true
   validates :password, :presence => true,
                        :confirmation => true,
 		       :length => { :within => 6..40 }
@@ -28,7 +28,7 @@ class Admin::PrivilegedUser < ActiveRecord::Base
   end
 
   def self.privileges_list
-    [:admin, :dns, :alias, :unauthorized_names]
+    [:admin, :dns_a, :dns_cname, :unauthorized_names]
   end
 
   def privileges
