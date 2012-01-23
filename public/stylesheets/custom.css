@@ -246,11 +246,13 @@ table td {
 	text-align: center;
 }
 
+/*
 table td:first-child {
 	width: 100%;
 	text-align: left;
 	padding-left: 20px;
 }
+*/
 
 table.dns th, table.dns td {
 	border: 1px solid #404040;
@@ -258,12 +260,15 @@ table.dns th, table.dns td {
 }
 
 table.dns td:first-child {
-        width: 380px;
+        width: 80px;
 }
 
-
 table.dns td:nth-child(2) {
-        width: 60px;
+        width: 320px;
+}
+
+table.dns td:nth-child(3) {
+        width: 40px;
 }
 
 table.dns td:last-child {
