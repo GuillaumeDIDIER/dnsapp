@@ -24,6 +24,14 @@ ActiveRecord::Schema.define(:version => 20120122001130) do
   add_index "dns", ["rid"], :name => "rid", :unique => true
   add_index "dns", ["rtype"], :name => "rtype"
 
+  create_table "dns_old", :id => false, :force => true do |t|
+    t.string  "name",   :limit => 100, :default => "", :null => false
+    t.integer "ttl"
+    t.string  "rdtype", :limit => 10,  :default => "", :null => false
+    t.string  "rdata",                 :default => "", :null => false
+    t.integer "rid",                   :default => 0,  :null => false
+  end
+
   create_table "privileged_users", :force => true do |t|
     t.string   "name"
     t.string   "encrypted_password"
@@ -36,6 +44,14 @@ ActiveRecord::Schema.define(:version => 20120122001130) do
   end
 
   add_index "privileged_users", ["name"], :name => "index_privileged_users_on_name", :unique => true
+
+  create_table "rdns_old", :id => false, :force => true do |t|
+    t.string  "name",   :limit => 100, :default => "", :null => false
+    t.integer "ttl"
+    t.string  "rdtype", :limit => 10,  :default => "", :null => false
+    t.string  "rdata",                 :default => "", :null => false
+    t.integer "rid",                   :default => 0,  :null => false
+  end
 
   create_table "reverse_dns", :id => false, :force => true do |t|
     t.integer "rid",                                  :null => false
