@@ -27,6 +27,11 @@ class DnsRecordsController < ApplicationController
     @title = "Profil : #{@record.host}.#{@record.zone}"
   end
 
+  def new
+    @record = DnsRecord.new
+    @title = "Nouvel enregistrement DNS"
+  end
+
   def edit
     @record ||= DnsRecord.find(params[:id])
     @title = "Modifier #{@record.host}.#{@record.zone}"

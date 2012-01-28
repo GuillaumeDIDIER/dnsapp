@@ -3,7 +3,7 @@
 #Author: Johann-Michael THIEBAUT <johann.thiebaut@gmail.com>
 #So we can see all type CNAME DNS Records.
 
-class DnsSoaRecordsController < DnsRecordsController
+class DnsCnameRecordsController < DnsRecordsController
 
   private
 

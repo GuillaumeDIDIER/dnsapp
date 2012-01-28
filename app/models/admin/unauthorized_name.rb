@@ -1,3 +1,8 @@
+# encoding: utf-8
+
+#Author: Johann-Michael THIEBAUT <johann.thiebaut@gmail.com>
+#Model for unauthorized names (Regexp)
+
 class Admin::UnauthorizedName < ActiveRecord::Base
 
   attr_accessible :name, :comment

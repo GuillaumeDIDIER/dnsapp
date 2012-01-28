@@ -27,6 +27,11 @@ class ReverseDnsRecordsController < ApplicationController
     @title = "Profil : #{@record.host}.#{@record.zone}"
   end
 
+  def new
+    @record = ReverseDnsRecord.new
+    @title = "Nouvel enregistrement Reverse DNS"
+  end
+
   def edit
     @record ||= ReverseDnsRecord.find(params[:id])
     @title = "Modifier #{@record.host}.#{@record.zone}"
