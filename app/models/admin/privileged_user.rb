@@ -1,7 +1,18 @@
+# encoding: utf-8
+
+#Author: Johann-Michael THIEBAUT <johann.thiebaut@gmail.com>
+#Model for privileged users (admins)
+#Current privileges are :
+#  - Global administrator
+#  - Zone administrator
+#  - Unauthorized names administrator
+
 class Admin::PrivilegedUser < ActiveRecord::Base
 
   attr_accessor :password, :save_password
   attr_accessible :name, :password, :password_confirmation
+
+  belongs_to :dns_zone, :class_name => "Admin::Zone", :foreign_key => "dns_zone_id"
 
   validates :name,     :presence => true,
                        :length => { :maximum => 50 },
@@ -27,16 +38,8 @@ class Admin::PrivilegedUser < ActiveRecord::Base
     (privileged_user && privileged_user.salt == submitted_salt) ? privileged_user : nil
   end
 
-  def self.privileges_list
-    [:admin, :dns_zone, :unauthorized_names]
-  end
-
   def privileges
-    privileges = {}
-    Admin::PrivilegedUser.privileges_list.each do |p|
-      privileges[p] = self[p]
-    end
-    privileges
+    @privileges ||= define_privileges
   end
 
   def dont_save_password
@@ -64,6 +67,15 @@ class Admin::PrivilegedUser < ActiveRecord::Base
 
     def secure_hash(string)
       Digest::SHA2.hexdigest(string)
+    end
+
+    def define_privileges
+      admin = (self.admin == true)
+      dns_zone_id = self.dns_zone_id
+      dns_zone_id = 0 if dns_zone_id.nil?
+      unauthorized_names = (self.unauthorized_names == true)
+
+      return { :admin => admin, :dns_zone_id => dns_zone_id, :unauthorized_names => unauthorized_names }
     end
 
 end
