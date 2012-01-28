@@ -5,11 +5,7 @@ class Admin::UnauthorizedNamesController < ApplicationController
 
   def index
     @title = "Tous les noms interdits"
-    name_like = "%#{params[:name]}%"
-    name_like = nil if params[:name].nil? || params[:name] == ""
-    @title = "Résultats pour nom ~ #{params[:name]}" unless name_like.nil?
     @unauthorized_names = Admin::UnauthorizedName.all
-    @unauthorized_names = Admin::UnauthorizedName.find(:all, :conditions => ["name like ?", name_like]) unless name_like.nil?
   end
 
   def show
@@ -52,15 +48,15 @@ class Admin::UnauthorizedNamesController < ApplicationController
    def destroy
      @unauthorized_name = Admin::UnauthorizedName.find(params[:id])
      @unauthorized_name.destroy
-     flash[:success] = "Nom interdit détruit"
+     flash[:success] = "Nom interdit supprimé"
      redirect_to admin_unauthorized_names_path
    end
 
   private
 
     def has_UN_privileges
-      if has_privileges?
-        if privileges[:unauthorized_names].nil? || privileges[:unauthorized_names] == 0
+      if signed_in?
+        if privileges[:unauthorized_names] != true
           flash[:error] = "Tu n'as pas les droits sur cette ressource"
           redirect_to root_path
         end
