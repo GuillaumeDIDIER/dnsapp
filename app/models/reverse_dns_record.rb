@@ -144,7 +144,7 @@ class ReverseDnsValidator < ActiveModel::Validator
     host_regex = /\A(?:\d{1,3}|@)\z/
     zone_regex = /\A(?:\d{1,3}\.){1,3}in-addr.arpa\z/
 
-    ptr_regex = /\A[a-z](?:-?[a-z0-9])+\.[a-z](?:\.?[a-z0-9])+\.[a-z]{2,3}\.\z/i
+    ptr_regex = /\A[a-z0-9](?:-?[a-z0-9]){2,}\.[a-z](?:\.?[a-z0-9])+\.[a-z]{2,3}\.\z/i
 
     #Bad coding practice: I put validation here so that error messages are localized.
     #I didn't want to use localization modules though.

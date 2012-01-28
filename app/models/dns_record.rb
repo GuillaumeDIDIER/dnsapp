@@ -192,7 +192,7 @@ end
 #Validator
 class DnsValidator < ActiveModel::Validator
   def validate(record)
-    host_regex = /\A(?:[a-z](?:-?[a-z0-9])+|@)\z/i
+    host_regex = /\A(?:[a-z0-9](?:-?[a-z0-9]){2,}|@)\z/i
     zone_regex = /\A[a-z](?:\.?[a-z0-9])+\.[a-z]{2,3}\z/i
 
     #Bad coding practice: I put validation here so that error messages are localized.
