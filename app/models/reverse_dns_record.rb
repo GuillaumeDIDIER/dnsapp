@@ -44,9 +44,42 @@ module ReverseDnsSoaRecord
 
   def increment_serial
     unless self.r_serial.nil?
+      match_data = self.r_serial.match DnsSoaRecord.serial_regex
+      #We would like to use date format serials
+      if !match_data.nil?
+        now = Time.now.utc
+        y = "%04d" % now.year
+        m = "%02d" % now.month
+        d = "%02d" % now.day
+
+        #Update serial year, month and day if serial is in the past
+        y = match_data[1] if match_data[1] > y
+        m = match_data[2] if match_data[2] > m
+        d = match_data[3] if match_data[3] > d
+        n = match_data[4]
+        new_serial = "#{y}#{m}#{d}#{n}"
+
+        #If the old serial was not issued this day, set n = 0
+        #With a trick: serial will be incremented later
+        if new_serial != self.r_serial
+          n = 99
+          d = "#{d.to_i - 1}"
+        end
+
+        #Finally, set the serial
+        self.r_serial = "#{y}#{m}#{d}#{n}"
+      end
       s = 1 + self.r_serial.to_i
       self.r_serial = s.to_s
     end
+  end
+
+  def init_serial
+    now = Time.now.utc
+    y = "%04d" % now.year
+    m = "%02d" % now.month
+    d = "%02d" % now.day
+    self.r_serial = "#{y}#{m}#{d}00"
   end
 
   private
@@ -60,6 +93,10 @@ module ReverseDnsSoaRecord
       self.data += " " + self.r_retry       unless self.r_retry.nil?
       self.data += " " + self.r_expire      unless self.r_expire.nil?
       self.data += " " + self.r_minimum     unless self.r_minimum.nil?
+    end
+
+    def self.serial_regex
+      /\A(\d{4})(\d{2})(\d{2})(\d{2})\z/
     end
 end
 
@@ -155,6 +192,13 @@ class ReverseDnsRecord < ActiveRecord::Base
 
   def self.default_ttl
     return 3200
+  end
+
+  def self.new_record(params)
+    record = ReverseDnsRecord.new(params)
+    record.ttl = ReverseDnsRecord.default_ttl
+    record.auto_cast
+    return record
   end
 
   def self.new_soa
