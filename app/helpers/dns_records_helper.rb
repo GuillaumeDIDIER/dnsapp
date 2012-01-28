@@ -10,7 +10,7 @@ module DnsRecordsHelper
     return "Le nom" if field_name.to_s == "host"
     return "La zone" if field_name.to_s == "zone"
     return "Le type" if field_name.to_s == "rtype"
-    return "Les données" if field_name.to_s == "data"
+    return "La cible" if field_name.to_s == "data"
 
     return field_name
   end
