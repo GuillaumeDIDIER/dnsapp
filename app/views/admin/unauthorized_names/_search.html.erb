@@ -1,5 +1,0 @@
-<%= form_tag(admin_unauthorized_names_path, :method => "get", :class => "search round") do %>
-  <%= label_tag(:name, "nom : ") %>
-  <%= text_field_tag(:name, params[:name]) %>
-  <%= submit_tag "Chercher" %>
-<% end %>
