@@ -246,16 +246,11 @@ table td {
 	text-align: center;
 }
 
-/*
-table td:first-child {
-	width: 100%;
-	text-align: left;
-	padding-left: 20px;
+table th, table td {
+	border: 1px solid #404040;
 }
-*/
 
 table.dns th, table.dns td {
-	border: 1px solid #404040;
 	overflow: hidden;
 }
 
@@ -275,11 +270,11 @@ table.dns td:last-child {
         width: 240px;
 }
 
-table.unames th, table.unames td {
+table.zones th, table.zones td, table.unames th, table.unames td {
 	border: 1px solid #404040;
 }
 
-table.unames td:last-child {
+table.zones td:last-child, table.unames td:last-child {
         min-width: 260px;
 	text-align: left;
 	padding-left: 20px;
@@ -348,5 +343,19 @@ h1.homepage {
 	font-size: xx-large;
 	color: #2e75bd;
 	text-shadow: 1px 1px 1px #333333;
+	border-bottom: 2px solid #333333;
+	padding-bottom: -3px;
+	margin-bottom: 0px;
+}
 
+h2.homepage {
+	margin-top: 10px;
+	text-align: center;
+	font-size: large;
+}
+
+.warning {
+	font-weight: bold;
+	color: #a70a0a;
+	
 }
