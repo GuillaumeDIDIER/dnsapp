@@ -4,6 +4,10 @@
 #This controller lets people in "eleves.polytechnique.fr" zone
 #modify their hostname.
 
+#In this controller we enforce two policies:
+#1) Only one A Record can ben associated to an ip address
+#2) Some names are forbidden
+
 require 'record_extensions/ZeModules.rb'
 
 class Ze::DnsARecordsController < DnsARecordsController
@@ -39,7 +43,7 @@ class Ze::DnsARecordsController < DnsARecordsController
 
     if @record.valid?
       ptr_record = ReverseDnsRecord.new_ptr
-      hash = reverse_host_and_zone_from_ip current_ip
+      hash = reverse_host_and_zone_from_ip @record.data
       ptr_record.host = hash[:host]
       ptr_record.zone = hash[:zone]
       ptr_record.data = "#{@record.host}.#{@record.zone}."
@@ -79,7 +83,7 @@ class Ze::DnsARecordsController < DnsARecordsController
     end
 
     if @record.valid?
-      hash = reverse_host_and_zone_from_ip current_ip
+      hash = reverse_host_and_zone_from_ip @record.data
       ptr_record = ReverseDnsRecord.where( :rtype => 'PTR', :host => hash[:host], :zone => hash[:zone] ).first
       ptr_record.auto_cast
       ptr_record.data = "#{@record.host}.#{@record.zone}."
@@ -98,7 +102,7 @@ class Ze::DnsARecordsController < DnsARecordsController
 
   def destroy
     @record = DnsRecord.find(params[:id])
-    hash = reverse_host_and_zone_from_ip current_ip
+    hash = reverse_host_and_zone_from_ip @record.data
     ptr_record = ReverseDnsRecord.where( :rtype => 'PTR', :host => hash[:host], :zone => hash[:zone] ).first
 
     @record.destroy
