@@ -1,9 +1,43 @@
 <h1 class="homepage">Dns App</h1>
 
+<h2 class="homepage">Le service de noms de domaine du Binet Réseau</h2>
+
 <p>
-  Lancement de la version 0.2.0.<br />
-  Rapporter tout problème à <a href="mailto:johann-michael.thiebaut@polytechnique.edu">jmt</a>.
+  Ce service founi par le Binet Réseau permet d'associer un nom de domaine à
+  une adresse IP. Pour savoir si tu peux bénéficier de ce service, tu peux te
+  rendre <%= link_to "ici", '/about-ip' %>.
 </p>
 
 <p>
+  En associant un nom à ton adresse ip, cela permettra aux autres personnes
+  sur le réseau élèves de se connecter simplement à ton ordinateur.
+  Tu peux consulter la liste des enregistrements DNS, et savoir quels
+  sont les noms déjà enregistrés en suivant
+  <%= link_to "ce lien", dns_records_path %>.
+</p>
+
+<p>
+  <% if current_domain_name.nil? %>
+    <% if !current_zone.blank? %>
+      Ton adresse IP n'est actuellement associée à aucun nom de domaine.
+      Tu peux lui en donner un en suivant
+      <%= link_to "ce lien", new_zone_dns_path_to(current_zone) %>.
+    <% else %>
+      Ton adresse IP n'est dans aucune zone gérée par Dns App. Il n'est
+      pas possible de lui attribuer un nom de domaine ici. Vérifie que
+      tu te connectes à ce service depuis une machine sur le réseau élèves.
+    <% end %>
+  <% else %>
+    Ton adresse IP est actuellement associée au nom
+    <strong><%= "#{current_domain_name.host}.#{current_domain_name.zone}" %></strong>.
+    Pour le modifier, tu peux te rendre
+    <%= link_to "ici", dns_path_to(current_domain_name) %>.
+  <% end %>
+</p>
+
+<p>
+  Merci de rapporter tout problème rencontré en utilisant ce service en
+  envoyant un mail à<br />
+  <a href="mailto:johann-michael.thiebaut@polytechnique.edu">
+    johann-michael.thiebaut@polytechnique.edu</a>.
 </p>

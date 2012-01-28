@@ -1,18 +1,30 @@
-<% Admin::PrivilegedUser.privileges_list.each do |p| %>
-  <span class="privileges">
-    <%= p.to_s %> : 
-    <% if p == :admin %>
-      <% if @privileged_user[p] == true %>
-        <span class="ok">✔</span>
-      <% else %>
-        <span class="wrong">✘</span>
-      <% end %>
+<span class="privileges">
+  Admin : 
+  <% if @privileged_user.admin == true %>
+    <span class="ok">✔</span>
+  <% else %>
+    <span class="wrong">✘</span>
+  <% end %>
+</span>
+
+<span class="privileges">
+  Zone :
+  <% if @privileged_user.dns_zone.nil? %>
+    <% if @privileged_user.admin == true %>
+      <span class="ok">Toutes</span>
     <% else %>
-      <% if !@privileged_user[p].nil? && @privileged_user[p] != 0  %>
-        <span class="ok">✔</span>
-      <% else %>
-        <span class="wrong">✘</span>
-      <% end %>
+      <span class="wrong">✘</span>
     <% end %>
-  </span>
-<% end %>
+  <% else %>
+    <span class="ok"><%= @privileged_user.dns_zone.zone %></span>
+  <% end %>
+</span>
+
+<span class="privileges">
+  Noms interdits :
+  <% if @privileged_user.unauthorized_names == true %>
+    <span class="ok">✔</span>
+  <% else %>
+    <span class="wrong">✘</span>
+  <% end %>
+</span>

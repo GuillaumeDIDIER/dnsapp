@@ -1,0 +1,14 @@
+<%= render 'ze/shared/subtitle' %>
+
+<h1><%= @title %></h1>
+
+<%= form_for(@record, :url => admin_ze_dns_cname_records_path) do |f| %>
+  <%= render 'admin/shared/dns_fields', :f => f %>
+  <div class="actions">
+    <%= f.submit "Nouvel alias" %>
+  </div>
+<% end %>
+
+<p>
+  <%= link_to "Liste des DNS de type CNAME", admin_ze_dns_a_records_path %>
+</p>

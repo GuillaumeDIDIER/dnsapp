@@ -1,0 +1,14 @@
+<h1><%= @title %></h1>
+
+<%= render 'admin/shared/warning' %>
+
+<%= form_for(@record, :url => admin_dns_records_path) do |f| %>
+  <%= render 'fields', :f => f %>
+  <div class="actions">
+    <%= f.submit "Nouvel enregistrement DNS" %>
+  </div>
+<% end %>
+
+<p>
+  <%= link_to "Liste des enregistrements DNS", admin_dns_records_path %>
+</p>

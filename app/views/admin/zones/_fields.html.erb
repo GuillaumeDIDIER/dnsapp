@@ -1,0 +1,9 @@
+<%= render 'shared/error_messages', :object => f.object %>
+<div class="field">
+  <%= f.label :name, "Nom de la zone" %>
+  <%= f.text_field :name, :value => @zone.name %>
+</div>
+<div class="field">
+  <%= f.label :zone, "Zone" %>
+  <%= f.text_field :zone, :value => @zone.zone %>
+</div>

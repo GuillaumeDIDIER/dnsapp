@@ -1,0 +1,34 @@
+<h1>À propos de : <%= @ip %></h1>
+
+<%= render 'shared/search_form',
+     :options => { :search_path => '/about-ip',
+                   :fields => [{ :field => 'ip',
+                                 :name => "Adresse IP",
+                                 :type => "strict",
+                                 :value => params[:ip] }] } %>
+
+<p>
+  <strong>Adresse IP</strong> <%= @ip %><br />
+  <strong>Zone</strong>
+    <% if @zone.blank? %>
+      Aucune
+    <% else %>
+      <%= @zone %>
+    <% end %><br />
+  <strong>Nom de domaine associé</strong>
+    <% if @name.nil? %>
+      Aucun
+    <% else %>
+      <%= link_to @name.host, dns_path_to(@name) %>
+    <% end %>
+</p>
+
+<p>
+  <% if @zone.blank? %>
+    Cette adresse IP n'est dans aucune zone gérée par Dns App. Il n'est
+    pas possible d'attribuer un nom de domaine à cette adresse IP ici.
+  <% else %>
+     Cette adresse IP est dans une zone gérée par Dns App, il est possible de lui
+     attribuer un nom de domaine.
+  <% end %>
+</p>

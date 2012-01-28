@@ -1,5 +1,7 @@
 <h1><%= @title %></h1>
 
+<%= render 'admin/shared/warning' %>
+
 <p>
   <strong>Nom</strong> <%= @record.host %><br />
   <strong>Zone</strong> <%= @record.zone %><br />
@@ -8,13 +10,10 @@
 </p>
 
 <p>
-  <%= link_to "Retour aux enregistrements DNS", dns_records_path %>
-  <% if @record == current_domain_name %>
-     | 
-    <%= link_to "Modifier", edit_zone_dns_path_to(@record) %> | 
-    <%= link_to "Supprimer", zone_dns_path_to(@record),
+  <%= link_to "Retour aux enregistrements DNS", admin_dns_records_path %> |
+  <%= link_to "Modifier", edit_admin_dns_record_path(@record) %> |
+  <%= link_to "Supprimer", admin_dns_record_path(@record),
                              :method => :delete,
                              :confirm => "Supprimer #{@record.host} ?",
                              :title => "Supprimer #{@record.host}" %>
-  <% end %>
 </p>

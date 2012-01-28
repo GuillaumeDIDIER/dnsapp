@@ -1,7 +1,5 @@
 <h1><%= @title %></h1>
 
-<%= render 'search' %>
-
 <% if @unauthorized_names.count > 0 %>
 <table class="unames">
   <caption><%= @title %></caption>
@@ -16,11 +14,13 @@
   <tbody>
     <% @unauthorized_names.each do |un| %>
     <tr>
-      <td><%= link_to un.name, un %> | 
+      <td>
+        <%= link_to un.name, un %><br />
         <%= link_to "Modifier", edit_admin_unauthorized_name_path(un) %> | 
         <%= link_to "Supprimer", un, :method => :delete,
 	                             :confirm => "Supprimer #{un.name} ?",
-				     :title => "Supprimer #{un.name}" %></td>
+				     :title => "Supprimer #{un.name}" %>
+      </td>
       <td><%= un.comment %></td>
     </tr>
     <% end %>

@@ -1,12 +1,4 @@
 <div class="field">
-  <%= f.check_box :dns %>
-  <%= f.label :dns, "DNS" %>
-</div>
-<div class="field">
-  <%= f.check_box :alias %>
-  <%= f.label :alias, "Alias" %>
-</div>
-<div class="field">
   <%= f.check_box :unauthorized_names %>
   <%= f.label :unauthorized_names, "Noms interdits" %>
 </div>
@@ -14,3 +6,27 @@
   <%= f.check_box :admin %>
   <%= f.label :admin, "Administrateur total" %>
 </div>
+<div class="field">
+  <%= f.label :dns_zone_id, "Zone id"  %>
+  <%= f.number_field :dns_zone_id, :value => @privileged_user.dns_zone_id %>
+</div>
+Zones : 
+<table class="unames">
+  <caption>Zones</caption>
+
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>zone</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% Admin::Zone.all.each do |z| %>
+    <tr>
+      <td><%= z.id %></td>
+      <td><%= z.zone %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

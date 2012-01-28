@@ -1,0 +1,17 @@
+<%= render 'shared/error_messages', :object => f.object %>
+<div class="field">
+  <%= f.label :host, "Nom" %>
+  <%= f.text_field :host, :value => @record.host %>
+</div>
+<div class="field">
+  <%= f.label :zone, "Zone" %>
+  <%= f.text_field :zone, :value => @record.zone %>
+</div>
+<div class="field">
+  <%= f.label :rtype, "Type" %>
+  <%= f.text_field :rtype, :value => @record.rtype %>
+</div>
+<div class="field">
+  <%= f.label :data, "Cible" %>
+  <%= f.text_field :data, :value => @record.data %>
+</div>

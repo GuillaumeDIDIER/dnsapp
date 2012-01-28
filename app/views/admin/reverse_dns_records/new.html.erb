@@ -1,0 +1,14 @@
+<h1><%= @title %></h1>
+
+<%= render 'admin/shared/warning' %>
+
+<%= form_for(@record, :url => admin_reverse_dns_records_path) do |f| %>
+  <%= render 'fields', :f => f %>
+  <div class="actions">
+    <%= f.submit "Nouvel enregistrement Reverse DNS" %>
+  </div>
+<% end %>
+
+<p>
+  <%= link_to "Liste des enregistrements Reverse DNS", admin_reverse_dns_records_path %>
+</p>

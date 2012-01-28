@@ -1,0 +1,15 @@
+<%= render 'ze/shared/subtitle' %>
+
+<h1><%= @title %></h1>
+
+<%= form_for(@record, :url => admin_ze_dns_a_record_path(@record)) do |f| %>
+  <%= render 'admin/shared/dns_fields', :f => f %>
+  <div class="actions">
+    <%= f.submit "Modifier" %>
+  </div>
+<% end %>
+
+<p>
+  <%= link_to "Retour au profil", admin_ze_dns_a_record_path(@record) %> |
+  <%= link_to "Liste des DNS de type A", admin_ze_dns_a_records_path %>
+</p>

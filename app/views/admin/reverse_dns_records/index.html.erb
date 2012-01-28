@@ -1,0 +1,58 @@
+<h1><%= @title %></h1>
+
+<%= render 'admin/shared/warning' %>
+
+<%= render 'shared/search_form', :options => { :search_path => admin_reverse_dns_records_path,
+                                               :fields => @options } %>
+
+<%= will_paginate @records %>
+
+<% if @records.any? %>
+<table class="dns">
+  <caption><%= @title %></caption>
+
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Zone</th>
+      <th>Type</th>
+      <th>Cible</th>
+    </tr>
+  </thead>
+
+  <% if @records.count > 15 %>
+  <tfoot>
+    <tr>
+      <th>Nom</th>
+      <th>Zone</th>
+      <th>Type</th>
+      <th>Cible</th>
+    </tr>
+  </tfoot>
+  <% end %>
+
+  <tbody>
+    <% @records.each do |record| %>
+      <tr>
+        <td>
+          <%= link_to trunc(record.host, 15), admin_reverse_dns_record_path(record), :title => record.host %><br />
+          <%= link_to "Modifier", edit_admin_reverse_dns_record_path(record) %><br />
+          <%= link_to "Supprimer", admin_reverse_dns_record_path(record),
+                                         :method => :delete,
+                                         :confirm => "Supprimer #{record.host} ?",
+                                         :title => "Supprimer #{record.host}" %>
+        </td>
+        <td><%= record.zone %></td>
+        <td><%= record.rtype %></td>
+        <td><%= record.data %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+
+<%= will_paginate @records %>
+
+<p>
+  <%= link_to "Nouvel enregistrement Reverse DNS", new_admin_reverse_dns_record_path %>
+</p>

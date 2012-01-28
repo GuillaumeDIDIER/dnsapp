@@ -1,6 +1,8 @@
+<%= render 'ze/shared/subtitle' %>
+
 <h1><%= @title %></h1>
 
-<%= render 'shared/search_form', :options => { :search_path => path,
+<%= render 'shared/search_form', :options => { :search_path => admin_ze_dns_a_records_path,
                                                :fields => @options } %>
 
 <%= will_paginate @records %>
@@ -32,7 +34,14 @@
   <tbody>
     <% @records.each do |record| %>
       <tr>
-        <td><%= link_to trunc(record.host, 15), dns_path_to(record), :title => record.host %></td>
+        <td>
+          <%= link_to trunc(record.host, 15), admin_ze_dns_a_record_path(record), :title => record.host %><br />
+          <%= link_to "Modifier", edit_admin_ze_dns_a_record_path(record) %><br />
+          <%= link_to "Supprimer", admin_ze_dns_a_record_path(record),
+                             :method => :delete,
+                             :confirm => "Supprimer #{record.host} ?",
+                             :title => "Supprimer #{record.host}" %>
+        </td>
         <td><%= record.zone %></td>
         <td><%= record.rtype %></td>
         <td><%= record.data %></td>
@@ -43,3 +52,7 @@
 <% end %>
 
 <%= will_paginate @records %>
+
+<p>
+  <%= link_to "Nouvel enregistrement de type A", new_admin_ze_dns_a_record_path %>
+</p>

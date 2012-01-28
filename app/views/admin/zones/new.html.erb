@@ -1,0 +1,13 @@
+<h1><%= @title %></h1>
+
+<%= form_for(@zone) do |f| %>
+  <%= render 'fields', :f => f %>
+  <div class="actions">
+    <%= f.submit "Nouvelle zone" %>
+  </div>
+<% end %>
+
+<p>
+  <%= link_to "Retour à la liste des zones", admin_zones_path %> | 
+  <%= link_to "Retour à mon profil", current_privileged_user %>
+</p>

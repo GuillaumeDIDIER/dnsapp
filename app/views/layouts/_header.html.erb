@@ -3,10 +3,18 @@
   <%= link_to "Dns App", root_path, :class => "round", :id => "Logo" %>
   <section id="Profile" class="round">
     <ul>
-      <li>Ton ip : <%= current_ip %></li>
-      <li>Zone : <%= current_zone %></li>
+      <li>Ton ip : <%= link_to current_ip, '/about-ip' %></li>
+      <li>Zone :
+        <% if current_zone.blank? %>
+          Aucune
+        <% else %> 
+          <%= current_zone %>
+        <% end %>
+      </li>
       <% if current_domain_name.nil? %>
-        <li><%= link_to "Donne un nom à ton ordinateur", new_zone_dns_path_to(current_zone) %></li>
+        <% if !current_zone.blank? %>
+          <li><%= link_to "Donne un nom à ton ordinateur", new_zone_dns_path_to(current_zone) %></li>
+        <% end %>
       <% else %>
         <li>Ton nom : <%= link_to current_domain_name.host, dns_path_to(current_domain_name) %></li>
       <% end %>
@@ -19,6 +27,7 @@
   </section>
   <nav>
     <%= link_to "Accueil", root_path %> | 
+    <%= link_to "Adresse IP", '/about-ip' %> |
     <% if current_privileged_user.nil? %>
       <%= link_to "Se connecter en tant qu'administrateur", signin_path %>
     <% else %>

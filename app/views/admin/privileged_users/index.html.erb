@@ -3,34 +3,56 @@
 <table class="privileged_users">
   <caption><%= @title %></caption>
 
-  <% list = Admin::PrivilegedUser.privileges_list %>
-
   <thead>
     <tr>
       <th rowspan="2">Nom</th>
-      <th colspan="<%= list.count %>">Privilèges</th>
+      <th colspan="3">Privilèges</th>
     </tr>
     <tr>
-      <% list.each do |p| %>
-      <th><%= p.to_s %></th>
-      <% end %>
+      <th>Admin</th>
+      <th>Zone</th>
+      <th>Noms interdits</th>
     </tr>
   </thead>
 
   <tbody>
     <% @privileged_users.each do |user| %>
     <tr>
-      <td><%= link_to user.name, user %> |
+      <td>
+        <%= link_to user.name, user %><br />
         <%= link_to "Modifier les privilèges", edit_privileges_admin_privileged_user_path(user) %>
 	<% if !current_privileged_user?(user) %>
-	 | 
-	<%= link_to "Supprimer", user, :method => :delete,
-	                               :confirm => "Supprimer #{user.name} ?",
-				       :title => "Supprimer #{user.name}" %></td>
+	   | 
+	  <%= link_to "Supprimer", user, :method => :delete,
+	                                 :confirm => "Supprimer #{user.name} ?",
+	                                 :title => "Supprimer #{user.name}" %>
 	<% end %>
-      <% list.each do |p| %>
-      <td><%= user[p] %> </td>
-      <% end %>
+      </td>
+      <td>
+        <% if user.admin == true %>
+          Oui
+        <% else %>
+          Non
+        <% end %>
+      </td>
+      <td>
+        <% if user.dns_zone.nil? %>
+          <% if user.admin == true %>
+            Toutes
+          <% else %>
+            Aucune
+          <% end %>
+        <% else %>
+          <%= user.dns_zone.zone %>
+        <% end %>
+      </td>
+      <td>
+        <% if user.unauthorized_names == true %>
+          Oui
+        <% else %>
+          Non
+        <% end %>
+      </td>
     </tr>
     <% end %>
   </tbody>

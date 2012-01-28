@@ -10,20 +10,33 @@
       <%= link_to "Utilisateurs", admin_privileged_users_path %> | 
       <%= link_to "Nouvel utilisateur", new_admin_privileged_user_path %>
     </li>
+    <li>
+      <%= link_to "Zones", admin_zones_path %> |
+      <%= link_to "Nouvelle zone", new_admin_zone_path %>
+    </li>
+    <li>
+      <%= link_to "Enregistrements DNS", admin_dns_records_path %> |
+      <%= link_to "Nouvel enregistrement DNS", new_admin_dns_record_path %>
+    </li>
+    <li>
+      <%= link_to "Enregistrements Reverse DNS", admin_reverse_dns_records_path %> |
+      <%= link_to "Nouvel enregistrement Reverse DNS", new_admin_reverse_dns_record_path %>
+    </li>
     <% end %>
-    <% if !privileges[:dns].nil? && privileges[:dns] != 0 %>
-      <li>
-        <%= link_to "DNS", admin_domain_names_path %> |
-        <%= link_to "Nouvelle entrée DNS", new_admin_domain_name_path %>
-      </li>
+    <% if !privileges[:dns_zone_id].nil? && privileges[:dns_zone_id] != 0 %>
+      <% dns_zone = current_privileged_user.dns_zone %>
+      <% if !dns_zone.nil? and dns_zone.zone == ZeHelper.zone %>
+        <li>
+          <%= link_to "Noms de la #{dns_zone.name.downcase}", admin_ze_dns_a_records_path %> |
+          <%= link_to "Nouveau nom dans la #{dns_zone.name.downcase}", new_admin_ze_dns_a_record_path %>
+        </li>
+        <li>
+          <%= link_to "Alias de la #{dns_zone.name.downcase}", admin_ze_dns_cname_records_path %> |
+          <%= link_to "Nouvel alias dans la #{dns_zone.name.downcase}", new_admin_ze_dns_cname_record_path %>
+        </li>
+      <% end %>
     <% end %>
-    <% if !privileges[:alias].nil? && privileges[:alias] != 0 %>
-      <li>
-        <%= link_to "Alias", admin_cnames_path %> |
-        <%= link_to "Nouvel alias", new_admin_cname_path %>
-      </li>
-    <% end %>
-    <% if !privileges[:unauthorized_names].nil? && privileges[:unauthorized_names] != 0 %>
+    <% if !privileges[:unauthorized_names].nil? && privileges[:unauthorized_names] == true %>
       <li>
         <%= link_to "Noms interdits", admin_unauthorized_names_path %> |
         <%= link_to "Nouveau nom interdit", new_admin_unauthorized_name_path %>
@@ -39,8 +52,8 @@
   <%= link_to "Modifier les privilèges", edit_privileges_admin_privileged_user_path(@privileged_user) %> |
     <% if !current_privileged_user?(@privileged_user) %>
     <%= link_to "Supprimer", @privileged_user, :method => :delete,
-                                             :confirm => "Supprimer #{@privileged_user.name} ?",
-		                             :title => "Supprimer #{@privileged_user.name}" %>
+                                               :confirm => "Supprimer #{@privileged_user.name} ?",
+		                               :title => "Supprimer #{@privileged_user.name}" %>
     <% end %>
   <% end %>
   <% if current_privileged_user?(@privileged_user) %>
