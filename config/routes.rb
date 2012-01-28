@@ -52,10 +52,19 @@ DnsApp::Application.routes.draw do
         put 'update_privileges'
       end
     end
-    #resources :domain_names, :path => 'dns'
-    #resources :cnames, :path => 'alias'
+
     resources :unauthorized_names, :path => 'unames'
-    resources :zones, :path => 'unames'
+    resources :zones, :path => 'zones'
+
+    #For manual administration by users who have total control
+    resources :dns_records, :path => 'dns'
+    resources :reverse_dns_records, :path => 'rdns'
+
+    #For 'Zone élèves' administration
+    namespace "ze" do
+      resources :dns_a_records, :path => 'dnsa'
+      resources :dns_cname_records, :path => 'dnscname'
+    end
   end
 
   #To log in and out
@@ -63,6 +72,8 @@ DnsApp::Application.routes.draw do
 
   match '/signin',  :to => 'sessions#new'
   match '/signout', :to => 'sessions#destroy'
+
+  match '/about-ip', :to => 'pages#about_ip'
 
   root :to => 'pages#home'
 end
