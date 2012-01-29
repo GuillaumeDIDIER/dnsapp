@@ -120,10 +120,14 @@ class Admin::Ze::DnsCnameRecordsController < DnsCnameRecordsController
     end
 
     def has_zone_privileges
-      zone = current_privileged_user.dns_zone.zone
-      unless zone == ZeHelper.zone or privileges[:admin] == true
-         flash[:error] = "Tu n'es administrateur de cette zone"
-         redirect_to(root_path)
+      if signed_in?
+        zone = current_privileged_user.dns_zone.zone
+        unless zone == ZeHelper.zone or privileges[:admin] == true
+          flash[:error] = "Tu n'es administrateur de cette zone"
+          redirect_to(root_path)
+        end
+      else
+        deny_access
       end
     end
 
