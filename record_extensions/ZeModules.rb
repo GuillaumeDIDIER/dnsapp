@@ -33,6 +33,11 @@ module ZeHelper
     return false
   end
 
+  # We don't want to overwrite upper domain names
+  def self.overwrite_upper_domain?(record)
+    system( "host '#{record.host}.polytechnique.fr'" )
+  end
+
   #Increment serial of soa records for this zone only
   def self.increment_serial
     soas = DnsRecord.where :rtype => 'SOA'

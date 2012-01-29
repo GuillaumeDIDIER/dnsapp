@@ -44,7 +44,7 @@ class DnsRecordsController < ApplicationController
     end
 
     def record_field_names
-      ["nom", "zone", "type", "données"]
+      ["nom", "zone", "type", "cible"]
     end
 
     def search_types

@@ -29,6 +29,11 @@ class Admin::Ze::DnsCnameRecordsController < DnsCnameRecordsController
       render 'new' and return
     end
 
+    if ZeHelper.overwrite_upper_domain? @record
+      @record.errors[:host] = "existe déjà su le domaine polytechnique.fr"
+      render 'new' and return
+    end
+
     if @record.valid?
       @record.save!
 
@@ -62,6 +67,11 @@ class Admin::Ze::DnsCnameRecordsController < DnsCnameRecordsController
     end
 
     unless @record.check_host
+      render 'edit' and return
+    end
+
+    if ZeHelper.overwrite_upper_domain? @record
+      @record.errors[:host] = "existe déjà su le domaine polytechnique.fr"
       render 'edit' and return
     end
 
@@ -110,10 +120,14 @@ class Admin::Ze::DnsCnameRecordsController < DnsCnameRecordsController
     end
 
     def has_zone_privileges
-      zone = current_privileged_user.dns_zone.zone
-      unless zone == ZeHelper.zone or privileges[:admin] == true
-         flash[:error] = "Tu n'es administrateur de cette zone"
-         redirect_to(root_path)
+      if signed_in?
+        zone = current_privileged_user.dns_zone.zone
+        unless zone == ZeHelper.zone or privileges[:admin] == true
+          flash[:error] = "Tu n'es administrateur de cette zone"
+          redirect_to(root_path)
+        end
+      else
+        deny_access
       end
     end
 

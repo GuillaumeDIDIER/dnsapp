@@ -48,14 +48,24 @@ module ReverseDnsSoaRecord
       #We would like to use date format serials
       if !match_data.nil?
         now = Time.now.utc
+
+        #New serial will be issued today
         y = "%04d" % now.year
         m = "%02d" % now.month
         d = "%02d" % now.day
 
-        #Update serial year, month and day if serial is in the past
-        y = match_data[1] if match_data[1] > y
-        m = match_data[2] if match_data[2] > m
-        d = match_data[3] if match_data[3] > d
+        #If old serial corresponds to a date in the future
+        #we only increment n
+        if match_data[1] > y or
+          ( match_data[1] == y and match_data[2] > m ) or
+          ( match_data[1] == y and match_data[2] == m and match_data[3] > d )
+
+          y = match_data[1]
+          m = match_data[2]
+          d = match_data[3]
+        end
+
+        #We keep the last numbers to increment them
         n = match_data[4]
         new_serial = "#{y}#{m}#{d}#{n}"
 

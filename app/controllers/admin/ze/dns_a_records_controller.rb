@@ -36,6 +36,11 @@ class Admin::Ze::DnsARecordsController < Ze::DnsARecordsController
       render 'new' and return
     end
 
+    if ZeHelper.overwrite_upper_domain? @record
+      @record.errors[:host] = "existe déjà su le domaine polytechnique.fr"
+      render 'new' and return
+    end
+
     if @record.valid?
       ptr_record = ReverseDnsRecord.new_ptr
       hash = reverse_host_and_zone_from_ip @record.data
@@ -84,6 +89,11 @@ class Admin::Ze::DnsARecordsController < Ze::DnsARecordsController
     end
 
     unless @record.check_host
+      render 'edit' and return
+    end
+
+    if ZeHelper.overwrite_upper_domain? @record
+      @record.errors[:host] = "existe déjà su le domaine polytechnique.fr"
       render 'edit' and return
     end
 
@@ -138,10 +148,14 @@ class Admin::Ze::DnsARecordsController < Ze::DnsARecordsController
     end
 
     def has_zone_privileges
-      zone = current_privileged_user.dns_zone.zone
-      unless zone == ZeHelper.zone or privileges[:admin] == true
-         flash[:error] = "Tu n'es administrateur de cette zone"
-         redirect_to(root_path)
+      if signed_in?
+        zone = current_privileged_user.dns_zone.zone
+        unless zone == ZeHelper.zone or privileges[:admin] == true
+           flash[:error] = "Tu n'es administrateur de cette zone"
+           redirect_to(root_path)
+        end
+      else
+        deny_access
       end
     end
 
