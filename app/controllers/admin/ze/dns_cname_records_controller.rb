@@ -29,6 +29,11 @@ class Admin::Ze::DnsCnameRecordsController < DnsCnameRecordsController
       render 'new' and return
     end
 
+    if ZeHelper.overwrite_upper_domain? @record
+      @record.errors[:host] = "existe déjà su le domaine polytechnique.fr"
+      render 'new' and return
+    end
+
     if @record.valid?
       @record.save!
 
@@ -62,6 +67,11 @@ class Admin::Ze::DnsCnameRecordsController < DnsCnameRecordsController
     end
 
     unless @record.check_host
+      render 'edit' and return
+    end
+
+    if ZeHelper.overwrite_upper_domain? @record
+      @record.errors[:host] = "existe déjà su le domaine polytechnique.fr"
       render 'edit' and return
     end
 
