@@ -78,7 +78,7 @@ a_with_wrong_ptr = []
 print "\n2) Vérification A <=> PTR...\n"
 DnsRecord.where( :rtype => 'A' ).each do |record|
   hostname = "#{record.host}.#{record.zone}"
-  valid.insert( -1, hostname )
+  valid.insert( -1, hostname.downcase )
   hash = reverse_host_and_zone_from_ip record.data
   rhost = hash[:host]
   rzone = hash[:zone]
@@ -158,7 +158,7 @@ DnsRecord.where( :rtype => 'CNAME' ).each do |record|
   hostname = "#{record.host}.#{record.zone}"
   regex = /\A([^.]*\..*)\.\z/i
   match_data = record.data.match regex
-  cnames.insert( -1, hostname )
+  cnames.insert( -1, hostname.downcase )
 
   if !match_data.nil?
     chostname = match_data[1]
@@ -166,8 +166,9 @@ DnsRecord.where( :rtype => 'CNAME' ).each do |record|
     chostname = "#{record.data}.#{record.zone}"
   end
 
-  list = (graph[chostname] || []) + [hostname]
-  graph[chostname] = list
+  chostname = chostname.downcase
+  list = (graph[chostname] || []) + [hostname.downcase]
+  graph[chostname.downcase] = list
 end
 
 while valid.any?
@@ -183,7 +184,7 @@ print "\033[31m#{cnames.count} problème(s) trouvé(s)\033[0m\n"
 print "Correction :\n" if cnames.count > 0
 DnsRecord.where( :rtype => 'CNAME' ).each do |record|
   hostname = "#{record.host}.#{record.zone}"
-  if cnames.include? hostname
+  if cnames.include? hostname.downcase
     print "Hostname : \033[31m#{hostname}\n"
     print "\033[33mPointe vers \033[31m'#{record.data}'\033[33m (Destination finale inconnue)\n"
 
