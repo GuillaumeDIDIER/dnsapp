@@ -20,6 +20,7 @@ print "1) Unicité des noms...\n"
 unicity = {}
 non_unique = {}
 
+# Retrieve all records we need
 records = DnsRecord.where( :rtype => 'A' ) + DnsRecord.where( :rtype => 'CNAME' )
 records = records + ReverseDnsRecord.where( :rtype => 'PTR' )
 
@@ -32,12 +33,14 @@ records.each do |record|
   end
 end
 
+# User based correction
 print "\033[31m#{non_unique.count} collision(s) trouvée(s)\033[0m\n"
 print "Correction :\n" if non_unique.count > 0
 non_unique.each do |key, val|
   print "Hostname : \033[31m#{key}\n"
   print "\033[32m0. Ne rien faire\n"
 
+  # Find duplicates
   duplicates = DnsRecord.find( :all, :conditions =>
                  ["host = ? and zone = ? and (rtype = 'A' or rtype = 'CNAME')",
                  val[:h], val[:z]] )
@@ -59,6 +62,7 @@ non_unique.each do |key, val|
     end
   end
 
+  # Remove all other records
   if keep != 0
     duplicates.each do |record|
       if record.rid == t[keep]
@@ -73,6 +77,7 @@ non_unique.each do |key, val|
 end
 
 
+# Step 2 : A <=> PTR consistency check
 valid = [] # for step 3
 a_with_wrong_ptr = []
 print "\n2) Vérification A <=> PTR...\n"
@@ -97,6 +102,7 @@ DnsRecord.where( :rtype => 'A' ).each do |record|
   end
 end
 
+# User based Corection
 print "\033[31m#{a_with_wrong_ptr.count} problème(s) trouvé(s)\033[0m\n"
 print "Correction :\n" if a_with_wrong_ptr.count > 0
 a_with_wrong_ptr.each do |val|
@@ -150,10 +156,11 @@ a_with_wrong_ptr.each do |val|
   end
 end
 
-
+# Step 3 : check that CNAME records point to something
 graph = {}
 cnames = []
 print "\n3) Vérification des enregistrments CNAME...\n"
+# This will build the reverse graph of CNAMES
 DnsRecord.where( :rtype => 'CNAME' ).each do |record|
   hostname = "#{record.host}.#{record.zone}"
   regex = /\A([^.]*\..*)\.\z/i
@@ -171,6 +178,7 @@ DnsRecord.where( :rtype => 'CNAME' ).each do |record|
   graph[chostname.downcase] = list
 end
 
+# Then we explore the graph starting from A records
 while valid.any?
   hostname = valid.pop
   list = (graph[hostname] || [])
@@ -180,6 +188,7 @@ while valid.any?
   valid = valid + list
 end
 
+# Correction : orphans are suposedly not correct
 print "\033[31m#{cnames.count} problème(s) trouvé(s)\033[0m\n"
 print "Correction :\n" if cnames.count > 0
 DnsRecord.where( :rtype => 'CNAME' ).each do |record|
