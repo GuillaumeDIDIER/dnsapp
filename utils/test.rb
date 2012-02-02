@@ -1,6 +1,4 @@
 #!/usr/bin/ruby
-# Execute in 'dns_app' folder, otherwise it won't work.
-# Do it like this : "$ ./utils/test.rb" 
 
 def self.security_level
   :none

@@ -1,6 +1,4 @@
 #!/usr/bin/ruby
-# Execute in 'dns_app' folder, otherwise it won't work.
-# Do it like this : "$ ./utils/check_consistency_a.rb"
 
 # This script will check consistency for A, CNAME and PTR records.
 

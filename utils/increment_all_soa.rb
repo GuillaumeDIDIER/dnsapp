@@ -1,6 +1,4 @@
 #!/usr/bin/ruby
-# Execute in 'dns_app' folder, otherwise it won't work.
-# Do it like this : "$ ./utils/increment_all_soa.rb"
 
 # This script will increment all soa records found on 'dns' and 'reverse_dns' databases. 
 
