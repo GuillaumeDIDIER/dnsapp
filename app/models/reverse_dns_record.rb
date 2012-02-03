@@ -74,6 +74,7 @@ module ReverseDnsSoaRecord
         if new_serial != self.r_serial
           n = 99
           d = "#{d.to_i - 1}"
+          d = "%02d" % d
         end
 
         #Finally, set the serial
