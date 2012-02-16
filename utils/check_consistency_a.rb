@@ -141,8 +141,10 @@ a_with_wrong_ptr.each do |val|
       ptr = ReverseDnsRecord.new_ptr
     elsif val[:action] == :correct
       ptr = val[:ptr]
+      ptr.auto_cast
     elsif val[:action] == :delete
       ptr = val[:ptr1]
+      ptr.auto_cast
       ptr2 = val[:ptr2]
       ptr2.destroy
     end
