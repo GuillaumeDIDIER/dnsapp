@@ -1,0 +1,17 @@
+Install pip:
+  sudo easy_install pip
+
+Add to your ~/.(ba|z)shrc:
+  export DNSAPP_DIR="/path/to/this/dir"
+  export DNSAPP_SETTINGS="settings.dev" # can be switched to settings.personal
+  . $DNSAPP_DIR/scripts/bashrc
+
+Install requirements:
+  sudo pip install -r $DNSAPP_DIR/requirements.txt
+
+Create the database:
+  dnsapp syncdb
+
+
+You can now start the server with 'dnsapp runserver' and see your development site at http://127.0.0.1:8000
+You can cd to your dev directory with 'dnsapp'
