@@ -17,7 +17,6 @@ LANGUAGE_CODE = 'fr'
 SITE_ID = 1
 USE_I18N = False
 USE_L10N = True
-USE_TZ = True
 
 MEDIA_ROOT = os.path.join(SITE_ROOT, 'media')
 MEDIA_URL = '/media/'
@@ -27,6 +26,16 @@ SECRET_KEY = 'veu&amp;t&amp;z1qmwg_^v@!5k^+jk!&amp;g&amp;+=vqdw-w+rj^hqimzi6k-%8
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.tz',
+    'django.core.context_processors.static',
+    'django.contrib.messages.context_processors.messages',
+    'django.core.context_processors.request',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -42,12 +51,13 @@ ROOT_URLCONF = 'dnsapp.urls'
 WSGI_APPLICATION = 'dnsapp.wsgi.application'
 
 TEMPLATE_DIRS = (os.path.join(SITE_ROOT, 'templates'),)
+FIXTURE_DIRS = (os.path.join(SITE_ROOT, 'fixtures'),)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
+    #'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
 
@@ -77,3 +87,32 @@ LOGGING = {
         },
     }
 }
+
+class DbRouter(object):
+    DJANGO_APPS = ('auth', 'contenttypes', 'sessions', 'admin')
+    def db_for_read(self, model, **hints):
+        if model._meta.app_label not in self.DJANGO_APPS:
+            return 'dns'
+        return None
+
+    def db_for_write(self, model, **hints):
+        if model._meta.app_label not in self.DJANGO_APPS:
+            return 'dns'
+        return None
+
+    def allow_syncdb(self, db, model):
+        if db == 'dns':
+            return model._meta.app_label not in self.DJANGO_APPS
+        elif model._meta.app_label not in self.DJANGO_APPS:
+            return False
+        return None
+
+DATABASE_ROUTERS = ['settings.DbRouter']
+DATABASES = {
+    'dns': {},
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'django.db',
+    }
+}
+

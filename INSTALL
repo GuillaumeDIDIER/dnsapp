@@ -9,9 +9,11 @@ Add to your ~/.(ba|z)shrc:
 Install requirements:
   sudo pip install -r $DNSAPP_DIR/requirements.txt
 
-Create the database:
+Create the django database:
   dnsapp syncdb
-
+And optionally a test database:
+  dnsapp syncdb --database=dns
+  dnsapp loaddata dns --database=dns
 
 You can now start the server with 'dnsapp runserver' and see your development site at http://127.0.0.1:8000
 You can cd to your dev directory with 'dnsapp'
