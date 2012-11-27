@@ -1,3 +1,4 @@
+from django.contrib import admin
 from django.db import models
 
 from dnsapp.models.zone import Zone
@@ -25,3 +26,5 @@ class DNSRecord(models.Model):
     zone = models.ForeignKey(Zone)
     rtype = models.CharField(max_length=5, choices=zip(RTYPES, RTYPES))
     data = models.CharField(max_length=255)
+
+admin.site.register(DNSRecord)

@@ -21,6 +21,9 @@ USE_L10N = True
 MEDIA_ROOT = os.path.join(SITE_ROOT, 'media')
 MEDIA_URL = '/media/'
 
+STATIC_ROOT = os.path.join(SITE_ROOT, 'static')
+STATIC_URL = '/static/'
+
 SECRET_KEY = 'veu&amp;t&amp;z1qmwg_^v@!5k^+jk!&amp;g&amp;+=vqdw-w+rj^hqimzi6k-%8'
 
 TEMPLATE_LOADERS = (
@@ -57,7 +60,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    #'django.contrib.sites',
+    'django.contrib.staticfiles',
     'django.contrib.messages',
     'django.contrib.admin',
 
