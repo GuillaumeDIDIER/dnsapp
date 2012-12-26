@@ -1,7 +1,40 @@
+import datetime
 from django.contrib import admin
 from django.db import models
 
 from dnsapp.models.name_server import NameServer
+
+
+def serial2tuple(serial):
+    """Convert a serial (integer in YYYYMMDDNN format) to a (Y,M,D,N) tuple
+
+    YYYY = year
+    MM = month
+    DD = day
+    NN = number in the day
+    """
+    y = serial / 1000000
+    m = (serial / 10000) % 100
+    d = (serial / 100) % 100
+    n = serial % 100
+    return (y, m, d, n)
+
+
+def tuple2serial(y, m, d, n):
+    """Give the serial from a 4-tuple"""
+    return ((y * 100 + m) * 100 + d) * 100 + n
+
+
+def get_today_serial():
+    """Get the serial of the day"""
+    date = datetime.date.today()
+    return tuple2serial(date.year, date.month, date.day, 0)
+
+
+def increment_serial(serial=None):
+    """Increment a serial number, setting it do today's date if possible"""
+    new_serial = get_today_serial()
+    return serial + 1 if serial and serial >= new_serial else new_serial
 
 
 class Zone(models.Model):
@@ -51,6 +84,10 @@ class Zone(models.Model):
 
     def __unicode__(self):
         return self.zone
+
+    def update_serial(self):
+        """Update serial number"""
+        self.soa_serial = increment_serial(self.soa_serial)
 
 
 class ZoneAdmin(admin.ModelAdmin):
