@@ -1,114 +1,108 @@
 [
     {
+        "pk": "frankiz.polytechnique.fr.",
+        "model": "dnsapp.nameserver",
+        "fields": {}
+    },
+    {
+        "pk": "heol.polytechnique.fr.",
+        "model": "dnsapp.nameserver",
+        "fields": {}
+    },
+    {
         "pk": "eleves.polytechnique.fr",
         "model": "dnsapp.zone",
         "fields": {
-            "description": "Zone élèves"
+            "soa_primary_ns": "heol.polytechnique.fr.",
+            "description": "Zone élèves",
+            "soa_refresh": 604800,
+            "soa_retry": 86400,
+            "soa_expire": 2419200,
+            "nameservers": [
+                "frankiz.polytechnique.fr.",
+                "heol.polytechnique.fr."
+            ],
+            "soa_serial": 2012112200,
+            "soa_minimum": 3600,
+            "soa_resp_person": "root.frankiz.polytechnique.fr"
+        }
+    },
+    {
+        "pk": "201.104.129.in-addr.arpa",
+        "model": "dnsapp.zone",
+        "fields": {
+            "soa_primary_ns": "heol.polytechnique.fr.",
+            "description": "Bataclan et bâtiment binet",
+            "soa_refresh": 604800,
+            "soa_retry": 86400,
+            "soa_expire": 2419200,
+            "nameservers": [
+                "frankiz.polytechnique.fr.",
+                "heol.polytechnique.fr."
+            ],
+            "soa_serial": 2012122600,
+            "soa_minimum": 3600,
+            "soa_resp_person": "root.frankiz.polytechnique.fr"
+        }
+    },
+    {
+        "pk": "129.104.201.",
+        "model": "dnsapp.reversezone",
+        "fields": {
+            "zone": "201.104.129.in-addr.arpa"
         }
     },
     {
         "pk": 1,
-        "model": "dnsapp.dnsrecord",
+        "model": "dnsapp.dnsarecord",
         "fields": {
-            "host": "@",
-            "rtype": "SOA",
-            "data": "heol.polytechnique.fr. root.frankiz.polytechnique.fr. 2012112200 86400 3600 864000 3600",
+            "rev_zone": "129.104.201.",
             "zone": "eleves.polytechnique.fr",
-            "ttl": 3200
+            "ip": "129.104.201.51",
+            "host": "frankiz",
+            "ttl": 3200,
+            "rev_host": "51"
         }
     },
     {
         "pk": 2,
-        "model": "dnsapp.dnsrecord",
+        "model": "dnsapp.dnsarecord",
         "fields": {
-            "host": "@",
-            "rtype": "NS",
-            "data": "heol.polytechnique.fr.",
+            "rev_zone": "129.104.201.",
             "zone": "eleves.polytechnique.fr",
-            "ttl": 3200
+            "ip": "129.104.201.53",
+            "host": "heol",
+            "ttl": 3200,
+            "rev_host": "53"
         }
     },
     {
-        "pk": 3,
-        "model": "dnsapp.dnsrecord",
+        "pk": 1,
+        "model": "dnsapp.dnscnamerecord",
         "fields": {
-            "host": "@",
-            "rtype": "NS",
+            "host": "fkz",
             "data": "frankiz",
             "zone": "eleves.polytechnique.fr",
             "ttl": 3200
         }
     },
     {
-        "pk": 4,
-        "model": "dnsapp.dnsrecord",
-        "fields": {
-            "host": "@",
-            "rtype": "MX",
-            "data": "10 frankiz",
-            "zone": "eleves.polytechnique.fr",
-            "ttl": 3200
-        }
-    },
-    {
-        "pk": 5,
-        "model": "dnsapp.dnsrecord",
-        "fields": {
-            "host": "@",
-            "rtype": "MX",
-            "data": "20 heol",
-            "zone": "eleves.polytechnique.fr",
-            "ttl": 3200
-        }
-    },
-    {
-        "pk": 6,
-        "model": "dnsapp.dnsrecord",
-        "fields": {
-            "host": "heol",
-            "rtype": "A",
-            "data": "129.104.201.53",
-            "zone": "eleves.polytechnique.fr",
-            "ttl": 3200
-        }
-    },
-    {
-        "pk": 7,
-        "model": "dnsapp.dnsrecord",
-        "fields": {
-            "host": "frankiz",
-            "rtype": "A",
-            "data": "129.104.201.51",
-            "zone": "eleves.polytechnique.fr",
-            "ttl": 3200
-        }
-    },
-    {
-        "pk": "201.104.129.in-addr.arpa",
-        "model": "dnsapp.reversezone",
-        "fields": {
-            "description": "Bataclan et bâtiment binet"
-        }
-    },
-    {
         "pk": 1,
-        "model": "dnsapp.reverserecord",
+        "model": "dnsapp.dnsmxrecord",
         "fields": {
-            "host": "51",
-            "rtype": "PTR",
-            "data": "frankiz.eleves.polytechnique.fr.",
-            "zone": "201.104.129.in-addr.arpa",
+            "data": "frankiz",
+            "mx_priority": 10,
+            "zone": "eleves.polytechnique.fr",
             "ttl": 3200
         }
     },
     {
         "pk": 2,
-        "model": "dnsapp.reverserecord",
+        "model": "dnsapp.dnsmxrecord",
         "fields": {
-            "host": "53",
-            "rtype": "PTR",
-            "data": "heol.eleves.polytechnique.fr.",
-            "zone": "201.104.129.in-addr.arpa",
+            "data": "heol",
+            "mx_priority": 20,
+            "zone": "eleves.polytechnique.fr",
             "ttl": 3200
         }
     }
