@@ -1,22 +1,15 @@
 from django.contrib import admin
 from django.db import models
 
-from dnsapp.models.zone import Zone
+from dnsapp.models.dns_record import DNSRecord
 
 
-class DNSMXRecord(models.Model):
-    DEFAULT_TTL = 3200
+class DNSMXRecord(DNSRecord):
 
     class Meta:
         db_table = 'dns_mx'
         app_label = 'dnsapp'
         unique_together = ('zone', 'data')
-
-    zone = models.ForeignKey(Zone)
-    zone.help_text = "Zone which owns the record"
-
-    ttl = models.PositiveIntegerField(default=DEFAULT_TTL)
-    ttl.help_text = "Time to live"
 
     mx_priority = models.PositiveIntegerField(null=True)
     mx_priority.help_text = "MX priority"

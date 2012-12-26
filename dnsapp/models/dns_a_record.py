@@ -1,12 +1,11 @@
 from django.contrib import admin
 from django.db import models
 
-from dnsapp.models.zone import Zone
+from dnsapp.models.dns_record import DNSRecord
 from dnsapp.models.reverse_zone import ReverseZone
 
 
-class DNSARecord(models.Model):
-    DEFAULT_TTL = 3200
+class DNSARecord(DNSRecord):
 
     class Meta:
         db_table = 'dns_a'
@@ -16,9 +15,6 @@ class DNSARecord(models.Model):
     host = models.CharField(max_length=100)
     host.help_text = "Host name within its zone"
 
-    zone = models.ForeignKey(Zone)
-    zone.help_text = "Zone which owns the record"
-
     ip = models.CharField(max_length=16)
     ip.help_text = "IP address"
 
@@ -27,9 +23,6 @@ class DNSARecord(models.Model):
 
     rev_zone = models.ForeignKey(ReverseZone)
     rev_zone.help_text = "Reverse zone"
-
-    ttl = models.PositiveIntegerField(default=DEFAULT_TTL)
-    ttl.help_text = "Time to live"
 
     def __unicode__(self):
         return u"A %s.%s" % (self.host, str(self.zone))
