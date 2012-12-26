@@ -1,0 +1,99 @@
+[
+    {
+        "pk": "ns1.example.com.",
+        "model": "dnsapp.nameserver",
+        "fields": {}
+    },
+    {
+        "pk": "ns2.example.com.",
+        "model": "dnsapp.nameserver",
+        "fields": {}
+    },
+    {
+        "pk": "local.example.com.",
+        "model": "dnsapp.zone",
+        "fields": {
+            "soa_primary_ns": "ns1.example.com.",
+            "description": "Local zone",
+            "soa_refresh": 604800,
+            "soa_retry": 86400,
+            "soa_expire": 2419200,
+            "nameservers": [
+                "ns1.example.com.",
+                "ns2.example.com."
+            ],
+            "soa_serial": 2012122600,
+            "soa_minimum": 3600,
+            "soa_resp_person": "root.example.com"
+        }
+    },
+    {
+        "pk": "127.in-addr.arpa.",
+        "model": "dnsapp.zone",
+        "fields": {
+            "soa_primary_ns": "ns1.example.com.",
+            "description": "Local zone",
+            "soa_refresh": 604800,
+            "soa_retry": 86400,
+            "soa_expire": 2419200,
+            "nameservers": [
+                "ns1.example.com.",
+                "ns2.example.com."
+            ],
+            "soa_serial": 2012122600,
+            "soa_minimum": 3600,
+            "soa_resp_person": "root.example.com"
+        }
+    },
+    {
+        "pk": "127.",
+        "model": "dnsapp.reversezone",
+        "fields": {
+            "zone": "127.in-addr.arpa."
+        }
+    },
+    {
+        "pk": 1,
+        "model": "dnsapp.dnsarecord",
+        "fields": {
+            "rev_zone": "127.",
+            "zone": "local.example.com.",
+            "ip": "127.0.0.1",
+            "host": "host1",
+            "ttl": 3200,
+            "rev_host": "1.0.0"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "dnsapp.dnsarecord",
+        "fields": {
+            "rev_zone": "127.",
+            "zone": "local.example.com.",
+            "ip": "127.0.0.2",
+            "host": "host2",
+            "ttl": 3200,
+            "rev_host": "2.0.0"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "dnsapp.dnscnamerecord",
+        "fields": {
+            "host": "mx",
+            "data": "host1",
+            "zone": "local.example.com.",
+            "ttl": 3200
+        }
+    },
+    {
+        "pk": 1,
+        "model": "dnsapp.dnsmxrecord",
+        "fields": {
+            "data": "mx",
+            "mx_priority": 10,
+            "zone": "local.example.com.",
+            "ttl": 3200
+        }
+    }
+]
