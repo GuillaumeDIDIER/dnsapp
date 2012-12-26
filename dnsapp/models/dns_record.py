@@ -20,11 +20,17 @@ class DNSRecord(models.Model):
     class Meta:
         db_table = 'dns'
         app_label = 'dnsapp'
-    rid = models.IntegerField(primary_key=True)
     ttl = models.IntegerField(default=DEFAULT_TTL)
     host = models.CharField(max_length=100)
     zone = models.ForeignKey(Zone)
     rtype = models.CharField(max_length=5, choices=zip(RTYPES, RTYPES))
     data = models.CharField(max_length=255)
 
-admin.site.register(DNSRecord)
+    def __unicode__(self):
+        return u"%s %s.%s" % (self.rtype, self.host, str(self.zone))
+
+
+class DNSRecordAdmin(admin.ModelAdmin):
+    list_display = ('host', 'zone', 'rtype', 'data')
+
+admin.site.register(DNSRecord, DNSRecordAdmin)

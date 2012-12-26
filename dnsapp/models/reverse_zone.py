@@ -2,10 +2,10 @@ from django.contrib import admin
 from django.db import models
 
 
-class Zone(models.Model):
+class ReverseZone(models.Model):
 
     class Meta:
-        db_table = 'zone'
+        db_table = 'reverse_zone'
         app_label = 'dnsapp'
 
     zone = models.CharField(max_length=255, primary_key=True)
@@ -15,7 +15,7 @@ class Zone(models.Model):
         return self.zone
 
 
-class ZoneAdmin(admin.ModelAdmin):
+class ReverseZoneAdmin(admin.ModelAdmin):
     list_display = ('zone', 'description')
 
-admin.site.register(Zone, ZoneAdmin)
+admin.site.register(ReverseZone, ReverseZoneAdmin)
