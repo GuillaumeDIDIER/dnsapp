@@ -18,7 +18,7 @@ class DNSCNAMERecord(models.Model):
     zone = models.ForeignKey(Zone)
     zone.help_text = "Zone which owns the record"
 
-    ttl = models.IntegerField(default=DEFAULT_TTL)
+    ttl = models.PositiveIntegerField(default=DEFAULT_TTL)
     ttl.help_text = "Time to live"
 
     data = models.CharField(max_length=255)

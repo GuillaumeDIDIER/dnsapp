@@ -28,7 +28,7 @@ class DNSARecord(models.Model):
     rev_zone = models.ForeignKey(ReverseZone)
     rev_zone.help_text = "Reverse zone"
 
-    ttl = models.IntegerField(default=DEFAULT_TTL)
+    ttl = models.PositiveIntegerField(default=DEFAULT_TTL)
     ttl.help_text = "Time to live"
 
     def __unicode__(self):

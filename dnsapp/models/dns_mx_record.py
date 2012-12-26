@@ -15,10 +15,10 @@ class DNSMXRecord(models.Model):
     zone = models.ForeignKey(Zone)
     zone.help_text = "Zone which owns the record"
 
-    ttl = models.IntegerField(default=DEFAULT_TTL)
+    ttl = models.PositiveIntegerField(default=DEFAULT_TTL)
     ttl.help_text = "Time to live"
 
-    mx_priority = models.IntegerField(null=True)
+    mx_priority = models.PositiveIntegerField(null=True)
     mx_priority.help_text = "MX priority"
 
     # Note: this field is NOT host, as it is the answer and not the query

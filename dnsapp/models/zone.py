@@ -64,19 +64,19 @@ class Zone(models.Model):
     soa_resp_person = models.CharField(max_length=255)
     soa_resp_person.help_text = "Responsible person for SOA record"
 
-    soa_serial = models.IntegerField()
+    soa_serial = models.PositiveIntegerField()
     soa_serial.help_text = "Serial number for SOA record"
 
-    soa_refresh = models.IntegerField(default=DEFAULT_REFRESH)
+    soa_refresh = models.PositiveIntegerField(default=DEFAULT_REFRESH)
     soa_refresh.help_text = "Refresh time for SOA record"
 
-    soa_retry = models.IntegerField(default=DEFAULT_RETRY)
+    soa_retry = models.PositiveIntegerField(default=DEFAULT_RETRY)
     soa_retry.help_text = "Retry time for SOA record"
 
-    soa_expire = models.IntegerField(default=DEFAULT_EXPIRE)
+    soa_expire = models.PositiveIntegerField(default=DEFAULT_EXPIRE)
     soa_expire.help_text = "Expire time for SOA record"
 
-    soa_minimum = models.IntegerField(default=DEFAULT_MINIMUM)
+    soa_minimum = models.PositiveIntegerField(default=DEFAULT_MINIMUM)
     soa_minimum.help_text = "Minimum time (TTL) for SOA record"
 
     nameservers = models.ManyToManyField(NameServer, related_name='ns')
