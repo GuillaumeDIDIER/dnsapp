@@ -1,8 +1,62 @@
 from django.contrib import admin
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.core.validators import validate_ipv4_address
 from dnsapp.models.zone import Zone
-from dnsapp.models import ip_address
+
+
+IP4_ZONE_SUFFIX = '.in-addr.arpa'
+
+
+def ip_or_none(ip):
+    """Return IP address if it is valide, None otherwise"""
+    try:
+        validate_ipv4_address(ip)
+        return ip
+    except ValidationError:
+        return None
+
+
+def ptr2ip(ptrdns):
+    """Transform a PTR name to an IP or an IP prefix
+
+    return None if the given name is invalid
+    """
+    ptrdns = ptrdns.rstrip('.')
+    if not ptrdns.endswith(IP4_ZONE_SUFFIX):
+        return None
+    nums = ptrdns[0:-len(IP4_ZONE_SUFFIX)].split('.')
+    if len(nums) == 0 or len(nums) > 4:
+        return None
+    ip_parts = []
+    try:
+        for n in nums:
+            if int(n) < 0 or int(n) > 255:
+                return None
+            ip_parts.insert(0, n)
+    except ValueError:
+        return None
+    if len(ip_parts) < 4:
+        ip_parts.append('')
+    return '.'.join(ip_parts)
+
+
+def ip2ptr(ip):
+    """Transform an IP or an IP prefix to a PTR zone
+
+    return None if the given IP is invalid"""
+    nums = ip.rstrip('.').split('.')
+    if len(nums) == 0 or len(nums) > 4:
+        return None
+    ptr_parts = []
+    try:
+        for n in nums:
+            if int(n) < 0 or int(n) > 255:
+                return None
+            ptr_parts.insert(0, n)
+    except ValueError:
+        return None
+    return '.'.join(ptr_parts) + IP4_ZONE_SUFFIX
 
 
 class ReverseZoneManager(models.Manager):
@@ -24,17 +78,14 @@ class ReverseZoneManager(models.Manager):
         return self.filter(ip_prefix__in=ip_prefixes).get()
 
 
-class ReverseZone(models.Model):
+class ReverseZone(Zone):
     """A reverse zone is a zone with an IP prefix"""
 
     class Meta:
         db_table = 'reverse_zone'
         app_label = 'dnsapp'
 
-    zone = models.OneToOneField(Zone, unique=True)
-    zone.help_text = "Corresponding zone"
-
-    ip_prefix = models.CharField(max_length=16, primary_key=True)
+    ip_prefix = models.CharField(max_length=16, primary_key=True, blank=True)
     ip_prefix.help_text = "Prefix of IP addresses in this zone"
 
     objects = ReverseZoneManager()
@@ -49,40 +100,28 @@ class ReverseZone(models.Model):
         """
         nums = host.split('.')
         nums.reverse()
-        ip = self.ip_prefix + '.'.join(nums)
-        return ip if ip_address.is_ipv4(ip) else None
+        return ip_or_none(self.ip_prefix + '.'.join(nums))
 
     def ip2host(self, ip):
         """Get reverse host name from an IP address, or None"""
-        if not ip.startswith(self.ip_prefix) or not ip_address.is_ipv4(ip):
+        if not ip.startswith(self.ip_prefix) or not ip_or_none(ip):
             return None
         nums = ip[len(self.ip_prefix):].split('.')
         nums.reverse()
         return '.'.join(nums)
 
     def clean(self):
-        try:
-            zone_ip = ip_address.ptr2ip(self.zone.zone)
-            if zone_ip is None:
-                raise ValidationError("Invalid zone name for a reverse")
-            if not self.ip_prefix:
-                self.ip_prefix = zone_ip
-            elif self.ip_prefix != zone_ip:
-                raise ValidationError("IP prefix does not match the zone")
-        except Zone.DoesNotExist:
-            if not self.ip_prefix:
-                raise ValidationError("Empty object")
-            zone = ip_address.ip2ptr(self.ip_prefix)
-            if zone is None:
-                raise ValidationError("Invalid IP prefix")
-            try:
-                self.zone = Zone.objects.get(zone=zone)
-                zone_ip = ip_address.ptr2ip(self.zone.zone)
-                if zone_ip is None:
-                    raise ValidationError("Internal error in PTR-IP functions")
-                self.ip_prefix = zone_ip
-            except Zone.DoesNotExist:
-                raise ValidationError("No zone found for the given prefix")
+        # Zone is given, compute corresponding IP prefix
+        if not self.zone:
+            raise ValidationError("Empty zone")
+        zone_ip = ptr2ip(self.zone)
+        if zone_ip is None:
+            raise ValidationError("Invalid zone name for a reverse")
+        if not self.ip_prefix:
+            self.ip_prefix = zone_ip
+        elif self.ip_prefix != zone_ip:
+            raise ValidationError("IP prefix does not match the zone")
+        super(ReverseZone, self).clean()
 
 
 class ReverseZoneAdmin(admin.ModelAdmin):

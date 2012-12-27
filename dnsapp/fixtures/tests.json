@@ -10,7 +10,7 @@
         "fields": {}
     },
     {
-        "pk": "local.example.com.",
+        "pk": "local.example.com",
         "model": "dnsapp.zone",
         "fields": {
             "soa_primary_ns": "ns1.example.com.",
@@ -28,7 +28,7 @@
         }
     },
     {
-        "pk": "127.in-addr.arpa.",
+        "pk": "127.in-addr.arpa",
         "model": "dnsapp.zone",
         "fields": {
             "soa_primary_ns": "ns1.example.com.",
@@ -36,10 +36,6 @@
             "soa_refresh": 604800,
             "soa_retry": 86400,
             "soa_expire": 2419200,
-            "nameservers": [
-                "ns1.example.com.",
-                "ns2.example.com."
-            ],
             "soa_serial": 2012122600,
             "soa_minimum": 3600,
             "soa_resp_person": "root.example.com"
@@ -49,7 +45,11 @@
         "pk": "127.",
         "model": "dnsapp.reversezone",
         "fields": {
-            "zone": "127.in-addr.arpa."
+            "nameservers": [
+                "ns1.example.com.",
+                "ns2.example.com."
+            ],
+            "zone_ptr": "127.in-addr.arpa"
         }
     },
     {
@@ -57,7 +57,7 @@
         "model": "dnsapp.dnsarecord",
         "fields": {
             "rev_zone": "127.",
-            "zone": "local.example.com.",
+            "zone": "local.example.com",
             "ip": "127.0.0.1",
             "host": "host1",
             "ttl": 3200,
@@ -69,7 +69,7 @@
         "model": "dnsapp.dnsarecord",
         "fields": {
             "rev_zone": "127.",
-            "zone": "local.example.com.",
+            "zone": "local.example.com",
             "ip": "127.0.0.2",
             "host": "host2",
             "ttl": 3200,
@@ -82,7 +82,7 @@
         "fields": {
             "host": "mx",
             "data": "host1",
-            "zone": "local.example.com.",
+            "zone": "local.example.com",
             "ttl": 3200
         }
     },
@@ -92,7 +92,7 @@
         "fields": {
             "data": "mx",
             "mx_priority": 10,
-            "zone": "local.example.com.",
+            "zone": "local.example.com",
             "ttl": 3200
         }
     }
