@@ -23,6 +23,9 @@ MEDIA_URL = '/media/'
 
 STATIC_ROOT = os.path.join(SITE_ROOT, 'static')
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(SITE_ROOT, 'dnsapp', 'static'),
+)
 
 SECRET_KEY = 'veu&amp;t&amp;z1qmwg_^v@!5k^+jk!&amp;g&amp;+=vqdw-w+rj^hqimzi6k-%8'
 

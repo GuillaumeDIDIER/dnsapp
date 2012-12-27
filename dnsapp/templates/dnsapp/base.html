@@ -1,0 +1,37 @@
+{% load url from future %}{% load staticfiles %}<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}DNSApp{% endblock %}</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+</head>
+<body>
+    <header>
+        <a href="{% url 'home' %}" class="round" id="Logo">Dns App</a>
+        <section id="Profile" class="round">
+            <ul>
+                <li>Ton ip : <<a href="{% url 'about-ip' %}">(TODO: IP)</a></li>
+                <li>Zone : (TODO)</li>
+            </ul>
+        </section>
+        <nav>
+            <a href="{% url 'home' %}">Accueil</a> | 
+            <a href="{% url 'about-ip' %}">Adresse IP</a>
+        </nav>
+    </header>    
+    <div class="gray">
+    <section id="Content">
+{% block content %}
+{% endblock %}
+    </section>
+    </div>
+    <footer>
+        <nav>
+            <a href="{% url 'dns-list' %}">Enregistrements DNS</a> |
+            <a href="{% url 'rdns-list' %}">Enregistrements Reverse DNS</a> |
+            Propulsé par <a href="https://www.djangoproject.com/" target="_blank">Django</a>
+        </nav>
+    </footer>
+    <div class="end"></div>
+</body>
+</html>

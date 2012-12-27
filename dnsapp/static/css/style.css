@@ -1,0 +1,360 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0px;
+    background: #515b62;
+    min-width: 750px;
+    background-image: url("../images/dnsapp2.png");
+    background-repeat: repeat;
+    background-position: top left;
+}
+
+a {
+    color: #13456e;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #d97412;
+    text-decoration: none;
+}
+
+li {
+    list-style-type: square;
+}
+
+.round {
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+header, footer {
+    text-align: center;
+    color : #ffffff;
+    background: #13456e;
+    min-width: 600px;
+    margin: 0px;
+}
+
+header {
+    background-image: url("../images/dnsapp.png");
+    background-repeat: repeat;
+    background-position: bottom left;
+}
+
+header .round {
+    opacity: 0.8;
+    background: #1f384d;
+    -moz-box-shadow: 4px 4px 7px #000000;
+    -webkit-box-shadow: 4px 4px 7px #000000;
+    transition: background .3s ease-in, box-shadow .55s ease-in;
+    -moz-transition: background .3s ease-in, box-shadow .55s ease-in;
+    -o-transition: background .3s ease-in, box-shadow .55s ease-in;
+    -webkit-transition: background .3s ease-in, box-shadow .55s ease-in;
+}
+
+header .round:hover {
+    background: #3f586d;
+    -moz-box-shadow: 0px 0px 30px #abd9ff;
+    -webkit-box-shadow: 0px 0px 30px #abd9ff;
+}
+
+header a, footer a {
+    color : #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+header a:hover, footer a:hover {
+    color: #f8c135;
+    text-decoration: underline;
+}
+
+#Logo {
+    float: left;
+    font-size: xx-large;
+    margin-top: 20px;
+    margin-left: 20px;
+    padding: 10px;
+}
+
+#Logo:hover {
+    color: #f8c135;
+    text-decoration: none;
+}
+
+#Profile {
+    float: right;
+    margin-top: 20px;
+    margin-right: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#Profile ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+#Profile ul li {
+    list-style-type: none;
+    padding: 0px;
+}
+
+nav {
+    background: #293137;
+    margin: 0px;
+    padding-top: 2px;
+}
+
+nav a:hover {
+    color: #f8c135
+}
+
+header nav, footer nav {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+header nav {
+    clear: both;
+    position: relative;
+    top: 20px;
+    border-top: solid 3px #afe800;
+}
+
+footer nav {
+    border-bottom: solid 3px #afe800;
+}
+
+.gray {
+    background: #cccccc;
+}
+
+#Content {
+    width: 690px;
+    min-height: 450px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    padding: 20px;
+    padding-left: 25px;
+    padding-right: 25px;
+    -moz-box-shadow: 0px 0px 20px #000000;
+    -webkit-box-shadow: 0px 0px 20px #000000;
+}
+
+.flash, #error_explanation {
+    border-width: 2px;
+    border-style: solid;
+    margin: 20px;
+    padding: 15px;
+    font-weight: bold;
+}
+
+.flash.error, #error_explanation {
+    color: #a70a0a;
+    border-color: #ff0000;
+    background: #de7777;
+}
+
+.flash.warning {
+    color: #d53500;
+    border-color: #f36f00;
+    background: #f09b53;
+}
+
+.flash.notice {
+    color: #000000;
+    border-color: #f36f00;
+    background: #f09b53;
+}
+
+
+.flash.success {
+    color: #034903;
+    border-color: #006300;
+    background: #3ce43c;
+}
+
+form input {
+    margin-top: 10px;
+}
+
+#error_explanation h2 {
+    margin: 0px;
+    margin-bottom: 5px;
+}
+
+#error_explanation p {
+    margin: 0px;
+}
+
+fieldset {
+    margin-top: 20px;
+}
+
+.field_with_errors {
+    display: inline;
+    background: #de7777;
+    border: 2px solid red;
+    padding: 2px;
+}
+
+table {
+    border-collapse: collapse;
+    border: 2px solid black;
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+table a {
+    color: #0e172a;
+}
+
+table caption {
+    display: none;
+}
+
+table th {
+    padding-left: 20px;
+    padding-right: 20px;
+    background: #4881af;
+}
+
+table thead {
+    border-bottom: solid 2px black;
+}
+
+table tfoot {
+    border-top: solid 2px black;
+}
+
+table tr:nth-child(odd) {
+    background: #c1d5e5;
+}
+
+table tr:nth-child(even) {
+    background: #a8b7c4;
+}
+
+table td {
+    padding: 5px;
+    text-align: center;
+}
+
+table th, table td {
+    border: 1px solid #404040;
+}
+
+table.dns th, table.dns td {
+    overflow: hidden;
+}
+
+table.dns td:first-child {
+    width: 80px;
+}
+
+table.dns td:nth-child(2) {
+    width: 320px;
+}
+
+table.dns td:nth-child(3) {
+    width: 40px;
+}
+
+table.dns td:last-child {
+    width: 240px;
+}
+
+table.zones th, table.zones td, table.unames th, table.unames td {
+    border: 1px solid #404040;
+}
+
+table.zones td:last-child, table.unames td:last-child {
+    min-width: 260px;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.search {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    background: #8ab0d0;
+    text-align: right;
+}
+
+.search label {
+    margin-left: 10px;
+}
+
+.pagination {
+    text-align: center;
+    background: #c0c0c0;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.end {
+    height: 50px;
+}
+
+.privileges {
+    background: #c1d5e5;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 7px;
+    padding-right: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 0px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 0px;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 0px;
+    -webkit-border-bottom-left-radius: 0px;
+    -webkit-border-bottom-right-radius: 5px;
+    -moz-box-shadow: 2px 2px 2px #000000;
+    -webkit-box-shadow: 2px 2px 2px #000000;
+}
+
+.ok, .wrong {
+    font-weight: bold;
+}
+
+.ok {
+    color: green;
+}
+
+.wrong {
+    color: red;
+}
+
+h1.homepage {
+    text-align: center;
+    font-size: xx-large;
+    color: #2e75bd;
+    text-shadow: 1px 1px 1px #333333;
+    border-bottom: 2px solid #333333;
+    padding-bottom: -3px;
+    margin-bottom: 0px;
+}
+
+h2.homepage {
+    margin-top: 10px;
+    text-align: center;
+    font-size: large;
+}
+
+.warning {
+    font-weight: bold;
+    color: #a70a0a;
+}

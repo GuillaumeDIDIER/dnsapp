@@ -2,4 +2,4 @@
 *.pyc
 *.db
 settings/personal.py
-static/*
+/static
