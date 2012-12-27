@@ -46,17 +46,21 @@
         }
     },
     {
-        "pk": "129.104.201.",
+        "pk": "201.104.129.in-addr.arpa",
         "model": "dnsapp.reversezone",
         "fields": {
-            "zone": "201.104.129.in-addr.arpa"
+            "nameservers": [
+                "frankiz.polytechnique.fr.",
+                "heol.polytechnique.fr."
+            ],
+            "ip_prefix": "129.104.201."
         }
     },
     {
         "pk": 1,
         "model": "dnsapp.dnsarecord",
         "fields": {
-            "rev_zone": "129.104.201.",
+            "rev_zone": "201.104.129.in-addr.arpa",
             "zone": "eleves.polytechnique.fr",
             "ip": "129.104.201.51",
             "host": "frankiz",
@@ -68,7 +72,7 @@
         "pk": 2,
         "model": "dnsapp.dnsarecord",
         "fields": {
-            "rev_zone": "129.104.201.",
+            "rev_zone": "201.104.129.in-addr.arpa",
             "zone": "eleves.polytechnique.fr",
             "ip": "129.104.201.53",
             "host": "heol",

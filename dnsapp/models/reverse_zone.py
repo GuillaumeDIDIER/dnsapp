@@ -93,15 +93,12 @@ class ReverseZone(Zone):
         db_table = 'reverse_zone'
         app_label = 'dnsapp'
 
-    ip_prefix = models.CharField(max_length=16, primary_key=True,
+    ip_prefix = models.CharField(max_length=16, unique=True,
                                  blank=True, editable=False,
                                  validators=[validate_ip4_prefix])
     ip_prefix.help_text = "Prefix of IP addresses in this zone"
 
     objects = ReverseZoneManager()
-
-    def __unicode__(self):
-        return self.ip_prefix
 
     def host2ip(self, host):
         """Get IP address for the given reversed host name
