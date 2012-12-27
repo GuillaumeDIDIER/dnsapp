@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.db import models
+from django.core.exceptions import ValidationError
 from dnsapp.models.zone import Zone
 from dnsapp.models import ip_address
 
@@ -58,6 +59,30 @@ class ReverseZone(models.Model):
         nums = ip[len(self.ip_prefix):].split('.')
         nums.reverse()
         return '.'.join(nums)
+
+    def clean(self):
+        try:
+            zone_ip = ip_address.ptr2ip(self.zone.zone)
+            if zone_ip is None:
+                raise ValidationError("Invalid zone name for a reverse")
+            if not self.ip_prefix:
+                self.ip_prefix = zone_ip
+            elif self.ip_prefix != zone_ip:
+                raise ValidationError("IP prefix does not match the zone")
+        except Zone.DoesNotExist:
+            if not self.ip_prefix:
+                raise ValidationError("Empty object")
+            zone = ip_address.ip2ptr(self.ip_prefix)
+            if zone is None:
+                raise ValidationError("Invalid IP prefix")
+            try:
+                self.zone = Zone.objects.get(zone=zone)
+                zone_ip = ip_address.ptr2ip(self.zone.zone)
+                if zone_ip is None:
+                    raise ValidationError("Internal error in PTR-IP functions")
+                self.ip_prefix = zone_ip
+            except Zone.DoesNotExist:
+                raise ValidationError("No zone found for the given prefix")
 
 
 class ReverseZoneAdmin(admin.ModelAdmin):
