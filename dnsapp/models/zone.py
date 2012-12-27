@@ -2,7 +2,7 @@ import datetime
 from django.contrib import admin
 from django.db import models
 
-from dnsapp.models.name_server import NameServer
+from dnsapp.models.name_server import NameServer, validate_zone
 
 
 def serial2tuple(serial):
@@ -54,7 +54,8 @@ class Zone(models.Model):
         db_table = 'zone'
         app_label = 'dnsapp'
 
-    zone = models.CharField(max_length=255, primary_key=True)
+    zone = models.CharField(max_length=255, primary_key=True,
+                            validators=[validate_zone])
     zone.help_text = "Zone DNS suffix"
 
     description = models.CharField(max_length=255)
@@ -66,7 +67,8 @@ class Zone(models.Model):
     soa_resp_person = models.CharField(max_length=255)
     soa_resp_person.help_text = "Responsible person for SOA record"
 
-    soa_serial = models.PositiveIntegerField(default=DEFAULT_SERIAL)
+    soa_serial = models.PositiveIntegerField(
+        default=DEFAULT_SERIAL, blank=True)
     soa_serial.help_text = "Serial number for SOA record"
 
     soa_refresh = models.PositiveIntegerField(default=DEFAULT_REFRESH)
@@ -90,6 +92,11 @@ class Zone(models.Model):
     def update_serial(self):
         """Update serial number"""
         self.soa_serial = increment_serial(self.soa_serial)
+
+    def clean(self):
+        # Blank serial means default
+        if not self.soa_serial:
+            self.soa_serial = self.DEFAULT_SERIAL
 
 
 class ZoneAdmin(admin.ModelAdmin):
