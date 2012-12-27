@@ -1,11 +1,19 @@
+import re
+
 from django.contrib import admin
 from django.db import models
 from django.core.exceptions import ValidationError
-from django.core.validators import validate_ipv4_address
-from dnsapp.models.zone import Zone
+from django.core.validators import validate_ipv4_address, RegexValidator
+
+from dnsapp.models.zone import Zone, ZoneAdmin
 
 
 IP4_ZONE_SUFFIX = '.in-addr.arpa'
+
+# /8, /16 or /24 prefix
+ip4_prefix_re = re.compile(r'^(25[0-5]|2[0-4]\d|[0-1]?\d?\d\.){1,3}$')
+validate_ip4_prefix = RegexValidator(
+    ip4_prefix_re, message=u"Enter a valid IPv4 prefix")
 
 
 def ip_or_none(ip):
@@ -85,7 +93,9 @@ class ReverseZone(Zone):
         db_table = 'reverse_zone'
         app_label = 'dnsapp'
 
-    ip_prefix = models.CharField(max_length=16, primary_key=True, blank=True)
+    ip_prefix = models.CharField(max_length=16, primary_key=True,
+                                 blank=True, editable=False,
+                                 validators=[validate_ip4_prefix])
     ip_prefix.help_text = "Prefix of IP addresses in this zone"
 
     objects = ReverseZoneManager()
@@ -117,14 +127,12 @@ class ReverseZone(Zone):
         zone_ip = ptr2ip(self.zone)
         if zone_ip is None:
             raise ValidationError("Invalid zone name for a reverse")
-        if not self.ip_prefix:
-            self.ip_prefix = zone_ip
-        elif self.ip_prefix != zone_ip:
-            raise ValidationError("IP prefix does not match the zone")
+        # Update IP prefix, as it is not directly editable
+        self.ip_prefix = zone_ip
         super(ReverseZone, self).clean()
 
 
 class ReverseZoneAdmin(admin.ModelAdmin):
-    list_display = ('zone', 'ip_prefix')
+    list_display = ('ip_prefix', ) + ZoneAdmin.list_display
 
 admin.site.register(ReverseZone, ReverseZoneAdmin)
