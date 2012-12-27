@@ -39,6 +39,8 @@ def increment_serial(serial=None):
 
 class Zone(models.Model):
 
+    # Default serial is today
+    DEFAULT_SERIAL = get_today_serial()
     # Default refresh time is one week
     DEFAULT_REFRESH = 604800
     # Default retry time is one day
@@ -64,7 +66,7 @@ class Zone(models.Model):
     soa_resp_person = models.CharField(max_length=255)
     soa_resp_person.help_text = "Responsible person for SOA record"
 
-    soa_serial = models.PositiveIntegerField()
+    soa_serial = models.PositiveIntegerField(default=DEFAULT_SERIAL)
     soa_serial.help_text = "Serial number for SOA record"
 
     soa_refresh = models.PositiveIntegerField(default=DEFAULT_REFRESH)
