@@ -9,7 +9,7 @@
 <p>
     Ce service founi par le Binet Réseau permet d'associer un nom de domaine à
     une adresse IP. Pour savoir si tu peux bénéficier de ce service, tu peux te
-    rendre <a href="{% url 'about-ip' %}">ici</a>.
+    rendre <a href="{% url 'dns-ip' %}">ici</a>.
 </p>
 
 <p>
@@ -34,11 +34,11 @@
     <strong>{{ remote_record.domain_name }}</strong>
     (soit {{ remote_record.host }} dans la zone {{ remote_record.zone }}).
     Pour le modifier, tu peux te rendre
-    <a href="{% url 'dns-record' remote_record.ip %}">ici</a>.
+    <a href="{% url 'dns-ip' remote_record.ip %}">ici</a>.
 {% else %}
     Ton adresse IP n'est actuellement associée à aucun nom de domaine.
     Tu peux lui en donner un en suivant
-    <a href="{% url 'dns-record' remote_ip %}">ce lien</a>.
+    <a href="{% url 'dns-ip' remote_ip %}">ce lien</a>.
 {% endif %}
 </p>
 

@@ -1,4 +1,4 @@
-import django.shortcuts
+from django.shortcuts import render_to_response as django_render_to_response
 from django.template import RequestContext
 
 from dnsapp.models import ReverseZone, DNSARecord
@@ -18,12 +18,12 @@ def ip_address_processor(request):
     return context
 
 
-def render(request, template, dictionary=None):
-    ctx = RequestContext(
+def render(request, template_name, dictionary=None):
+    context = RequestContext(
         request,
         dictionary if dictionary is not None else {},
         [ip_address_processor])
-    return django.shortcuts.render_to_response(template, context_instance=ctx)
+    return django_render_to_response(template_name, context_instance=context)
 
 
 def page404(request):
@@ -38,5 +38,17 @@ def home(request):
     return render(request, 'dnsapp/home.html')
 
 
-def dns_record(request, ip):
-    return page404(request)
+def ip(request, ip=None):
+    if not ip:
+        ip = request.META['REMOTE_ADDR']
+    context = {'ip': ip}
+    try:
+        record = DNSARecord.objects.get(ip=ip)
+        context['record'] = record
+        context['record_revzone'] = record.rev_zone
+    except DNSARecord.DoesNotExist:
+        try:
+            context['record_revzone'] = ReverseZone.objects.get_by_ip(ip)
+        except ReverseZone.DoesNotExist:
+            pass
+    return render(request, 'dnsapp/ip.html', context)

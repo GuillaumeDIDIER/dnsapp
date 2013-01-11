@@ -1,0 +1,23 @@
+{% extends "dnsapp/base.html" %}
+{% load url from future %}
+
+{% block content %}
+<h1>À propos de : {{ ip }}</h1>
+
+<p>
+    <strong>Nom de domaine</strong> {% firstof record.domain_name "Aucun" %}<br />
+    <strong>Zone</strong> {% firstof record.zone "Aucune" %}<br />
+    <strong>Adresse IP</strong> {{ ip }}<br />
+</p>
+
+<p>
+{% if record_revzone %}
+    Cette adresse IP est dans une zone gérée par Dns App, il est possible de lui
+    attribuer un nom de domaine.
+{% else %}
+    Cette adresse IP n'est dans aucune zone gérée par Dns App. Il n'est
+    pas possible d'attribuer un nom de domaine à cette adresse IP ici.
+{% endif %}
+</p>
+
+{% endblock %}
