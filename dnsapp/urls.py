@@ -6,6 +6,9 @@ import dnsapp.views
 
 # admin.autodiscover()
 
+handler404 = dnsapp.views.page404
+handler500 = dnsapp.views.page500
+
 urlpatterns = patterns('',
     url(r'static/(?P<path>.*)',
         'django.views.static.serve',
