@@ -27,7 +27,12 @@ class DNSARecord(DNSRecord):
     rev_zone.help_text = "Reverse zone"
 
     def __unicode__(self):
-        return u"A %s.%s" % (self.host, str(self.zone))
+        return u"A %s" % self.domain_name
+
+    @property
+    def domain_name(self):
+        """Full domain name"""
+        return '%s.%s' % (self.host, str(self.zone))
 
     def clean(self):
         # Here, rev_zone should have been filled
