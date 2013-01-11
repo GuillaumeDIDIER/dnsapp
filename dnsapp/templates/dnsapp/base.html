@@ -8,12 +8,17 @@
 <body>
     <header>
         <a href="{% url 'home' %}" class="round" id="Logo">Dns App</a>
+        {% if remote_ip %}
         <section id="Profile" class="round">
             <ul>
-                <li>Ton ip : <<a href="{% url 'about-ip' %}">(TODO: IP)</a></li>
-                <li>Zone : (TODO)</li>
+                <li>Ton ip : <a href="{% url 'about-ip' %}">{{ remote_ip }}</a></li>
+                {% if remote_zone %}<li>Zone {{ remote_zone.description }}</li>{% endif %}
+                {% if remote_record %}<li>Ton nom :
+                    <a href="{% url 'dns-record' remote_ip %}">{{ remote_record.host }}</a>
+                </li>{% endif %}
             </ul>
         </section>
+        {% endif %}
         <nav>
             <a href="{% url 'home' %}">Accueil</a> | 
             <a href="{% url 'about-ip' %}">Adresse IP</a>

@@ -20,22 +20,26 @@
     <a href="{% url 'dns-list' %}">ce lien</a>.
 </p>
 
-<h3>TODO: Logique pour choisir un message parmi :</h3>
 <p>
+{% if not remote_ip %}
+    Dns App n'arrive pas à déterminer ton adresse IP.
+    Il n'est pas possible de lui attribuer un nom de domaine ici.
+    Vérifie que tu te connectes à ce service depuis une machine sur le réseau élèves.
+{% elif not remote_zone %}
+    Ton adresse IP n'est dans aucune zone gérée par Dns App.
+    Il n'est pas possible de lui attribuer un nom de domaine ici.
+    Vérifie que tu te connectes à ce service depuis une machine sur le réseau élèves.
+{% elif remote_record %}
+    Ton adresse IP est actuellement associée au nom
+    <strong>{{ remote_record.domain_name }}</strong>
+    (soit {{ remote_record.host }} dans la zone {{ remote_record.zone }}).
+    Pour le modifier, tu peux te rendre
+    <a href="{% url 'dns-record' remote_record.ip %}">ici</a>.
+{% else %}
     Ton adresse IP n'est actuellement associée à aucun nom de domaine.
     Tu peux lui en donner un en suivant
-    <a href="#not-yet-implemented">ce lien</a>.
-</p>
-<p>
-    Ton adresse IP n'est dans aucune zone gérée par Dns App. Il n'est
-    pas possible de lui attribuer un nom de domaine ici. Vérifie que
-    tu te connectes à ce service depuis une machine sur le réseau élèves.
-</p>
-<p>
-    Ton adresse IP est actuellement associée au nom
-    <strong>helloworld</strong>.
-    Pour le modifier, tu peux te rendre
-    <a href="#not-yet-implemented">ici</a>.
+    <a href="{% url 'dns-record' remote_ip %}">ce lien</a>.
+{% endif %}
 </p>
 
 <p>
