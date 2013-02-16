@@ -42,6 +42,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
+    'dnsapp.context_processors.remote_ip',
 )
 
 MIDDLEWARE_CLASSES = (
