@@ -42,21 +42,21 @@
         }
     },
     {
-        "pk": "127.",
+        "pk": "127.in-addr.arpa",
         "model": "dnsapp.reversezone",
         "fields": {
             "nameservers": [
                 "ns1.example.com.",
                 "ns2.example.com."
             ],
-            "zone_ptr": "127.in-addr.arpa"
+            "ip_prefix": "127."
         }
     },
     {
         "pk": 1,
         "model": "dnsapp.dnsarecord",
         "fields": {
-            "rev_zone": "127.",
+            "rev_zone": "127.in-addr.arpa",
             "zone": "local.example.com",
             "ip": "127.0.0.1",
             "host": "host1",
@@ -68,7 +68,7 @@
         "pk": 2,
         "model": "dnsapp.dnsarecord",
         "fields": {
-            "rev_zone": "127.",
+            "rev_zone": "127.in-addr.arpa",
             "zone": "local.example.com",
             "ip": "127.0.0.2",
             "host": "host2",
