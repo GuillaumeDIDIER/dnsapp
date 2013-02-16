@@ -1,13 +1,20 @@
 from django.test import TestCase
 from dnsapp.models import ReverseZone, reverse_zone, zone
+from dnsapp import factories
 
 
 class ReverseZoneTest(TestCase):
-    fixtures = ['tests.json']
     multi_db = True
 
     def setUp(self):
-        self.revzone127 = ReverseZone.objects.get(ip_prefix='127.')
+        # Create dynamic fixtures
+        localns = factories.NameServerFactory(host="ns.example.com")
+        self.zone = factories.ZoneFactory(
+            zone=u"local.example.com",
+            soa_primary_ns=localns)
+        self.revzone = factories.ReverseZoneFactory(
+            ip_prefix=u"127.",
+            soa_primary_ns=localns)
 
     def test_ptr2ip(self):
         # Valid calls
@@ -38,7 +45,7 @@ class ReverseZoneTest(TestCase):
         # Test normal call
         self.assertEquals(
             ReverseZone.objects.get_by_ip('127.0.0.1'),
-            self.revzone127)
+            self.revzone)
         # Test erroneous call
         self.assertRaises(
             ReverseZone.DoesNotExist,
@@ -46,17 +53,17 @@ class ReverseZoneTest(TestCase):
 
     def test_host2ip(self):
         # Test normal call
-        self.assertEquals(self.revzone127.host2ip('42.0.0'), '127.0.0.42')
+        self.assertEquals(self.revzone.host2ip('42.0.0'), '127.0.0.42')
         # Test invalid resulting IP
-        self.assertIsNone(self.revzone127.host2ip('42.0'))
-        self.assertIsNone(self.revzone127.host2ip('42.0a'))
+        self.assertIsNone(self.revzone.host2ip('42.0'))
+        self.assertIsNone(self.revzone.host2ip('42.0a'))
 
     def test_ip2host(self):
         # Test normal call
-        self.assertEquals(self.revzone127.ip2host('127.0.0.42'), '42.0.0')
+        self.assertEquals(self.revzone.ip2host('127.0.0.42'), '42.0.0')
         # Test invalid IP
-        self.assertIsNone(self.revzone127.ip2host('127.0.42'))
-        self.assertIsNone(self.revzone127.ip2host('127.0.0.42a'))
+        self.assertIsNone(self.revzone.ip2host('127.0.42'))
+        self.assertIsNone(self.revzone.ip2host('127.0.0.42a'))
 
 
 class ZoneTest(TestCase):
