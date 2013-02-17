@@ -32,8 +32,11 @@
     </div>
     <footer>
         <nav>
-            <a href="{% url 'dns-list' %}">Enregistrements DNS</a> |
-            <a href="{% url 'rdns-list' %}">Enregistrements Reverse DNS</a> |
+            <a href="{% url 'arec-list' %}">Enregistrements DNS</a> |
+            <a href="{% url 'rarec-list' %}">Enregistrements Reverse DNS</a> |
+            <a href="{% url 'cnrec-list' %}">Aliases</a> |
+            <a href="{% url 'mxrec-list' %}">Mail</a> |
+            <a href="{% url 'zone-list' %}">Zones</a> |
             Propulsé par <a href="https://www.djangoproject.com/" target="_blank">Django</a>
         </nav>
     </footer>

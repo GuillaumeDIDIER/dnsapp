@@ -17,8 +17,18 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^404', handler404),
     url(r'^500', handler500),
-    url(r'^$', TemplateView.as_view(template_name='dnsapp/home.html'), name='home'),
-    url(r'^dns-list', handler404, name='dns-list'),
-    url(r'^rdns-list', handler404, name='rdns-list'),
+    url(r'^$', TemplateView.as_view(template_name='dnsapp/home.html'),
+        name='home'),
+    # A Record
+    url(r'^a-records', handler404, name='arec-list'),
+    # Reverse A record
+    url(r'^rev-a-records', handler404, name='rarec-list'),
+    # CNAME Records
+    url(r'^cname-records', handler404, name='cnrec-list'),
+    # MX Record
+    url(r'^mx-records', handler404, name='mxrec-list'),
+    # Zones
+    url(r'^zones', handler404, name='zone-list'),
+    # IP description
     url(r'^ip/(?P<ip>[0-9.]+)?', dnsapp.views.ip, name='dns-ip'),
 )

@@ -17,7 +17,7 @@
     sur le réseau élèves de se connecter simplement à ton ordinateur.
     Tu peux consulter la liste des enregistrements DNS, et savoir quels
     sont les noms déjà enregistrés en suivant
-    <a href="{% url 'dns-list' %}">ce lien</a>.
+    <a href="{% url 'arec-list' %}">ce lien</a>.
 </p>
 
 <p>
@@ -32,7 +32,7 @@
 {% elif remote_record %}
     Ton adresse IP est actuellement associée au nom
     <strong>{{ remote_record.domain_name }}</strong>
-    (soit {{ remote_record.host }} dans la zone {{ remote_record.zone }}).
+    (soit <i>{{ remote_record.host }}</i> dans la zone <i>{{ remote_record.zone }}</i>).
     Pour le modifier, tu peux te rendre
     <a href="{% url 'dns-ip' remote_record.ip %}">ici</a>.
 {% else %}
@@ -45,7 +45,6 @@
 <p>
   Merci de rapporter tout problème rencontré en utilisant ce service en
   envoyant un mail à<br />
-  <a href="dnsapp@frankiz.polytechnique.fr">
-    dnsapp@frankiz.polytechnique.fr</a>.
+  <a href="mailto:dnsapp@eleves.polytechnique.fr">dnsapp@eleves.polytechnique.fr</a>.
 </p>
 {% endblock %}
