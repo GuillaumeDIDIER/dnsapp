@@ -2,22 +2,29 @@
 {% load url from future %}
 
 {% block content %}
-<h1>À propos de : {{ ip }}</h1>
+<h1>À propos de {{ ip }}</h1>
 
 <p>
-    <strong>Nom de domaine</strong> {% firstof record.domain_name "Aucun" %}<br />
-    <strong>Zone</strong> {% firstof record.zone "Aucune" %}<br />
-    <strong>Adresse IP</strong> {{ ip }}<br />
+  <strong>Nom de domaine</strong> {% firstof record.domain_name "Aucun" %}<br />
+  <strong>Zone</strong>
+  {% if record.zone %}
+    <a href="{% url 'zone' record.zone %}">{{ record.zone }}</a>
+  {% else %}
+    Aucune
+  {% endif %}<br />
+  <strong>Adresse IP</strong> {{ ip }}<br />
 </p>
 
 <p>
 {% if record_revzone %}
-    Cette adresse IP est dans une zone gérée par Dns App, il est possible de lui
-    attribuer un nom de domaine.
+  Cette adresse IP est dans une zone gérée par Dns App, il est possible de lui
+  attribuer un nom de domaine.
 {% else %}
-    Cette adresse IP n'est dans aucune zone gérée par Dns App. Il n'est
-    pas possible d'attribuer un nom de domaine à cette adresse IP ici.
+  Cette adresse IP n'est dans aucune zone gérée par Dns App. Il n'est
+  pas possible d'attribuer un nom de domaine à cette adresse IP ici.
 {% endif %}
 </p>
+
+<p><a href="{% url 'arec-list' %}">Retour à la liste des enregistrements DNS</a></p>
 
 {% endblock %}

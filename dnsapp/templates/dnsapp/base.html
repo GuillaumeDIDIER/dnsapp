@@ -12,7 +12,11 @@
         <section id="Profile" class="round">
             <ul>
                 <li>Ton ip : <a href="{% url 'dns-ip' %}">{{ remote_ip }}</a></li>
-                {% if remote_zone %}<li>Zone {{ remote_zone.description }}</li>{% endif %}
+                {% if remote_zone %}
+                <li>
+                    <a href="{% url 'zone' remote_zone.zone %}">Zone {{ remote_zone.description }}</a>
+                </li>
+                {% endif %}
                 {% if remote_record %}<li>Ton nom :
                     <a href="{% url 'dns-ip' remote_ip %}">{{ remote_record.host }}</a>
                 </li>{% endif %}

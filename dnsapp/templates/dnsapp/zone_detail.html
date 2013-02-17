@@ -1,0 +1,30 @@
+{% extends "dnsapp/base.html" %}
+{% load url from future %}
+
+{% block title %}DNSApp | Zone {{ object.zone }}{% endblock %}
+
+{% block content %}
+<h1>À propos de {{ object.zone }}</h1>
+
+<p>{{ object.description }}</p>
+
+<h2>SOA record</h2>
+<p>
+  <strong>Primary nameserver</strong> {{ object.soa_primary_ns }}<br />
+  <strong>Responsible person</strong> {{ object.soa_resp_person }}<br />
+  <strong>Serial</strong> {{ object.soa_serial }}<br />
+  <strong>Refresh</strong> {{ object.soa_refresh }}<br />
+  <strong>Expire</strong> {{ object.soa_expire }}<br />
+  <strong>Negative Cache TTL</strong> {{ object.soa_minimum }}<br />
+</p>
+
+<h2>NS records</h2>
+<p>
+{% for ns in object.nameservers.all%}
+  {{ ns }}<br />
+{% endfor %}
+</p>
+
+<p><a href="{% url 'zone-list' %}">Retour à la liste des zones</a></p>
+
+{% endblock %}

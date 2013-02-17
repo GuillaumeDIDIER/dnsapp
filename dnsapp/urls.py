@@ -19,6 +19,13 @@ urlpatterns = patterns('',
     url(r'^500', handler500),
     url(r'^$', TemplateView.as_view(template_name='dnsapp/home.html'),
         name='home'),
+
+    # Zone description
+    url(r'^zones/(?P<pk>.+)', dnsapp.views.ZoneDetailView.as_view(),
+        name='zone'),
+    # IP description
+    url(r'^ip/(?P<ip>[0-9.]+)?', dnsapp.views.ip, name='dns-ip'),
+
     # A Record
     url(r'^a-records', dnsapp.views.ARecordListView.as_view(),
         name='arec-list'),
@@ -30,6 +37,4 @@ urlpatterns = patterns('',
         name='mxrec-list'),
     # Zones
     url(r'^zones', dnsapp.views.ZoneListView.as_view(), name='zone-list'),
-    # IP description
-    url(r'^ip/(?P<ip>[0-9.]+)?', dnsapp.views.ip, name='dns-ip'),
 )

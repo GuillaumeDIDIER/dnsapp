@@ -1,5 +1,6 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.views.generic import DetailView
 from django_tables2 import SingleTableView
 
 from dnsapp.models import \
@@ -48,3 +49,7 @@ class ZoneListView(SingleTableView):
     model = Zone
     table_class = ZoneTable
     table_pagination = {'klass': DiggPaginator}
+
+
+class ZoneDetailView(DetailView):
+    model = Zone
