@@ -32,7 +32,7 @@ class DNSMXRecordTable(tables.Table):
 class ZoneTable(tables.Table):
     zone = tables.Column()
     soa_serial = tables.Column()
-    description = tables.Column()
+    description = tables.Column(orderable=False)
 
     class Meta:
         attrs = {"class": "zone"}
