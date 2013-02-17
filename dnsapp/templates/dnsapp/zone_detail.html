@@ -8,7 +8,7 @@
 
 <p>{{ object.description }}</p>
 
-<h2>SOA record</h2>
+<h2>Start Of Authority (SOA) record</h2>
 <p>
   <strong>Primary nameserver</strong> {{ object.soa_primary_ns }}<br />
   <strong>Responsible person</strong> {{ object.soa_resp_person }}<br />
@@ -18,12 +18,21 @@
   <strong>Negative Cache TTL</strong> {{ object.soa_minimum }}<br />
 </p>
 
-<h2>NS records</h2>
+<h2>Name Server (NS) record</h2>
 <p>
 {% for ns in object.nameservers.all%}
   {{ ns }}<br />
 {% endfor %}
 </p>
+
+{% if mx_records %}
+<h2>Mail Exchange (MX) record</h2>
+<p>
+{% for mx in mx_records %}
+  {{ mx.data }} (priority {{ mx.mx_priority }}, TTL {{ mx.ttl }})<br />
+{% endfor %}
+</p>
+{% endif %}
 
 <p><a href="{% url 'zone-list' %}">Retour à la liste des zones</a></p>
 

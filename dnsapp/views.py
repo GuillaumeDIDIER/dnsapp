@@ -53,3 +53,8 @@ class ZoneListView(SingleTableView):
 
 class ZoneDetailView(DetailView):
     model = Zone
+
+    def get_context_data(self, **kwargs):
+        context = super(ZoneDetailView, self).get_context_data(**kwargs)
+        context['mx_records'] = DNSMXRecord.objects.filter(zone=self.object)
+        return context
