@@ -2,6 +2,7 @@
 {% load django_tables2 %}
 
 {% block table %}
+{% ifnotequal table.paginator.num_pages 1 %}
 {% with table.page as page_obj %}
 <div class="pagination">
   {% if page_obj.has_previous %}
@@ -29,11 +30,13 @@
   {% endif %}
 </div>
 {% endwith %}
+{% endifnotequal %}
 
 {{ block.super }}
 {% endblock table %}
 
 {% block pagination %}
+{% ifnotequal table.paginator.num_pages 1 %}
 {% with table.page as page_obj %}
 <div class="pagination">
   {% if page_obj.has_previous %}
@@ -61,4 +64,5 @@
   {% endif %}
 </div>
 {% endwith %}
+{% endifnotequal %}
 {% endblock pagination %}
