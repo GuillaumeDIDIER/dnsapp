@@ -305,12 +305,29 @@ table.zones td:last-child, table.unames td:last-child {
 
 .pagination {
     text-align: center;
-    background: #c0c0c0;
+    background: #ccc;
     padding-top: 2px;
     padding-bottom: 2px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
+}
+
+.pagination a {
+    text-decoration: none;
+}
+
+.pagination .disabled {
+    color: #888;
+}
+
+.pagination .current {
+    font-weight: bold;
+}
+
+.pagination .page {
+    margin-left: 2px;
+    margin-right: 2px;
 }
 
 .end {
