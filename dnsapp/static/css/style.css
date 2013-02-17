@@ -229,6 +229,17 @@ table thead {
     border-bottom: solid 2px black;
 }
 
+table thead th.orderable > a {
+    padding-right: 20px;
+    background: url(../images/arrow-inactive-up.png) right center no-repeat;
+}
+table thead th.orderable.asc > a {
+    background-image: url(../images/arrow-active-up.png);
+}
+table thead th.orderable.desc > a {
+    background-image: url(../images/arrow-active-down.png);
+}
+
 table tfoot {
     border-top: solid 2px black;
 }
