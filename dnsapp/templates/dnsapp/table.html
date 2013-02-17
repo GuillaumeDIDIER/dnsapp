@@ -1,0 +1,64 @@
+{% extends "django_tables2/table.html" %}
+{% load django_tables2 %}
+
+{% block table %}
+{% with table.page as page_obj %}
+<div class="pagination">
+  {% if page_obj.has_previous %}
+    <a href="{% querystring table.prefixed_page_field=page_obj.previous_page_number %}" class="prev">&lsaquo;&lsaquo; Précédent</a>
+  {% else %}
+    <span class="disabled prev">&lsaquo;&lsaquo; Précédent</span>
+  {% endif %}
+
+  {% for num in page_obj.page_range %}
+    {% if num %}
+      {% ifequal num page_obj.number %}
+        <span class="current page">{{ num }}</span>
+      {% else %}
+        <a href="{% querystring table.prefixed_page_field=num %}" class="page">{{ num }}</a>
+      {% endifequal %}
+    {% else %}
+      ...
+    {% endif %}
+  {% endfor %}
+
+  {% if page_obj.has_next %}
+    <a href="{% querystring table.prefixed_page_field=page_obj.next_page_number %}" class="next">Suivant &rsaquo;&rsaquo;</a>
+  {% else %}
+    <span class="disabled next">Suivant &rsaquo;&rsaquo;</span>
+  {% endif %}
+</div>
+{% endwith %}
+
+{{ block.super }}
+{% endblock table %}
+
+{% block pagination %}
+{% with table.page as page_obj %}
+<div class="pagination">
+  {% if page_obj.has_previous %}
+    <a href="{% querystring table.prefixed_page_field=page_obj.previous_page_number %}" class="prev">&lsaquo;&lsaquo; Précédent</a>
+  {% else %}
+    <span class="disabled prev">&lsaquo;&lsaquo; Précédent</span>
+  {% endif %}
+
+  {% for num in page_obj.page_range %}
+    {% if num %}
+      {% ifequal num page_obj.number %}
+        <span class="current page">{{ num }}</span>
+      {% else %}
+        <a href="{% querystring table.prefixed_page_field=num %}" class="page">{{ num }}</a>
+      {% endifequal %}
+    {% else %}
+      ...
+    {% endif %}
+  {% endfor %}
+
+  {% if page_obj.has_next %}
+    <a href="{% querystring table.prefixed_page_field=page_obj.next_page_number %}" class="next">Suivant &rsaquo;&rsaquo;</a>
+  {% else %}
+    <span class="disabled next">Suivant &rsaquo;&rsaquo;</span>
+  {% endif %}
+</div>
+{% endwith %}
+{% endblock pagination %}

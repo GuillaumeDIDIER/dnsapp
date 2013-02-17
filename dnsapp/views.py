@@ -1,7 +1,10 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django_tables2 import SingleTableView
 
 from dnsapp.models import ReverseZone, DNSARecord
+from dnsapp.tables import DNSARecordTable
+from dnsapp.utils.digg_pagination import DiggPaginator
 
 
 def ip(request, ip=None):
@@ -19,3 +22,9 @@ def ip(request, ip=None):
             pass
     return render_to_response('dnsapp/ip.html', context,
                               context_instance=RequestContext(request))
+
+
+class ARecordListView(SingleTableView):
+    model = DNSARecord
+    table_class = DNSARecordTable
+    table_pagination = {'klass': DiggPaginator}

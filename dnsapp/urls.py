@@ -20,7 +20,8 @@ urlpatterns = patterns('',
     url(r'^$', TemplateView.as_view(template_name='dnsapp/home.html'),
         name='home'),
     # A Record
-    url(r'^a-records', handler404, name='arec-list'),
+    url(r'^a-records', dnsapp.views.ARecordListView.as_view(),
+        name='arec-list'),
     # Reverse A record
     url(r'^rev-a-records', handler404, name='rarec-list'),
     # CNAME Records
