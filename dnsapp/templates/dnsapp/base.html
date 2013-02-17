@@ -20,10 +20,10 @@
         </section>
         {% endif %}
         <nav>
-            <a href="{% url 'home' %}">Accueil</a> | 
+            <a href="{% url 'home' %}">Accueil</a> |
             <a href="{% url 'dns-ip' %}">Adresse IP</a>
         </nav>
-    </header>    
+    </header>
     <div class="gray">
     <section id="Content">
 {% block content %}
@@ -33,7 +33,6 @@
     <footer>
         <nav>
             <a href="{% url 'arec-list' %}">Enregistrements DNS</a> |
-            <a href="{% url 'rarec-list' %}">Enregistrements Reverse DNS</a> |
             <a href="{% url 'cnrec-list' %}">Aliases</a> |
             <a href="{% url 'mxrec-list' %}">Mail</a> |
             <a href="{% url 'zone-list' %}">Zones</a> |

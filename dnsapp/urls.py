@@ -22,14 +22,14 @@ urlpatterns = patterns('',
     # A Record
     url(r'^a-records', dnsapp.views.ARecordListView.as_view(),
         name='arec-list'),
-    # Reverse A record
-    url(r'^rev-a-records', handler404, name='rarec-list'),
     # CNAME Records
-    url(r'^cname-records', handler404, name='cnrec-list'),
+    url(r'^cname-records', dnsapp.views.CNAMERecordListView.as_view(),
+        name='cnrec-list'),
     # MX Record
-    url(r'^mx-records', handler404, name='mxrec-list'),
+    url(r'^mx-records', dnsapp.views.MXRecordListView.as_view(),
+        name='mxrec-list'),
     # Zones
-    url(r'^zones', handler404, name='zone-list'),
+    url(r'^zones', dnsapp.views.ZoneListView.as_view(), name='zone-list'),
     # IP description
     url(r'^ip/(?P<ip>[0-9.]+)?', dnsapp.views.ip, name='dns-ip'),
 )

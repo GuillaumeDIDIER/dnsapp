@@ -2,8 +2,10 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django_tables2 import SingleTableView
 
-from dnsapp.models import ReverseZone, DNSARecord
-from dnsapp.tables import DNSARecordTable
+from dnsapp.models import \
+    ReverseZone, DNSARecord, DNSCNAMERecord, DNSMXRecord, Zone
+from dnsapp.tables import \
+    DNSARecordTable, DNSCNAMERecordTable, DNSMXRecordTable, ZoneTable
 from dnsapp.utils.digg_pagination import DiggPaginator
 
 
@@ -27,4 +29,22 @@ def ip(request, ip=None):
 class ARecordListView(SingleTableView):
     model = DNSARecord
     table_class = DNSARecordTable
+    table_pagination = {'klass': DiggPaginator}
+
+
+class CNAMERecordListView(SingleTableView):
+    model = DNSCNAMERecord
+    table_class = DNSCNAMERecordTable
+    table_pagination = {'klass': DiggPaginator}
+
+
+class MXRecordListView(SingleTableView):
+    model = DNSMXRecord
+    table_class = DNSMXRecordTable
+    table_pagination = {'klass': DiggPaginator}
+
+
+class ZoneListView(SingleTableView):
+    model = Zone
+    table_class = ZoneTable
     table_pagination = {'klass': DiggPaginator}
