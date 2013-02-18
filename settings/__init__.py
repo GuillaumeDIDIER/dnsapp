@@ -1,10 +1,7 @@
 # coding: utf-8
-from settings.base import *
-
-# Try to import local settings
-# To use development configuration, write in settings/personal.py:
-# from settings.dev import *
+# Try to import local settings which may be written in settings/personal.py.
+# from .dev import *
 try:
-    from settings.personal import *
+    from .personal import *
 except ImportError:
-    pass
+    from .dev import *

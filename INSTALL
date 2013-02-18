@@ -1,19 +1,17 @@
-Install pip:
-  sudo easy_install pip
+Create a virtualenv:
+  virtualenv -p python2.7 --no-site-package ../.dnsapp_venv
 
-Add to your ~/.(ba|z)shrc:
-  export DNSAPP_DIR="/path/to/this/dir"
-  export DNSAPP_SETTINGS="settings.dev" # can be switched to settings.personal
-  . $DNSAPP_DIR/scripts/bashrc
+You may use --system-site-packages if you want Python global site-packages to
+be used without special installation in your virtual environment.
+
+Activate the venv:
+  source ../.dnsapp_venv/bin/activate
 
 Install requirements:
-  sudo pip install -r $DNSAPP_DIR/requirements.txt
+  pip install -r requirements.txt
 
-Create the django database, an admin user, a test db and load some test data:
-  dnsapp syncdb
-  dnsapp syncdb --database=dns
-  dnsapp loaddata dns --database=dns
+Create the database:
+  make resetdb
 
-You can now start the server with 'dnsapp runserver' and see your development site at http://127.0.0.1:8000
-The django admin shell can be started with 'dnsapp shell' and the django admin site is at http://127.0.0.1:8000/admin
-You can cd to your dev directory with 'dnsapp'
+You can now start the server with 'make run' and see your development site at http://127.0.0.1:8000
+The django admin shell can be started with 'make shell' and the django admin site is at http://127.0.0.1:8000/admin

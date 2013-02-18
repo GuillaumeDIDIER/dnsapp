@@ -1,4 +1,4 @@
-from settings import *
+from .base import *
 
 DATABASES['dns'] = {
     'ENGINE': 'django.db.backends.sqlite3',
