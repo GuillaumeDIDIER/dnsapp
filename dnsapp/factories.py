@@ -1,6 +1,6 @@
 import factory
 from . import models
-from .models.reverse_zone import ptr2ip, ip2ptr
+from .utils.ip_address import ptr2ip, ip2ptr
 
 
 class NameServerFactory(factory.Factory):
