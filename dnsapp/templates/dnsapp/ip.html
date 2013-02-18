@@ -13,6 +13,9 @@
     Aucune
   {% endif %}<br />
   <strong>Adresse IP</strong> {{ ip }}<br />
+  {% if record_revzone %}
+  <strong>Zone IP</strong> <a href="{% url 'zone' record_revzone.zone %}">{{ record_revzone.description }}</a>
+  {% endif %}
 </p>
 
 <p>
