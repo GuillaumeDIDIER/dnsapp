@@ -3,6 +3,7 @@
 from django.db.transaction import commit_on_success
 from dnsapp import factories
 
+
 @commit_on_success(using='dns')
 def create_examples():
     """Populate database with examples"""
@@ -15,17 +16,17 @@ def create_examples():
     lo_zone = factories.ZoneFactory(
         zone=u"loopback.example.com", soa_primary_ns=ns1)
     rzone127 = factories.ReverseZoneFactory(
-        ip_prefix=u"127.", soa_primary_ns=ns1, description="Zone 127/8")
+        ip_prefix=u"127.", soa_primary_ns=ns1, description="127/8")
 
     # Private zones on 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16
     pri_zone = factories.ZoneFactory(
         zone=u"private.example.com", soa_primary_ns=ns1)
     rzone10 = factories.ReverseZoneFactory(
-       ip_prefix=u"10.", soa_primary_ns=ns1, description="Zone 10/8")
+       ip_prefix=u"10.", soa_primary_ns=ns1, description="10/8")
     rzone172 = factories.ReverseZoneFactory(
-       ip_prefix=u"172.16.", soa_primary_ns=ns1, description="Zone 172.16/16")
+       ip_prefix=u"172.16.", soa_primary_ns=ns1, description="172.16/16")
     rzone192 = factories.ReverseZoneFactory(
-       ip_prefix=u"192.168.", soa_primary_ns=ns1, description="Zone 192.168/16")
+       ip_prefix=u"192.168.", soa_primary_ns=ns1, description="192.168/16")
 
     # Add the two nameservers to every zone
     for z in lo_zone, rzone127, pri_zone, rzone10, rzone172, rzone192:

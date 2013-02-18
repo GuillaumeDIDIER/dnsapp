@@ -13,7 +13,7 @@ class ZoneFactory(factory.Factory):
     FACTORY_FOR = models.Zone
 
     zone = factory.Sequence(lambda n: u"local-%s.example.com." % n)
-    description = factory.LazyAttribute(lambda z: u"Zone %s" % z.zone)
+    description = factory.LazyAttribute(lambda z: z.zone)
     soa_primary_ns = factory.SubFactory(NameServerFactory,
                                         host=u"ns.example.com.")
     soa_resp_person = u"root.example.com"
