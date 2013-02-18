@@ -24,7 +24,9 @@ urlpatterns = patterns('',
     url(r'^zones/(?P<pk>.+)', dnsapp.views.ZoneDetailView.as_view(),
         name='zone'),
     # IP description
-    url(r'^ip/(?P<ip>[0-9.]+)?', dnsapp.views.ip, name='dns-ip'),
+    url(r'^ip/set-remote-name', dnsapp.views.set_remote_name,
+        name='set-remote-name'),
+    url(r'^ip/(?P<ip>[0-9.]+)?', dnsapp.views.ip_view, name='dns-ip'),
 
     # A Record
     url(r'^a-records', dnsapp.views.ARecordListView.as_view(),

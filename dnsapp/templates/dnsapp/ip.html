@@ -25,6 +25,26 @@
 {% endif %}
 </p>
 
+{% if record_revzone and ip == remote_ip %}
+<h2>Modification</h2>
+{% if error_message %}<p id="error_explanation">{{ error_message }}</p>{% endif %}
+<p>
+  Le nom ne peut comporter que des caractères alphanumériques et le tiret '-',
+  doit commencer par une lettre ou un chiffre et ne doit pas finir par un tiret. 
+</p>
+<form action="{% url 'set-remote-name' %}" method="POST">
+  {% csrf_token %}
+  <label for="domain_name">Nom : </label>
+  <input type="text" name="host" value="{{ record.host }}" />
+  <select name="zone">
+  {% for zone in zones %}
+    <option value="{{ zone }}"{% if zone == record.zone.zone %} selected{% endif %}>{{ zone }}</option>
+  {% endfor %}
+  </select>
+  <input type="submit" value="Modifier" />
+</form>
+{% endif %}
+
 <p><a href="{% url 'arec-list' %}">Retour à la liste des enregistrements DNS</a></p>
 
 {% endblock %}

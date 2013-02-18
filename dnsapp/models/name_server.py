@@ -13,6 +13,12 @@ domain_name_re = re.compile(
 validate_domain_name = RegexValidator(
     domain_name_re, message=u"Enter a valid Domain Name")
 
+# A single host, without any dots
+host_name_re = re.compile(
+    r'^(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?)$', re.IGNORECASE)
+validate_host_name = RegexValidator(
+    host_name_re, message=u"Enter a valid host name")
+
 # A FQDN always has a trailing period
 fqdn_re = re.compile(
     r'^(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+$', re.IGNORECASE)
