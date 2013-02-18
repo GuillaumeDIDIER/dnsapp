@@ -13,6 +13,7 @@ class DNSMXRecord(DNSRecord):
         unique_together = ('zone', 'data')
 
     mx_priority = models.PositiveIntegerField(null=True)
+    mx_priority.verbose_name = "MX priority"
     mx_priority.help_text = "MX priority"
 
     # Note: this field is NOT host, as it is the answer and not the query

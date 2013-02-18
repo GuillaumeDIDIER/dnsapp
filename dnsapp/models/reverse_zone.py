@@ -96,6 +96,7 @@ class ReverseZone(Zone):
     ip_prefix = models.CharField(max_length=16, unique=True,
                                  blank=True, editable=False,
                                  validators=[validate_ip4_prefix])
+    ip_prefix.verbose_name = "IP prefix"
     ip_prefix.help_text = "Prefix of IP addresses in this zone"
 
     objects = ReverseZoneManager()

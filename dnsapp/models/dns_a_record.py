@@ -18,12 +18,15 @@ class DNSARecord(DNSRecord):
     host.help_text = "Host name within its zone"
 
     ip = models.IPAddressField(blank=True)
+    ip.verbose_name = "IP"
     ip.help_text = "IP address"
 
     rev_host = models.CharField(max_length=16, blank=True)
+    rev_host.verbose_name="Reverse host"
     rev_host.help_text = "Reverse host name, IP suffix numbers (reverse order)"
 
     rev_zone = models.ForeignKey(ReverseZone, related_name='rev_zone')
+    rev_zone.verbose_name="Reverse zone"
     rev_zone.help_text = "Reverse zone"
 
     def __unicode__(self):

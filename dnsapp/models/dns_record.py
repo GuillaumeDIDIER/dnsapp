@@ -14,4 +14,5 @@ class DNSRecord(models.Model):
     zone.help_text = "Zone which owns the record"
 
     ttl = models.PositiveIntegerField(default=DEFAULT_TTL)
+    ttl.verbose_name = "TTL"
     ttl.help_text = "Time to live"
