@@ -27,8 +27,7 @@ def ip_view(request, ip=None, error_message=None):
 
     # Need zones list in remote IP configuration
     if ip == remote_ip:
-        # TODO: remove reverse zones
-        context['zones'] = [z.zone for z in Zone.objects.all()]
+        context['zones'] = [z.zone for z in Zone.objects.exclude_reverse()]
 
     try:
         record = DNSARecord.objects.get(ip=ip)

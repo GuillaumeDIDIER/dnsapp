@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.db import models
 
 from dnsapp.models.name_server import NameServer, validate_zone
+from dnsapp.utils.ip_address import IP4_ZONE_SUFFIX
 
 
 def serial2tuple(serial):
@@ -37,6 +38,14 @@ def increment_serial(serial=None):
     return serial + 1 if serial and serial >= new_serial else new_serial
 
 
+class ZoneManager(models.Manager):
+    """Manage Zone objects"""
+
+    def exclude_reverse(self):
+        """Exclude reverse zones"""
+        return self.exclude(zone__endswith=IP4_ZONE_SUFFIX)
+
+
 class Zone(models.Model):
 
     # Default serial is today
@@ -53,6 +62,8 @@ class Zone(models.Model):
     class Meta:
         db_table = 'zone'
         app_label = 'dnsapp'
+
+    objects = ZoneManager()
 
     zone = models.CharField(max_length=255, primary_key=True,
                             validators=[validate_zone])
